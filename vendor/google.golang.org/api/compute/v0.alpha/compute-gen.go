@@ -959,9 +959,13 @@ type AcceleratorTypeAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -972,7 +976,9 @@ type AcceleratorTypeAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -1109,9 +1115,13 @@ type AcceleratorTypeListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -1122,7 +1132,9 @@ type AcceleratorTypeListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -1238,9 +1250,13 @@ type AcceleratorTypesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -1251,7 +1267,9 @@ type AcceleratorTypesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -1492,10 +1510,11 @@ type Address struct {
 	// SelfLink: [Output Only] Server-defined URL for the resource.
 	SelfLink string `json:"selfLink,omitempty"`
 
-	// Status: [Output Only] The status of the address, which can be either
-	// IN_USE or RESERVED. An address that is RESERVED is currently reserved
-	// and available to use. An IN_USE address is currently being used by
-	// another resource and is not available.
+	// Status: [Output Only] The status of the address, which can be one of
+	// RESERVING, RESERVED, or IN_USE. An address that is RESERVING is
+	// currently in the process of being reserved. A RESERVED address is
+	// currently reserved and available to use. An IN_USE address is
+	// currently being used by another resource and is not available.
 	//
 	// Possible values:
 	//   "IN_USE"
@@ -1603,9 +1622,13 @@ type AddressAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -1616,7 +1639,9 @@ type AddressAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -1752,9 +1777,13 @@ type AddressListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -1765,7 +1794,9 @@ type AddressListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -1879,9 +1910,13 @@ type AddressesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -1892,7 +1927,9 @@ type AddressesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -2098,7 +2135,8 @@ type AttachedDisk struct {
 
 	// Source: Specifies a valid partial or full URL to an existing
 	// Persistent Disk resource. When creating a new instance, one of
-	// initializeParams.sourceImage or disks.source is required.
+	// initializeParams.sourceImage or disks.source is required except for
+	// local SSD.
 	//
 	// If desired, you can also attach existing non-root persistent disks
 	// using this property. This field is only applicable for persistent
@@ -2181,7 +2219,7 @@ type AttachedDiskInitializeParams struct {
 
 	// SourceImage: The source image to create this disk. When creating a
 	// new instance, one of initializeParams.sourceImage or disks.source is
-	// required.
+	// required except for local SSD.
 	//
 	// To create a disk with one of the public operating system images,
 	// specify the image by its family name. For example, specify
@@ -2545,9 +2583,13 @@ type AutoscalerAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -2558,7 +2600,9 @@ type AutoscalerAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -2694,9 +2738,13 @@ type AutoscalerListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -2707,7 +2755,9 @@ type AutoscalerListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -2869,9 +2919,13 @@ type AutoscalersScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -2882,7 +2936,9 @@ type AutoscalersScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -3093,7 +3149,7 @@ type AutoscalingPolicyCustomMetricUtilization struct {
 	// Filter: A filter string, compatible with a Stackdriver Monitoring
 	// filter string for TimeSeries.list API call. This filter is used to
 	// select a specific TimeSeries for the purpose of autoscaling and to
-	// determine whether the metric is exporting per-instance or global
+	// determine whether the metric is exporting per-instance or per-group
 	// data.
 	//
 	// For the filter to be valid for autoscaling purposes, the following
@@ -3111,8 +3167,8 @@ type AutoscalingPolicyCustomMetricUtilization struct {
 	// If the resource type is any other value, the autoscaler expects this
 	// metric to contain values that apply to the entire autoscaled instance
 	// group and resource label filtering can be performed to point
-	// autoscaler at the correct TimeSeries to scale upon. This is / called
-	// a global metric for the purpose of autoscaling.
+	// autoscaler at the correct TimeSeries to scale upon. This is called a
+	// per-group metric for the purpose of autoscaling.
 	//
 	// If not specified, the type defaults to gce_instance.
 	//
@@ -3124,15 +3180,12 @@ type AutoscalingPolicyCustomMetricUtilization struct {
 	Filter string `json:"filter,omitempty"`
 
 	// Metric: The identifier (type) of the Stackdriver Monitoring metric.
-	// The metric cannot have negative values and should be a utilization
-	// metric, which means that the number of virtual machines handling
-	// requests should increase or decrease proportionally to the
-	// metric.
+	// The metric cannot have negative values.
 	//
 	// The metric must have a value type of INT64 or DOUBLE.
 	Metric string `json:"metric,omitempty"`
 
-	// SingleInstanceAssignment: If scaling is based on a global metric
+	// SingleInstanceAssignment: If scaling is based on a per-group metric
 	// value that represents the total amount of work to be done or resource
 	// usage, set this value to an amount assigned for a single instance of
 	// the scaled group. Autoscaler will keep the number of instances
@@ -3151,7 +3204,9 @@ type AutoscalingPolicyCustomMetricUtilization struct {
 	SingleInstanceAssignment float64 `json:"singleInstanceAssignment,omitempty"`
 
 	// UtilizationTarget: The target value of the metric that autoscaler
-	// should maintain. This must be a positive value.
+	// should maintain. This must be a positive value. A utilization metric
+	// scales number of virtual machines handling requests to increase or
+	// decrease proportionally to the metric.
 	//
 	// For example, a good metric to use as a utilization_target is
 	// compute.googleapis.com/instance/network/received_bytes_count. The
@@ -3674,9 +3729,13 @@ type BackendBucketListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -3687,7 +3746,9 @@ type BackendBucketListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -4012,9 +4073,13 @@ type BackendServiceAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -4025,7 +4090,9 @@ type BackendServiceAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -4423,9 +4490,13 @@ type BackendServiceListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -4436,7 +4507,9 @@ type BackendServiceListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -4578,9 +4651,13 @@ type BackendServicesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -4591,7 +4668,9 @@ type BackendServicesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -4982,9 +5061,13 @@ type CommitmentAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -4995,7 +5078,9 @@ type CommitmentAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -5131,9 +5216,13 @@ type CommitmentListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -5144,7 +5233,9 @@ type CommitmentListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -5259,9 +5350,13 @@ type CommitmentsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -5272,7 +5367,9 @@ type CommitmentsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -5617,6 +5714,19 @@ type Disk struct {
 	// you do not need to provide a key to use the disk later.
 	DiskEncryptionKey *CustomerEncryptionKey `json:"diskEncryptionKey,omitempty"`
 
+	// GuestOsFeatures: A list of features to enable on the guest OS.
+	// Applicable for bootable disks only. Currently, only one feature can
+	// be enabled, VIRTIO_SCSI_MULTIQUEUE, which allows each virtual CPU to
+	// have its own queue. For Windows disks, you can only enable
+	// VIRTIO_SCSI_MULTIQUEUE on images with driver version 1.2.0.1621 or
+	// higher. Linux disks with kernel versions 3.17 and higher will support
+	// VIRTIO_SCSI_MULTIQUEUE.
+	//
+	// For newer Windows images, the server might also populate this
+	// property with the value WINDOWS to indicate that this is a Windows
+	// image.
+	GuestOsFeatures []*GuestOsFeature `json:"guestOsFeatures,omitempty"`
+
 	// Id: [Output Only] The unique identifier for the resource. This
 	// identifier is defined by the server.
 	Id uint64 `json:"id,omitempty,string"`
@@ -5879,9 +5989,13 @@ type DiskAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -5892,7 +6006,9 @@ type DiskAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -5965,6 +6081,59 @@ func (s *DiskAggregatedListWarningData) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
+// DiskInstantiationConfig: A specification of the desired way to
+// instantiate a disk in the instance template when its created from a
+// source instance.
+type DiskInstantiationConfig struct {
+	// AutoDelete: Specifies whether the disk will be auto-deleted when the
+	// instance is deleted (but not when the disk is detached from the
+	// instance).
+	AutoDelete bool `json:"autoDelete,omitempty"`
+
+	// DeviceName: Specifies the device name of the disk to which the
+	// configurations apply to.
+	DeviceName string `json:"deviceName,omitempty"`
+
+	// InstantiateFrom: Specifies whether to include the disk and what image
+	// to use.
+	//
+	// Possible values:
+	//   "ATTACH_READ_ONLY"
+	//   "BLANK"
+	//   "DEFAULT"
+	//   "DO_NOT_INCLUDE"
+	//   "IMAGE_URL"
+	//   "SOURCE_IMAGE"
+	//   "SOURCE_IMAGE_FAMILY"
+	InstantiateFrom string `json:"instantiateFrom,omitempty"`
+
+	// SourceImage: The custom source image to be used to restore this disk
+	// when instantiating this instance template.
+	SourceImage string `json:"sourceImage,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "AutoDelete") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "AutoDelete") to include in
+	// API requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *DiskInstantiationConfig) MarshalJSON() ([]byte, error) {
+	type noMethod DiskInstantiationConfig
+	raw := noMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
 // DiskList: A list of Disk resources.
 type DiskList struct {
 	// Id: [Output Only] Unique identifier for the resource; defined by the
@@ -6028,9 +6197,13 @@ type DiskListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -6041,7 +6214,9 @@ type DiskListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -6286,9 +6461,13 @@ type DiskTypeAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -6299,7 +6478,9 @@ type DiskTypeAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -6435,9 +6616,13 @@ type DiskTypeListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -6448,7 +6633,9 @@ type DiskTypeListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -6562,9 +6749,13 @@ type DiskTypesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -6575,7 +6766,9 @@ type DiskTypesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -6717,9 +6910,13 @@ type DisksScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -6730,7 +6927,9 @@ type DisksScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -6944,6 +7143,12 @@ type Firewall struct {
 	//   "INGRESS"
 	Direction string `json:"direction,omitempty"`
 
+	// Disabled: Denotes whether the firewall rule is disabled, i.e not
+	// applied to the network it is associated with. When set to true, the
+	// firewall rule is not enforced and the network behaves as if it did
+	// not exist. If this is unspecified, the firewall rule will be enabled.
+	Disabled bool `json:"disabled,omitempty"`
+
 	// EnableLogging: This field denotes whether to enable logging for a
 	// particular firewall rule. If logging is enabled, logs will be
 	// exported to the configured export destination for all firewall logs
@@ -7037,10 +7242,11 @@ type Firewall struct {
 	// applies to all instances on the specified network.
 	TargetServiceAccounts []string `json:"targetServiceAccounts,omitempty"`
 
-	// TargetTags: A list of instance tags indicating sets of instances
-	// located in the network that may make network connections as specified
-	// in allowed[]. If no targetTags are specified, the firewall rule
-	// applies to all instances on the specified network.
+	// TargetTags: A list of tags that controls which instances the firewall
+	// rule applies to. If targetTags are specified, then the firewall rule
+	// applies only to instances in the VPC network that have one of those
+	// tags. If no targetTags are specified, the firewall rule applies to
+	// all instances on the specified network.
 	TargetTags []string `json:"targetTags,omitempty"`
 
 	// ServerResponse contains the HTTP response code and headers from the
@@ -7209,9 +7415,13 @@ type FirewallListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -7222,7 +7432,9 @@ type FirewallListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -7298,15 +7510,24 @@ func (s *FirewallListWarningData) MarshalJSON() ([]byte, error) {
 // FixedOrPercent: Encapsulates numeric value that can be either
 // absolute or relative.
 type FixedOrPercent struct {
-	// Calculated: [Output Only] Absolute value calculated based on mode:
-	// mode = fixed -> calculated = fixed = percent -> calculated =
-	// ceiling(percent/100 * base_value)
+	// Calculated: [Output Only] Absolute value of VM instances calculated
+	// based on the specific mode.
+	//
+	//
+	// - If the value is fixed, then the caculated value is equal to the
+	// fixed value.
+	// - If the value is a percent, then the calculated value is percent/100
+	// * targetSize. For example, the calculated value of a 80% of a managed
+	// instance group with 150 instances would be (80/100 * 150) = 120 VM
+	// instances. If there is a remainder, the number is rounded up.
 	Calculated int64 `json:"calculated,omitempty"`
 
-	// Fixed: fixed must be non-negative.
+	// Fixed: Specifies a fixed number of VM instances. This must be a
+	// positive integer.
 	Fixed int64 `json:"fixed,omitempty"`
 
-	// Percent: percent must belong to [0, 100].
+	// Percent: Specifies a percentage of instances between 0 to 100%,
+	// inclusive. For example, specify 80 for 80%.
 	Percent int64 `json:"percent,omitempty"`
 
 	// ForceSendFields is a list of field names (e.g. "Calculated") to
@@ -7339,19 +7560,34 @@ type ForwardingRule struct {
 	// IPAddress: The IP address that this forwarding rule is serving on
 	// behalf of.
 	//
-	// For global forwarding rules, the address must be a global IP. For
-	// regional forwarding rules, the address must live in the same region
-	// as the forwarding rule. By default, this field is empty and an
-	// ephemeral IPv4 address from the same scope (global or regional) will
-	// be assigned. A regional forwarding rule supports IPv4 only. A global
-	// forwarding rule supports either IPv4 or IPv6.
+	// Addresses are restricted based on the forwarding rule's load
+	// balancing scheme (EXTERNAL or INTERNAL) and scope (global or
+	// regional).
+	//
+	// When the load balancing scheme is EXTERNAL, for global forwarding
+	// rules, the address must be a global IP, and for regional forwarding
+	// rules, the address must live in the same region as the forwarding
+	// rule. If this field is empty, an ephemeral IPv4 address from the same
+	// scope (global or regional) will be assigned. A regional forwarding
+	// rule supports IPv4 only. A global forwarding rule supports either
+	// IPv4 or IPv6.
 	//
 	// When the load balancing scheme is INTERNAL, this can only be an RFC
-	// 1918 IP address belonging to the network/subnetwork configured for
-	// the forwarding rule. A reserved address cannot be used. If the field
-	// is empty, the IP address will be automatically allocated from the
-	// internal IP range of the subnetwork or network configured for this
-	// forwarding rule.
+	// 1918 IP address belonging to the network/subnet configured for the
+	// forwarding rule. By default, if this field is empty, an ephemeral
+	// internal IP address will be automatically allocated from the IP range
+	// of the subnet or network configured for this forwarding rule.
+	//
+	// An address can be specified either by a literal IP address or a URL
+	// reference to an existing Address resource. The following examples are
+	// all valid:
+	// - 100.1.2.3
+	// -
+	// https://www.googleapis.com/compute/v1/projects/project/regions/region/addresses/address
+	// - projects/project/regions/region/addresses/address
+	// - regions/region/addresses/address
+	// - global/addresses/address
+	// - address
 	IPAddress string `json:"IPAddress,omitempty"`
 
 	// IPProtocol: The IP protocol to which this rule applies. Valid options
@@ -7644,9 +7880,13 @@ type ForwardingRuleAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -7657,7 +7897,9 @@ type ForwardingRuleAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -7793,9 +8035,13 @@ type ForwardingRuleListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -7806,7 +8052,9 @@ type ForwardingRuleListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -7948,9 +8196,13 @@ type ForwardingRulesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -7961,7 +8213,9 @@ type ForwardingRulesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -8129,6 +8383,8 @@ type GuestOsFeature struct {
 	// Possible values:
 	//   "FEATURE_TYPE_UNSPECIFIED"
 	//   "MULTI_IP_SUBNET"
+	//   "SECURE_BOOT"
+	//   "UEFI_COMPATIBLE"
 	//   "VIRTIO_SCSI_MULTIQUEUE"
 	//   "WINDOWS"
 	Type string `json:"type,omitempty"`
@@ -8568,9 +8824,13 @@ type HealthCheckListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -8581,7 +8841,9 @@ type HealthCheckListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -8940,9 +9202,13 @@ type HostAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -8953,7 +9219,9 @@ type HostAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -9089,9 +9357,13 @@ type HostListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -9102,7 +9374,9 @@ type HostListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -9352,9 +9626,13 @@ type HostTypeAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -9365,7 +9643,9 @@ type HostTypeAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -9501,9 +9781,13 @@ type HostTypeListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -9514,7 +9798,9 @@ type HostTypeListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -9628,9 +9914,13 @@ type HostTypesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -9641,7 +9931,9 @@ type HostTypesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -9755,9 +10047,13 @@ type HostsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -9768,7 +10064,9 @@ type HostsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -9995,9 +10293,13 @@ type HttpHealthCheckListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -10008,7 +10310,9 @@ type HttpHealthCheckListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -10234,9 +10538,13 @@ type HttpsHealthCheckListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -10247,7 +10555,9 @@ type HttpsHealthCheckListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -10610,9 +10920,13 @@ type ImageListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -10623,7 +10937,9 @@ type ImageListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -10971,9 +11287,13 @@ type InstanceAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -10984,7 +11304,9 @@ type InstanceAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -11210,9 +11532,13 @@ type InstanceGroupAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -11223,7 +11549,9 @@ type InstanceGroupAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -11360,9 +11688,13 @@ type InstanceGroupListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -11373,7 +11705,9 @@ type InstanceGroupListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -11536,7 +11870,7 @@ type InstanceGroupManager struct {
 
 	// StatefulPolicy: Stateful configuration for this Instanced Group
 	// Manager
-	StatefulPolicy *InstanceGroupManagerStatefulPolicy `json:"statefulPolicy,omitempty"`
+	StatefulPolicy *StatefulPolicy `json:"statefulPolicy,omitempty"`
 
 	// TargetPools: The URLs for all TargetPool resources to which instances
 	// in the instanceGroup field are added. The target pools automatically
@@ -11551,15 +11885,15 @@ type InstanceGroupManager struct {
 	// UpdatePolicy: The update policy for this managed instance group.
 	UpdatePolicy *InstanceGroupManagerUpdatePolicy `json:"updatePolicy,omitempty"`
 
-	// Versions: Versions supported by this IGM. User should set this field
-	// if they need fine-grained control over how many instances in each
-	// version are run by this IGM. Versions are keyed by instanceTemplate.
-	// Every instanceTemplate can appear at most once. This field overrides
-	// instanceTemplate field. If both instanceTemplate and versions are
-	// set, the user receives a warning. "instanceTemplate: X" is
-	// semantically equivalent to "versions [ { instanceTemplate: X } ]".
-	// Exactly one version must have targetSize field left unset. Size of
-	// such a version will be calculated automatically.
+	// Versions: Specifies the instance templates used by this managed
+	// instance group to create instances.
+	//
+	// Each version is defined by an instanceTemplate. Every template can
+	// appear at most once per instance group. This field overrides the
+	// top-level instanceTemplate field. Read more about the relationships
+	// between these fields. Exactly one version must leave the targetSize
+	// field unset. That version will be applied to all remaining instances.
+	// For more information, read about canary updates.
 	Versions []*InstanceGroupManagerVersion `json:"versions,omitempty"`
 
 	// Zone: [Output Only] The URL of the zone where the managed instance
@@ -11796,9 +12130,13 @@ type InstanceGroupManagerAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -11809,7 +12147,9 @@ type InstanceGroupManagerAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -11991,9 +12331,13 @@ type InstanceGroupManagerListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -12004,7 +12348,9 @@ type InstanceGroupManagerListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -12117,76 +12463,35 @@ func (s *InstanceGroupManagerPendingActionsSummary) MarshalJSON() ([]byte, error
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-type InstanceGroupManagerStatefulPolicy struct {
-	// PreservedDisks: Disks created on the instances that will be preserved
-	// on instance delete, resize down, etc.
-	PreservedDisks []*InstanceGroupManagerStatefulPolicyDiskPolicy `json:"preservedDisks,omitempty"`
-
-	// ForceSendFields is a list of field names (e.g. "PreservedDisks") to
-	// unconditionally include in API requests. By default, fields with
-	// empty values are omitted from API requests. However, any non-pointer,
-	// non-interface field appearing in ForceSendFields will be sent to the
-	// server regardless of whether the field is empty or not. This may be
-	// used to include empty fields in Patch requests.
-	ForceSendFields []string `json:"-"`
-
-	// NullFields is a list of field names (e.g. "PreservedDisks") to
-	// include in API requests with the JSON null value. By default, fields
-	// with empty values are omitted from API requests. However, any field
-	// with an empty value appearing in NullFields will be sent to the
-	// server as null. It is an error if a field in this list has a
-	// non-empty value. This may be used to include null fields in Patch
-	// requests.
-	NullFields []string `json:"-"`
-}
-
-func (s *InstanceGroupManagerStatefulPolicy) MarshalJSON() ([]byte, error) {
-	type noMethod InstanceGroupManagerStatefulPolicy
-	raw := noMethod(*s)
-	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
-}
-
-type InstanceGroupManagerStatefulPolicyDiskPolicy struct {
-	// DeviceName: Device name of the disk to be preserved
-	DeviceName string `json:"deviceName,omitempty"`
-
-	// ForceSendFields is a list of field names (e.g. "DeviceName") to
-	// unconditionally include in API requests. By default, fields with
-	// empty values are omitted from API requests. However, any non-pointer,
-	// non-interface field appearing in ForceSendFields will be sent to the
-	// server regardless of whether the field is empty or not. This may be
-	// used to include empty fields in Patch requests.
-	ForceSendFields []string `json:"-"`
-
-	// NullFields is a list of field names (e.g. "DeviceName") to include in
-	// API requests with the JSON null value. By default, fields with empty
-	// values are omitted from API requests. However, any field with an
-	// empty value appearing in NullFields will be sent to the server as
-	// null. It is an error if a field in this list has a non-empty value.
-	// This may be used to include null fields in Patch requests.
-	NullFields []string `json:"-"`
-}
-
-func (s *InstanceGroupManagerStatefulPolicyDiskPolicy) MarshalJSON() ([]byte, error) {
-	type noMethod InstanceGroupManagerStatefulPolicyDiskPolicy
-	raw := noMethod(*s)
-	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
-}
-
 type InstanceGroupManagerUpdatePolicy struct {
-	// MaxSurge: Maximum number of instances that can be created above the
-	// InstanceGroupManager.targetSize during the update process. By
-	// default, a fixed value of 1 is used. Using maxSurge > 0 will cause
-	// instance names to change during the update process. At least one of {
-	// maxSurge, maxUnavailable } must be greater than 0.
+	// MaxSurge: The maximum number of instances that can be created above
+	// the specified targetSize during the update process. By default, a
+	// fixed value of 1 is used. This value can be either a fixed number or
+	// a percentage if the instance group has 10 or more instances. If you
+	// set a percentage, the number of instances will be rounded up if
+	// necessary.
+	//
+	// At least one of either maxSurge or maxUnavailable must be greater
+	// than 0. Learn more about maxSurge.
 	MaxSurge *FixedOrPercent `json:"maxSurge,omitempty"`
 
-	// MaxUnavailable: Maximum number of instances that can be unavailable
-	// during the update process. The instance is considered available if
-	// all of the following conditions are satisfied: 1. Instance's status
-	// is RUNNING. 2. Instance's liveness health check result was observed
-	// to be HEALTHY at least once. By default, a fixed value of 1 is used.
-	// At least one of { maxSurge, maxUnavailable } must be greater than 0.
+	// MaxUnavailable: The maximum number of instances that can be
+	// unavailable during the update process. An instance is considered
+	// available if all of the following conditions are satisfied:
+	//
+	//
+	// - The instance's status is RUNNING.
+	// - If there is a health check on the instance grourp, the instance's
+	// liveness health check result must be HEALTHY at least once. If there
+	// is no health check on the group, then the instance only needs to have
+	// a status of RUNNING to be considered available.  By default, a fixed
+	// value of 1 is used. This value can be either a fixed number or a
+	// percentage if the instance group has 10 or more instances. If you set
+	// a percentage, the number of instances will be rounded up if
+	// necessary.
+	//
+	// At least one of either maxSurge or maxUnavailable must be greater
+	// than 0. Learn more about maxUnavailable.
 	MaxUnavailable *FixedOrPercent `json:"maxUnavailable,omitempty"`
 
 	// MinReadySec: Minimum number of seconds to wait for after a newly
@@ -12194,8 +12499,13 @@ type InstanceGroupManagerUpdatePolicy struct {
 	// 3600].
 	MinReadySec int64 `json:"minReadySec,omitempty"`
 
-	// MinimalAction: Minimal action to be taken on an instance. The order
-	// of action types is: RESTART < REPLACE.
+	// MinimalAction: Minimal action to be taken on an instance. You can
+	// specify either RESTART to restart existing instances or REPLACE to
+	// delete and create new instances from the target template. If you
+	// specify a code>RESTART, the Updater will attempt to perform that
+	// action only. However, if the Updater determines that the minimal
+	// action you specify is not enough to perform the update, it might
+	// perform a more disruptive action.
 	//
 	// Possible values:
 	//   "NONE"
@@ -12244,13 +12554,16 @@ type InstanceGroupManagerVersion struct {
 	// favor of 'name'.
 	Tag string `json:"tag,omitempty"`
 
-	// TargetSize: Intended number of instances that are created from
-	// instanceTemplate. The final number of instances created from
-	// instanceTemplate will be equal to: * if expressed as fixed number:
-	// min(targetSize.fixed, instanceGroupManager.targetSize), * if
-	// expressed as percent: ceiling(targetSize.percent *
-	// InstanceGroupManager.targetSize). If unset, this version will handle
-	// all the remaining instances.
+	// TargetSize: Specifies the intended number of instances to be created
+	// from the instanceTemplate. The final number of instances created from
+	// the template will be equal to:
+	// - If expressed as a fixed number, the minimum of either
+	// targetSize.fixed or instanceGroupManager.targetSize is used.
+	// - if expressed as a percent, the targetSize would be
+	// (targetSize.percent/100 * InstanceGroupManager.targetSize) If there
+	// is a remainder, the number is rounded up.  If unset, this version
+	// will update any remaining instances not updated by another version.
+	// Read Starting a canary update for more information.
 	TargetSize *FixedOrPercent `json:"targetSize,omitempty"`
 
 	// ForceSendFields is a list of field names (e.g. "InstanceTemplate") to
@@ -12510,9 +12823,13 @@ type InstanceGroupManagersListPerInstanceConfigsRespWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -12523,7 +12840,9 @@ type InstanceGroupManagersListPerInstanceConfigsRespWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -12724,9 +13043,13 @@ type InstanceGroupManagersScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -12737,7 +13060,9 @@ type InstanceGroupManagersScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -13028,9 +13353,13 @@ type InstanceGroupsListInstancesWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -13041,7 +13370,9 @@ type InstanceGroupsListInstancesWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -13219,9 +13550,13 @@ type InstanceGroupsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -13232,7 +13567,9 @@ type InstanceGroupsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -13403,9 +13740,13 @@ type InstanceListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -13416,7 +13757,9 @@ type InstanceListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -13553,9 +13896,13 @@ type InstanceListReferrersWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -13566,7 +13913,9 @@ type InstanceListReferrersWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -13838,6 +14187,10 @@ type InstanceTemplate struct {
 	// - projects/project/zones/zone/instances/instance
 	SourceInstance string `json:"sourceInstance,omitempty"`
 
+	// SourceInstanceParams: The source instance params to use to create
+	// this instance template.
+	SourceInstanceParams *SourceInstanceParams `json:"sourceInstanceParams,omitempty"`
+
 	// ServerResponse contains the HTTP response code and headers from the
 	// server.
 	googleapi.ServerResponse `json:"-"`
@@ -13930,9 +14283,13 @@ type InstanceTemplateListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -13943,7 +14300,9 @@ type InstanceTemplateListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -14101,9 +14460,13 @@ type InstancesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -14114,7 +14477,9 @@ type InstancesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -14380,7 +14745,7 @@ func (s *InstancesStartWithEncryptionKeyRequest) MarshalJSON() ([]byte, error) {
 }
 
 // Interconnect: Protocol definitions for Mixer API to support
-// Interconnect. Next available tag: 23
+// Interconnect. Next available tag: 25
 type Interconnect struct {
 	// AdminEnabled: Administrative status of the interconnect. When this is
 	// set to ?true?, the Interconnect is functional and may carry traffic
@@ -14393,12 +14758,6 @@ type Interconnect struct {
 	// CircuitInfos: [Output Only] List of CircuitInfo objects, that
 	// describe the individual circuits in this LAG.
 	CircuitInfos []*InterconnectCircuitInfo `json:"circuitInfos,omitempty"`
-
-	// ConnectionAuthorization: [Output Only] URL to retrieve the Letter Of
-	// Authority and Customer Facility Assignment (LOA-CFA) documentation
-	// relating to this Interconnect. This documentation authorizes the
-	// facility provider to connect to the specified crossconnect ports.
-	ConnectionAuthorization string `json:"connectionAuthorization,omitempty"`
 
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -14434,8 +14793,9 @@ type Interconnect struct {
 	InterconnectAttachments []string `json:"interconnectAttachments,omitempty"`
 
 	// Possible values:
-	//   "IT_PARTNER"
+	//   "DEDICATED"
 	//   "IT_PRIVATE"
+	//   "PARTNER"
 	InterconnectType string `json:"interconnectType,omitempty"`
 
 	// Kind: [Output Only] Type of the resource. Always compute#interconnect
@@ -14470,8 +14830,10 @@ type Interconnect struct {
 	// this Interconnect is functional.
 	//
 	// Possible values:
+	//   "ACTIVE"
 	//   "OS_ACTIVE"
 	//   "OS_UNPROVISIONED"
+	//   "UNPROVISIONED"
 	OperationalStatus string `json:"operationalStatus,omitempty"`
 
 	// PeerIpAddress: [Output Only] IP address configured on the customer
@@ -14519,7 +14881,7 @@ func (s *Interconnect) MarshalJSON() ([]byte, error) {
 }
 
 // InterconnectAttachment: Protocol definitions for Mixer API to support
-// InterconnectAttachment. Next available tag: 18
+// InterconnectAttachment. Next available tag: 23
 type InterconnectAttachment struct {
 	// CloudRouterIpAddress: [Output Only] IPv4 address + prefix length to
 	// be configured on Cloud Router Interface for this interconnect
@@ -14569,8 +14931,10 @@ type InterconnectAttachment struct {
 	// this interconnect attachment is functional.
 	//
 	// Possible values:
+	//   "ACTIVE"
 	//   "OS_ACTIVE"
 	//   "OS_UNPROVISIONED"
+	//   "UNPROVISIONED"
 	OperationalStatus string `json:"operationalStatus,omitempty"`
 
 	// PrivateInterconnectInfo: [Output Only] Information specific to a
@@ -14684,9 +15048,13 @@ type InterconnectAttachmentAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -14697,7 +15065,9 @@ type InterconnectAttachmentAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -14836,9 +15206,13 @@ type InterconnectAttachmentListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -14849,7 +15223,9 @@ type InterconnectAttachmentListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -14998,9 +15374,13 @@ type InterconnectAttachmentsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -15011,7 +15391,9 @@ type InterconnectAttachmentsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -15189,9 +15571,13 @@ type InterconnectListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -15202,7 +15588,9 @@ type InterconnectListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -15296,11 +15684,16 @@ type InterconnectLocation struct {
 	// in the Interconnect UI.
 	//
 	// Possible values:
+	//   "AFRICA"
+	//   "ASIA_PAC"
 	//   "C_AFRICA"
 	//   "C_ASIA_PAC"
 	//   "C_EUROPE"
 	//   "C_NORTH_AMERICA"
 	//   "C_SOUTH_AMERICA"
+	//   "EUROPE"
+	//   "NORTH_AMERICA"
+	//   "SOUTH_AMERICA"
 	Continent string `json:"continent,omitempty"`
 
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
@@ -15433,9 +15826,13 @@ type InterconnectLocationListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -15446,7 +15843,9 @@ type InterconnectLocationListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -15530,15 +15929,14 @@ type InterconnectLocationRegionInfo struct {
 	// LocationPresence: Identifies the network presence of this location.
 	//
 	// Possible values:
+	//   "GLOBAL"
+	//   "LOCAL_REGION"
 	//   "LP_GLOBAL"
 	//   "LP_LOCAL_REGION"
 	LocationPresence string `json:"locationPresence,omitempty"`
 
 	// Region: URL for the region of this location.
 	Region string `json:"region,omitempty"`
-
-	// RegionKey: Scope key for the region of this location.
-	RegionKey string `json:"regionKey,omitempty"`
 
 	// ForceSendFields is a list of field names (e.g. "ExpectedRttMs") to
 	// unconditionally include in API requests. By default, fields with
@@ -15579,12 +15977,15 @@ type InterconnectOutageNotification struct {
 	// Possible values:
 	//   "IT_OUTAGE"
 	//   "IT_PARTIAL_OUTAGE"
+	//   "OUTAGE"
+	//   "PARTIAL_OUTAGE"
 	IssueType string `json:"issueType,omitempty"`
 
 	// Name: Unique identifier for this outage notification.
 	Name string `json:"name,omitempty"`
 
 	// Possible values:
+	//   "GOOGLE"
 	//   "NSRC_GOOGLE"
 	Source string `json:"source,omitempty"`
 
@@ -15593,6 +15994,8 @@ type InterconnectOutageNotification struct {
 	StartTime int64 `json:"startTime,omitempty,string"`
 
 	// Possible values:
+	//   "ACTIVE"
+	//   "CANCELLED"
 	//   "NS_ACTIVE"
 	//   "NS_CANCELED"
 	State string `json:"state,omitempty"`
@@ -15717,9 +16120,13 @@ type IpOwnerListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -15730,7 +16137,9 @@ type IpOwnerListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -16063,9 +16472,13 @@ type LicensesListResponseWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -16076,7 +16489,9 @@ type LicensesListResponseWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -16453,9 +16868,13 @@ type MachineTypeAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -16466,7 +16885,9 @@ type MachineTypeAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -16602,9 +17023,13 @@ type MachineTypeListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -16615,7 +17040,9 @@ type MachineTypeListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -16730,9 +17157,13 @@ type MachineTypesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -16743,7 +17174,9 @@ type MachineTypesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -17026,7 +17459,7 @@ type ManagedInstanceOverride struct {
 	//
 	// Possible values:
 	//   "AUTO_GENERATED"
-	//   "USER_GENERATED"
+	//   "USER_PROVIDED"
 	Origin string `json:"origin,omitempty"`
 
 	// ForceSendFields is a list of field names (e.g. "Disks") to
@@ -17529,9 +17962,13 @@ type NetworkEndpointGroupAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -17542,7 +17979,9 @@ type NetworkEndpointGroupAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -17721,9 +18160,13 @@ type NetworkEndpointGroupListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -17734,7 +18177,9 @@ type NetworkEndpointGroupListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -17958,9 +18403,13 @@ type NetworkEndpointGroupsListNetworkEndpointsWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -17971,7 +18420,9 @@ type NetworkEndpointGroupsListNetworkEndpointsWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -18089,9 +18540,13 @@ type NetworkEndpointGroupsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -18102,7 +18557,9 @@ type NetworkEndpointGroupsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -18354,9 +18811,13 @@ type NetworkListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -18367,7 +18828,9 @@ type NetworkListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -18807,9 +19270,13 @@ type OperationWarnings struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -18820,7 +19287,9 @@ type OperationWarnings struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -18956,9 +19425,13 @@ type OperationAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -18969,7 +19442,9 @@ type OperationAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -19105,9 +19580,13 @@ type OperationListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -19118,7 +19597,9 @@ type OperationListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -19232,9 +19713,13 @@ type OperationsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -19245,7 +19730,9 @@ type OperationsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -20068,9 +20555,13 @@ type RegionAutoscalerListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -20081,7 +20572,9 @@ type RegionAutoscalerListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -20217,9 +20710,13 @@ type RegionDiskTypeListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -20230,7 +20727,9 @@ type RegionDiskTypeListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -20394,9 +20893,13 @@ type RegionInstanceGroupListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -20407,7 +20910,9 @@ type RegionInstanceGroupListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -20576,9 +21081,13 @@ type RegionInstanceGroupManagerListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -20589,7 +21098,9 @@ type RegionInstanceGroupManagerListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -20853,9 +21364,13 @@ type RegionInstanceGroupManagersListInstanceConfigsRespWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -20866,7 +21381,9 @@ type RegionInstanceGroupManagersListInstanceConfigsRespWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -21160,9 +21677,13 @@ type RegionInstanceGroupsListInstancesWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -21173,7 +21694,9 @@ type RegionInstanceGroupsListInstancesWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -21382,9 +21905,13 @@ type RegionListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -21395,7 +21922,9 @@ type RegionListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -21709,9 +22238,13 @@ type RouteWarnings struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -21722,7 +22255,9 @@ type RouteWarnings struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -21857,9 +22392,13 @@ type RouteListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -21870,7 +22409,9 @@ type RouteListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -22023,6 +22564,39 @@ func (s *Router) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
+// RouterAdvertisedIpRange: Description-tagged IP ranges for the router
+// to advertise.
+type RouterAdvertisedIpRange struct {
+	// Description: User-specified description for the IP range.
+	Description string `json:"description,omitempty"`
+
+	// Range: The IP range to advertise. The value must be a CIDR-formatted
+	// string.
+	Range string `json:"range,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "Description") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Description") to include
+	// in API requests with the JSON null value. By default, fields with
+	// empty values are omitted from API requests. However, any field with
+	// an empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *RouterAdvertisedIpRange) MarshalJSON() ([]byte, error) {
+	type noMethod RouterAdvertisedIpRange
+	raw := noMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
 // RouterAdvertisedPrefix: Description-tagged prefixes for the router to
 // advertise.
 type RouterAdvertisedPrefix struct {
@@ -22119,9 +22693,13 @@ type RouterAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -22132,7 +22710,9 @@ type RouterAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -22224,6 +22804,14 @@ type RouterBgp struct {
 	//   "ALL_SUBNETS"
 	AdvertisedGroups []string `json:"advertisedGroups,omitempty"`
 
+	// AdvertisedIpRanges: User-specified list of individual IP ranges to
+	// advertise in custom mode. This field can only be populated if
+	// advertise_mode is CUSTOM and is advertised to all peers of the
+	// router. These IP ranges will be advertised in addition to any
+	// specified groups. Leave this field blank to advertise no custom IP
+	// ranges.
+	AdvertisedIpRanges []*RouterAdvertisedIpRange `json:"advertisedIpRanges,omitempty"`
+
 	// AdvertisedPrefixs: User-specified list of individual prefixes to
 	// advertise in custom mode. This field can only be populated if
 	// advertise_mode is CUSTOM and is advertised to all peers of the
@@ -22280,6 +22868,14 @@ type RouterBgpPeer struct {
 	// Possible values:
 	//   "ALL_SUBNETS"
 	AdvertisedGroups []string `json:"advertisedGroups,omitempty"`
+
+	// AdvertisedIpRanges: User-specified list of individual IP ranges to
+	// advertise in custom mode. This field can only be populated if
+	// advertise_mode is CUSTOM and overrides the list defined for the
+	// router (in Bgp message). These IP ranges will be advertised in
+	// addition to any specified groups. Leave this field blank to advertise
+	// no custom IP ranges.
+	AdvertisedIpRanges []*RouterAdvertisedIpRange `json:"advertisedIpRanges,omitempty"`
 
 	// AdvertisedPrefixs: User-specified list of individual prefixes to
 	// advertise in custom mode. This field can only be populated if
@@ -22446,9 +23042,13 @@ type RouterListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -22459,7 +23059,9 @@ type RouterListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -22905,9 +23507,13 @@ type RoutersScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -22918,7 +23524,9 @@ type RoutersScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -23004,7 +23612,8 @@ type Rule struct {
 	//   "NO_ACTION"
 	Action string `json:"action,omitempty"`
 
-	// Conditions: Additional restrictions that must be met
+	// Conditions: Additional restrictions that must be met. All conditions
+	// must pass for the rule to match.
 	Conditions []*Condition `json:"conditions,omitempty"`
 
 	// Description: Human-readable description of the rule.
@@ -23318,9 +23927,13 @@ type SecurityPolicyListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -23331,7 +23944,9 @@ type SecurityPolicyListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -23460,6 +24075,10 @@ type SecurityPolicyRule struct {
 	// are evaluated in the increasing order of priority.
 	Priority int64 `json:"priority,omitempty"`
 
+	// ServerResponse contains the HTTP response code and headers from the
+	// server.
+	googleapi.ServerResponse `json:"-"`
+
 	// ForceSendFields is a list of field names (e.g. "Action") to
 	// unconditionally include in API requests. By default, fields with
 	// empty values are omitted from API requests. However, any non-pointer,
@@ -23490,6 +24109,11 @@ type SecurityPolicyRuleMatcher struct {
 	// versioned_expr. This field must be specified if versioned_expr is
 	// specified and cannot be specified if versioned_expr is not specified.
 	Config *SecurityPolicyRuleMatcherConfig `json:"config,omitempty"`
+
+	// Expr: User defined CEVAL expression. A CEVAL expression is used to
+	// specify match criteria such as origin.ip, source.region_code and
+	// contents in the request header.
+	Expr *Expr `json:"expr,omitempty"`
 
 	// SrcIpRanges: CIDR IP address range. Only IPv4 is supported.
 	SrcIpRanges []string `json:"srcIpRanges,omitempty"`
@@ -23883,9 +24507,13 @@ type SnapshotListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -23896,7 +24524,9 @@ type SnapshotListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -23965,6 +24595,39 @@ type SnapshotListWarningData struct {
 
 func (s *SnapshotListWarningData) MarshalJSON() ([]byte, error) {
 	type noMethod SnapshotListWarningData
+	raw := noMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+// SourceInstanceParams: A specification of the parameters to use when
+// creating the instance template from a source instance.
+type SourceInstanceParams struct {
+	// DiskConfigs: Attached disks configuration. If not provided, defaults
+	// are applied: For boot disk and any other R/W disks, new custom images
+	// will be created from each disk. For read-only disks, they will be
+	// attached in read-only mode. Local SSD disks will be created as blank
+	// volumes.
+	DiskConfigs []*DiskInstantiationConfig `json:"diskConfigs,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "DiskConfigs") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "DiskConfigs") to include
+	// in API requests with the JSON null value. By default, fields with
+	// empty values are omitted from API requests. However, any field with
+	// an empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *SourceInstanceParams) MarshalJSON() ([]byte, error) {
+	type noMethod SourceInstanceParams
 	raw := noMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
@@ -24100,9 +24763,13 @@ type SslCertificateListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -24113,7 +24780,9 @@ type SslCertificateListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -24248,9 +24917,13 @@ type SslPoliciesListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -24261,7 +24934,9 @@ type SslPoliciesListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -24479,9 +25154,13 @@ type SslPolicyWarnings struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -24492,7 +25171,9 @@ type SslPolicyWarnings struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -24590,6 +25271,95 @@ type SslPolicyReference struct {
 
 func (s *SslPolicyReference) MarshalJSON() ([]byte, error) {
 	type noMethod SslPolicyReference
+	raw := noMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type StatefulPolicy struct {
+	// PreservedDisks: Disks created on the instances that will be preserved
+	// on instance delete, resize down, etc. DEPRECATED in favor of
+	// preservedResources.disks field.
+	PreservedDisks []*StatefulPolicyPreservedDisk `json:"preservedDisks,omitempty"`
+
+	PreservedResources *StatefulPolicyPreservedResources `json:"preservedResources,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "PreservedDisks") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "PreservedDisks") to
+	// include in API requests with the JSON null value. By default, fields
+	// with empty values are omitted from API requests. However, any field
+	// with an empty value appearing in NullFields will be sent to the
+	// server as null. It is an error if a field in this list has a
+	// non-empty value. This may be used to include null fields in Patch
+	// requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *StatefulPolicy) MarshalJSON() ([]byte, error) {
+	type noMethod StatefulPolicy
+	raw := noMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type StatefulPolicyPreservedDisk struct {
+	// DeviceName: Device name of the disk to be preserved
+	DeviceName string `json:"deviceName,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "DeviceName") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "DeviceName") to include in
+	// API requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *StatefulPolicyPreservedDisk) MarshalJSON() ([]byte, error) {
+	type noMethod StatefulPolicyPreservedDisk
+	raw := noMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+// StatefulPolicyPreservedResources: Configuration of all preserved
+// resources.
+type StatefulPolicyPreservedResources struct {
+	// Disks: Disks created on the instances that will be preserved on
+	// instance delete, resize down, etc.
+	Disks []*StatefulPolicyPreservedDisk `json:"disks,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "Disks") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Disks") to include in API
+	// requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *StatefulPolicyPreservedResources) MarshalJSON() ([]byte, error) {
+	type noMethod StatefulPolicyPreservedResources
 	raw := noMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
@@ -24774,9 +25544,13 @@ type SubnetworkAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -24787,7 +25561,9 @@ type SubnetworkAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -24923,9 +25699,13 @@ type SubnetworkListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -24936,7 +25716,9 @@ type SubnetworkListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -25120,9 +25902,13 @@ type SubnetworksScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -25133,7 +25919,9 @@ type SubnetworksScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -25479,9 +26267,13 @@ type TargetHttpProxyListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -25492,7 +26284,9 @@ type TargetHttpProxyListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -25788,9 +26582,13 @@ type TargetHttpsProxyListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -25801,7 +26599,9 @@ type TargetHttpsProxyListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -26016,9 +26816,13 @@ type TargetInstanceAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -26029,7 +26833,9 @@ type TargetInstanceAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -26165,9 +26971,13 @@ type TargetInstanceListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -26178,7 +26988,9 @@ type TargetInstanceListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -26293,9 +27105,13 @@ type TargetInstancesScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -26306,7 +27122,9 @@ type TargetInstancesScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -26586,9 +27404,13 @@ type TargetPoolAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -26599,7 +27421,9 @@ type TargetPoolAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -26770,9 +27594,13 @@ type TargetPoolListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -26783,7 +27611,9 @@ type TargetPoolListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -27016,9 +27846,13 @@ type TargetPoolsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -27029,7 +27863,9 @@ type TargetPoolsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -27366,9 +28202,13 @@ type TargetSslProxyListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -27379,7 +28219,9 @@ type TargetSslProxyListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -27646,9 +28488,13 @@ type TargetTcpProxyListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -27659,7 +28505,9 @@ type TargetTcpProxyListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -27896,9 +28744,13 @@ type TargetVpnGatewayAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -27909,7 +28761,9 @@ type TargetVpnGatewayAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -28046,9 +28900,13 @@ type TargetVpnGatewayListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -28059,7 +28917,9 @@ type TargetVpnGatewayListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -28175,9 +29035,13 @@ type TargetVpnGatewaysScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -28188,7 +29052,9 @@ type TargetVpnGatewaysScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -28537,9 +29403,13 @@ type UrlMapListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -28550,7 +29420,9 @@ type UrlMapListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -28786,10 +29658,17 @@ func (s *UrlMapsValidateResponse) MarshalJSON() ([]byte, error) {
 // UsableSubnetwork: Subnetwork which the current user has
 // compute.subnetworks.use permission on.
 type UsableSubnetwork struct {
+	// IpCidrRange: The range of internal addresses that are owned by this
+	// subnetwork.
+	IpCidrRange string `json:"ipCidrRange,omitempty"`
+
+	// Network: Network URL.
+	Network string `json:"network,omitempty"`
+
 	// Subnetwork: Subnetwork URL.
 	Subnetwork string `json:"subnetwork,omitempty"`
 
-	// ForceSendFields is a list of field names (e.g. "Subnetwork") to
+	// ForceSendFields is a list of field names (e.g. "IpCidrRange") to
 	// unconditionally include in API requests. By default, fields with
 	// empty values are omitted from API requests. However, any non-pointer,
 	// non-interface field appearing in ForceSendFields will be sent to the
@@ -28797,10 +29676,10 @@ type UsableSubnetwork struct {
 	// used to include empty fields in Patch requests.
 	ForceSendFields []string `json:"-"`
 
-	// NullFields is a list of field names (e.g. "Subnetwork") to include in
-	// API requests with the JSON null value. By default, fields with empty
-	// values are omitted from API requests. However, any field with an
-	// empty value appearing in NullFields will be sent to the server as
+	// NullFields is a list of field names (e.g. "IpCidrRange") to include
+	// in API requests with the JSON null value. By default, fields with
+	// empty values are omitted from API requests. However, any field with
+	// an empty value appearing in NullFields will be sent to the server as
 	// null. It is an error if a field in this list has a non-empty value.
 	// This may be used to include null fields in Patch requests.
 	NullFields []string `json:"-"`
@@ -28876,9 +29755,13 @@ type UsableSubnetworksAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -28889,7 +29772,9 @@ type UsableSubnetworksAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -29199,9 +30084,13 @@ type VpnTunnelAggregatedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -29212,7 +30101,9 @@ type VpnTunnelAggregatedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -29348,9 +30239,13 @@ type VpnTunnelListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -29361,7 +30256,9 @@ type VpnTunnelListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -29475,9 +30372,13 @@ type VpnTunnelsScopedListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -29488,7 +30389,9 @@ type VpnTunnelsScopedListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -29623,9 +30526,13 @@ type XpnHostListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -29636,7 +30543,9 @@ type XpnHostListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -29879,9 +30788,13 @@ type ZoneListWarning struct {
 	// Possible values:
 	//   "CLEANUP_FAILED"
 	//   "DEPRECATED_RESOURCE_USED"
+	//   "DEPRECATED_TYPE_USED"
 	//   "DISK_SIZE_LARGER_THAN_IMAGE_SIZE"
+	//   "EXPERIMENTAL_TYPE_USED"
+	//   "EXTERNAL_API_WARNING"
 	//   "FIELD_VALUE_OVERRIDEN"
 	//   "INJECTED_KERNELS_DEPRECATED"
+	//   "MISSING_TYPE_DEPENDENCY"
 	//   "NEXT_HOP_ADDRESS_NOT_ASSIGNED"
 	//   "NEXT_HOP_CANNOT_IP_FORWARD"
 	//   "NEXT_HOP_INSTANCE_NOT_FOUND"
@@ -29892,7 +30805,9 @@ type ZoneListWarning struct {
 	//   "REQUIRED_TOS_AGREEMENT"
 	//   "RESOURCE_IN_USE_BY_OTHER_RESOURCE_WARNING"
 	//   "RESOURCE_NOT_DELETED"
+	//   "SCHEMA_VALIDATION_IGNORED"
 	//   "SINGLE_INSTANCE_PROPERTY_TEMPLATE"
+	//   "UNDECLARED_PROPERTIES"
 	//   "UNREACHABLE"
 	Code string `json:"code,omitempty"`
 
@@ -66285,11 +67200,10 @@ type InstancesStopCall struct {
 
 // Stop: Stops a running instance, shutting it down cleanly, and allows
 // you to restart the instance at a later time. Stopped instances do not
-// incur per-minute, virtual machine usage charges while they are
-// stopped, but any resources that the virtual machine is using, such as
-// persistent disks and static IP addresses, will continue to be charged
-// until they are deleted. For more information, see Stopping an
-// instance.
+// incur VM usage charges while they are stopped. However, resources
+// that the VM is using, such as persistent disks and static IP
+// addresses, will continue to be charged until they are deleted. For
+// more information, see Stopping an instance.
 // For details, see https://cloud.google.com/compute/docs/reference/latest/instances/stop
 func (r *InstancesService) Stop(project string, zone string, instance string) *InstancesStopCall {
 	c := &InstancesStopCall{s: r.s, urlParams_: make(gensupport.URLParams)}
@@ -66409,7 +67323,7 @@ func (c *InstancesStopCall) Do(opts ...googleapi.CallOption) (*Operation, error)
 	}
 	return ret, nil
 	// {
-	//   "description": "Stops a running instance, shutting it down cleanly, and allows you to restart the instance at a later time. Stopped instances do not incur per-minute, virtual machine usage charges while they are stopped, but any resources that the virtual machine is using, such as persistent disks and static IP addresses, will continue to be charged until they are deleted. For more information, see Stopping an instance.",
+	//   "description": "Stops a running instance, shutting it down cleanly, and allows you to restart the instance at a later time. Stopped instances do not incur VM usage charges while they are stopped. However, resources that the VM is using, such as persistent disks and static IP addresses, will continue to be charged until they are deleted. For more information, see Stopping an instance.",
 	//   "httpMethod": "POST",
 	//   "id": "compute.instances.stop",
 	//   "parameterOrder": [
@@ -92957,6 +93871,152 @@ func (c *RoutesTestIamPermissionsCall) Do(opts ...googleapi.CallOption) (*TestPe
 
 }
 
+// method id "compute.securityPolicies.addRule":
+
+type SecurityPoliciesAddRuleCall struct {
+	s                  *Service
+	project            string
+	securityPolicy     string
+	securitypolicyrule *SecurityPolicyRule
+	urlParams_         gensupport.URLParams
+	ctx_               context.Context
+	header_            http.Header
+}
+
+// AddRule: Inserts a rule into a security policy.
+func (r *SecurityPoliciesService) AddRule(project string, securityPolicy string, securitypolicyrule *SecurityPolicyRule) *SecurityPoliciesAddRuleCall {
+	c := &SecurityPoliciesAddRuleCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.securityPolicy = securityPolicy
+	c.securitypolicyrule = securitypolicyrule
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *SecurityPoliciesAddRuleCall) Fields(s ...googleapi.Field) *SecurityPoliciesAddRuleCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *SecurityPoliciesAddRuleCall) Context(ctx context.Context) *SecurityPoliciesAddRuleCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *SecurityPoliciesAddRuleCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *SecurityPoliciesAddRuleCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.securitypolicyrule)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/global/securityPolicies/{securityPolicy}/addRule")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("POST", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":        c.project,
+		"securityPolicy": c.securityPolicy,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.securityPolicies.addRule" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *SecurityPoliciesAddRuleCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Inserts a rule into a security policy.",
+	//   "httpMethod": "POST",
+	//   "id": "compute.securityPolicies.addRule",
+	//   "parameterOrder": [
+	//     "project",
+	//     "securityPolicy"
+	//   ],
+	//   "parameters": {
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "securityPolicy": {
+	//       "description": "Name of the security policy to update.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/global/securityPolicies/{securityPolicy}/addRule",
+	//   "request": {
+	//     "$ref": "SecurityPolicyRule"
+	//   },
+	//   "response": {
+	//     "$ref": "Operation"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
+}
+
 // method id "compute.securityPolicies.delete":
 
 type SecurityPoliciesDeleteCall struct {
@@ -93259,6 +94319,170 @@ func (c *SecurityPoliciesGetCall) Do(opts ...googleapi.CallOption) (*SecurityPol
 	//   "path": "{project}/global/securityPolicies/{securityPolicy}",
 	//   "response": {
 	//     "$ref": "SecurityPolicy"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute",
+	//     "https://www.googleapis.com/auth/compute.readonly"
+	//   ]
+	// }
+
+}
+
+// method id "compute.securityPolicies.getRule":
+
+type SecurityPoliciesGetRuleCall struct {
+	s              *Service
+	project        string
+	securityPolicy string
+	urlParams_     gensupport.URLParams
+	ifNoneMatch_   string
+	ctx_           context.Context
+	header_        http.Header
+}
+
+// GetRule: Gets a rule at the specified priority.
+func (r *SecurityPoliciesService) GetRule(project string, securityPolicy string) *SecurityPoliciesGetRuleCall {
+	c := &SecurityPoliciesGetRuleCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.securityPolicy = securityPolicy
+	return c
+}
+
+// Priority sets the optional parameter "priority": The priority of the
+// rule to get from the security policy.
+func (c *SecurityPoliciesGetRuleCall) Priority(priority int64) *SecurityPoliciesGetRuleCall {
+	c.urlParams_.Set("priority", fmt.Sprint(priority))
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *SecurityPoliciesGetRuleCall) Fields(s ...googleapi.Field) *SecurityPoliciesGetRuleCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// IfNoneMatch sets the optional parameter which makes the operation
+// fail if the object's ETag matches the given value. This is useful for
+// getting updates only after the object has changed since the last
+// request. Use googleapi.IsNotModified to check whether the response
+// error from Do is the result of In-None-Match.
+func (c *SecurityPoliciesGetRuleCall) IfNoneMatch(entityTag string) *SecurityPoliciesGetRuleCall {
+	c.ifNoneMatch_ = entityTag
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *SecurityPoliciesGetRuleCall) Context(ctx context.Context) *SecurityPoliciesGetRuleCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *SecurityPoliciesGetRuleCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *SecurityPoliciesGetRuleCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	if c.ifNoneMatch_ != "" {
+		reqHeaders.Set("If-None-Match", c.ifNoneMatch_)
+	}
+	var body io.Reader = nil
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/global/securityPolicies/{securityPolicy}/getRule")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("GET", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":        c.project,
+		"securityPolicy": c.securityPolicy,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.securityPolicies.getRule" call.
+// Exactly one of *SecurityPolicyRule or error will be non-nil. Any
+// non-2xx status code is an error. Response headers are in either
+// *SecurityPolicyRule.ServerResponse.Header or (if a response was
+// returned at all) in error.(*googleapi.Error).Header. Use
+// googleapi.IsNotModified to check whether the returned error was
+// because http.StatusNotModified was returned.
+func (c *SecurityPoliciesGetRuleCall) Do(opts ...googleapi.CallOption) (*SecurityPolicyRule, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &SecurityPolicyRule{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Gets a rule at the specified priority.",
+	//   "httpMethod": "GET",
+	//   "id": "compute.securityPolicies.getRule",
+	//   "parameterOrder": [
+	//     "project",
+	//     "securityPolicy"
+	//   ],
+	//   "parameters": {
+	//     "priority": {
+	//       "description": "The priority of the rule to get from the security policy.",
+	//       "format": "int32",
+	//       "location": "query",
+	//       "type": "integer"
+	//     },
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "securityPolicy": {
+	//       "description": "Name of the security policy to which the queried rule belongs.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/global/securityPolicies/{securityPolicy}/getRule",
+	//   "response": {
+	//     "$ref": "SecurityPolicyRule"
 	//   },
 	//   "scopes": [
 	//     "https://www.googleapis.com/auth/cloud-platform",
@@ -93841,6 +95065,314 @@ func (c *SecurityPoliciesPatchCall) Do(opts ...googleapi.CallOption) (*Operation
 	//   "request": {
 	//     "$ref": "SecurityPolicy"
 	//   },
+	//   "response": {
+	//     "$ref": "Operation"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
+}
+
+// method id "compute.securityPolicies.patchRule":
+
+type SecurityPoliciesPatchRuleCall struct {
+	s                  *Service
+	project            string
+	securityPolicy     string
+	securitypolicyrule *SecurityPolicyRule
+	urlParams_         gensupport.URLParams
+	ctx_               context.Context
+	header_            http.Header
+}
+
+// PatchRule: Patches a rule at the specified priority.
+func (r *SecurityPoliciesService) PatchRule(project string, securityPolicy string, securitypolicyrule *SecurityPolicyRule) *SecurityPoliciesPatchRuleCall {
+	c := &SecurityPoliciesPatchRuleCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.securityPolicy = securityPolicy
+	c.securitypolicyrule = securitypolicyrule
+	return c
+}
+
+// Priority sets the optional parameter "priority": The priority of the
+// rule to patch.
+func (c *SecurityPoliciesPatchRuleCall) Priority(priority int64) *SecurityPoliciesPatchRuleCall {
+	c.urlParams_.Set("priority", fmt.Sprint(priority))
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *SecurityPoliciesPatchRuleCall) Fields(s ...googleapi.Field) *SecurityPoliciesPatchRuleCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *SecurityPoliciesPatchRuleCall) Context(ctx context.Context) *SecurityPoliciesPatchRuleCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *SecurityPoliciesPatchRuleCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *SecurityPoliciesPatchRuleCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.securitypolicyrule)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/global/securityPolicies/{securityPolicy}/patchRule")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("POST", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":        c.project,
+		"securityPolicy": c.securityPolicy,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.securityPolicies.patchRule" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *SecurityPoliciesPatchRuleCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Patches a rule at the specified priority.",
+	//   "httpMethod": "POST",
+	//   "id": "compute.securityPolicies.patchRule",
+	//   "parameterOrder": [
+	//     "project",
+	//     "securityPolicy"
+	//   ],
+	//   "parameters": {
+	//     "priority": {
+	//       "description": "The priority of the rule to patch.",
+	//       "format": "int32",
+	//       "location": "query",
+	//       "type": "integer"
+	//     },
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "securityPolicy": {
+	//       "description": "Name of the security policy to update.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/global/securityPolicies/{securityPolicy}/patchRule",
+	//   "request": {
+	//     "$ref": "SecurityPolicyRule"
+	//   },
+	//   "response": {
+	//     "$ref": "Operation"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
+}
+
+// method id "compute.securityPolicies.removeRule":
+
+type SecurityPoliciesRemoveRuleCall struct {
+	s              *Service
+	project        string
+	securityPolicy string
+	urlParams_     gensupport.URLParams
+	ctx_           context.Context
+	header_        http.Header
+}
+
+// RemoveRule: Deletes a rule at the specified priority.
+func (r *SecurityPoliciesService) RemoveRule(project string, securityPolicy string) *SecurityPoliciesRemoveRuleCall {
+	c := &SecurityPoliciesRemoveRuleCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.securityPolicy = securityPolicy
+	return c
+}
+
+// Priority sets the optional parameter "priority": The priority of the
+// rule to remove from the security policy.
+func (c *SecurityPoliciesRemoveRuleCall) Priority(priority int64) *SecurityPoliciesRemoveRuleCall {
+	c.urlParams_.Set("priority", fmt.Sprint(priority))
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *SecurityPoliciesRemoveRuleCall) Fields(s ...googleapi.Field) *SecurityPoliciesRemoveRuleCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *SecurityPoliciesRemoveRuleCall) Context(ctx context.Context) *SecurityPoliciesRemoveRuleCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *SecurityPoliciesRemoveRuleCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *SecurityPoliciesRemoveRuleCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/global/securityPolicies/{securityPolicy}/removeRule")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("POST", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":        c.project,
+		"securityPolicy": c.securityPolicy,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.securityPolicies.removeRule" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *SecurityPoliciesRemoveRuleCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Deletes a rule at the specified priority.",
+	//   "httpMethod": "POST",
+	//   "id": "compute.securityPolicies.removeRule",
+	//   "parameterOrder": [
+	//     "project",
+	//     "securityPolicy"
+	//   ],
+	//   "parameters": {
+	//     "priority": {
+	//       "description": "The priority of the rule to remove from the security policy.",
+	//       "format": "int32",
+	//       "location": "query",
+	//       "type": "integer"
+	//     },
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "securityPolicy": {
+	//       "description": "Name of the security policy to update.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/global/securityPolicies/{securityPolicy}/removeRule",
 	//   "response": {
 	//     "$ref": "Operation"
 	//   },
@@ -109447,6 +110979,188 @@ func (c *TargetVpnGatewaysListCall) Pages(ctx context.Context, f func(*TargetVpn
 		}
 		c.PageToken(x.NextPageToken)
 	}
+}
+
+// method id "compute.targetVpnGateways.setLabels":
+
+type TargetVpnGatewaysSetLabelsCall struct {
+	s                      *Service
+	project                string
+	region                 string
+	resource               string
+	regionsetlabelsrequest *RegionSetLabelsRequest
+	urlParams_             gensupport.URLParams
+	ctx_                   context.Context
+	header_                http.Header
+}
+
+// SetLabels: Sets the labels on a TargetVpnGateway. To learn more about
+// labels, read the Labeling Resources documentation.
+func (r *TargetVpnGatewaysService) SetLabels(project string, region string, resource string, regionsetlabelsrequest *RegionSetLabelsRequest) *TargetVpnGatewaysSetLabelsCall {
+	c := &TargetVpnGatewaysSetLabelsCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.region = region
+	c.resource = resource
+	c.regionsetlabelsrequest = regionsetlabelsrequest
+	return c
+}
+
+// RequestId sets the optional parameter "requestId": An optional
+// request ID to identify requests. Specify a unique request ID so that
+// if you must retry your request, the server will know to ignore the
+// request if it has already been completed.
+//
+// For example, consider a situation where you make an initial request
+// and the request times out. If you make the request again with the
+// same request ID, the server can check if original operation with the
+// same request ID was received, and if so, will ignore the second
+// request. This prevents clients from accidentally creating duplicate
+// commitments.
+//
+// The request ID must be a valid UUID with the exception that zero UUID
+// is not supported (00000000-0000-0000-0000-000000000000).
+func (c *TargetVpnGatewaysSetLabelsCall) RequestId(requestId string) *TargetVpnGatewaysSetLabelsCall {
+	c.urlParams_.Set("requestId", requestId)
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *TargetVpnGatewaysSetLabelsCall) Fields(s ...googleapi.Field) *TargetVpnGatewaysSetLabelsCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *TargetVpnGatewaysSetLabelsCall) Context(ctx context.Context) *TargetVpnGatewaysSetLabelsCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *TargetVpnGatewaysSetLabelsCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *TargetVpnGatewaysSetLabelsCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.regionsetlabelsrequest)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/regions/{region}/targetVpnGateways/{resource}/setLabels")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("POST", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":  c.project,
+		"region":   c.region,
+		"resource": c.resource,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.targetVpnGateways.setLabels" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *TargetVpnGatewaysSetLabelsCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Sets the labels on a TargetVpnGateway. To learn more about labels, read the Labeling Resources documentation.",
+	//   "httpMethod": "POST",
+	//   "id": "compute.targetVpnGateways.setLabels",
+	//   "parameterOrder": [
+	//     "project",
+	//     "region",
+	//     "resource"
+	//   ],
+	//   "parameters": {
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "region": {
+	//       "description": "The region for this request.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "requestId": {
+	//       "description": "An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.\n\nFor example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.\n\nThe request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+	//       "location": "query",
+	//       "type": "string"
+	//     },
+	//     "resource": {
+	//       "description": "Name of the resource for this request.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/regions/{region}/targetVpnGateways/{resource}/setLabels",
+	//   "request": {
+	//     "$ref": "RegionSetLabelsRequest"
+	//   },
+	//   "response": {
+	//     "$ref": "Operation"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
 }
 
 // method id "compute.targetVpnGateways.testIamPermissions":
