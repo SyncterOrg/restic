@@ -815,7 +815,8 @@ type AcceleratorConfig struct {
 	AcceleratorCount int64 `json:"acceleratorCount,omitempty"`
 
 	// AcceleratorType: Full or partial URL of the accelerator type resource
-	// to expose to this instance.
+	// to attach to this instance. If you are creating an instance template,
+	// specify only the accelerator name.
 	AcceleratorType string `json:"acceleratorType,omitempty"`
 
 	// ForceSendFields is a list of field names (e.g. "AcceleratorCount") to
@@ -842,7 +843,8 @@ func (s *AcceleratorConfig) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// AcceleratorType: An Accelerator Type resource.
+// AcceleratorType: An Accelerator Type resource. (== resource_for
+// beta.acceleratorTypes ==) (== resource_for v1.acceleratorTypes ==)
 type AcceleratorType struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -1437,7 +1439,9 @@ func (s *AccessConfig) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Address: A reserved address resource.
+// Address: A reserved address resource. (== resource_for beta.addresses
+// ==) (== resource_for v1.addresses ==) (== resource_for
+// beta.globalAddresses ==) (== resource_for v1.globalAddresses ==)
 type Address struct {
 	// Address: The static IP address represented by this resource.
 	Address string `json:"address,omitempty"`
@@ -1533,11 +1537,10 @@ type Address struct {
 	//   "RESERVED"
 	Status string `json:"status,omitempty"`
 
-	// Subnetwork: For external addresses, this field should not be
-	// used.
-	//
-	// The URL of the subnetwork in which to reserve the address. If an IP
-	// address is specified, it must be within the subnetwork's IP range.
+	// Subnetwork: The URL of the subnetwork in which to reserve the
+	// address. If an IP address is specified, it must be within the
+	// subnetwork's IP range. This field can only be used with INTERNAL type
+	// with GCE_ENDPOINT/DNS_RESOLVER purposes.
 	Subnetwork string `json:"subnetwork,omitempty"`
 
 	// Users: [Output Only] The URLs of the resources that are using this
@@ -2103,6 +2106,11 @@ type AttachedDisk struct {
 	// disk_size_gb in InitializeParams.
 	DiskSizeGb int64 `json:"diskSizeGb,omitempty,string"`
 
+	// GuestOsFeatures: A list of features to enable on the guest operating
+	// system. Applicable only for bootable images. Read  Enabling guest
+	// operating system features to see a list of available options.
+	GuestOsFeatures []*GuestOsFeature `json:"guestOsFeatures,omitempty"`
+
 	// Index: [Output Only] A zero-based index to this disk, where 0 is
 	// reserved for the boot disk. If you have many disks attached to an
 	// instance, each disk would have a unique index number.
@@ -2144,6 +2152,16 @@ type AttachedDisk struct {
 	//   "READ_ONLY"
 	//   "READ_WRITE"
 	Mode string `json:"mode,omitempty"`
+
+	// SavedState: For LocalSSD disks on VM Instances in STOPPED or
+	// SUSPENDED state, this field is set to PRESERVED iff the LocalSSD data
+	// has been saved to a persistent location by customer request. (see the
+	// discard_local_ssd option on Stop/Suspend). Read-only in the api.
+	//
+	// Possible values:
+	//   "DISK_SAVED_STATE_UNSPECIFIED"
+	//   "PRESERVED"
+	SavedState string `json:"savedState,omitempty"`
 
 	// Source: Specifies a valid partial or full URL to an existing
 	// Persistent Disk resource. When creating a new instance, one of
@@ -2228,6 +2246,11 @@ type AttachedDiskInitializeParams struct {
 	// - zones/zone/diskTypes/diskType  Note that for InstanceTemplate, this
 	// is the name of the disk type, not URL.
 	DiskType string `json:"diskType,omitempty"`
+
+	// Labels: Labels to apply to this disk. These can be later modified by
+	// the disks.setLabels method. This field is only applicable for
+	// persistent disks.
+	Labels map[string]string `json:"labels,omitempty"`
 
 	// SourceImage: The source image to create this disk. When creating a
 	// new instance, one of initializeParams.sourceImage or disks.source is
@@ -2439,7 +2462,10 @@ func (s *AuthorizationLoggingOptions) MarshalJSON() ([]byte, error) {
 // Autoscaler: Represents an Autoscaler resource. Autoscalers allow you
 // to automatically scale virtual machine instances in managed instance
 // groups according to an autoscaling policy that you define. For more
-// information, read Autoscaling Groups of Instances.
+// information, read Autoscaling Groups of Instances. (== resource_for
+// beta.autoscalers ==) (== resource_for v1.autoscalers ==) (==
+// resource_for beta.regionAutoscalers ==) (== resource_for
+// v1.regionAutoscalers ==)
 type Autoscaler struct {
 	// AutoscalingPolicy: The configuration parameters for the autoscaling
 	// algorithm. You can define one or more of the policies for an
@@ -2474,6 +2500,13 @@ type Autoscaler struct {
 	// characters must be a dash, lowercase letter, or digit, except the
 	// last character, which cannot be a dash.
 	Name string `json:"name,omitempty"`
+
+	// RecommendedSize: [Output Only] Target recommended MIG size computed
+	// by autoscaler. Autoscaler calculates recommended MIG size even when
+	// autoscaling policy mode is different from ON. This field is empty
+	// when autoscaler is not connected to the existing managed instance
+	// group or autoscaler did not generate its first prediction.
+	RecommendedSize int64 `json:"recommendedSize,omitempty"`
 
 	// Region: [Output Only] URL of the region where the instance group
 	// resides (for autoscalers living in regional scope).
@@ -3834,7 +3867,9 @@ func (s *BackendBucketListWarningData) MarshalJSON() ([]byte, error) {
 }
 
 // BackendService: A BackendService resource. This resource defines a
-// group of backend virtual machines and their serving capacity.
+// group of backend virtual machines and their serving capacity. (==
+// resource_for v1.backendService ==) (== resource_for
+// beta.backendService ==)
 type BackendService struct {
 	// AffinityCookieTtlSec: Lifetime of cookies in seconds if
 	// session_affinity is GENERATED_COOKIE. If set to 0, the cookie is
@@ -4911,7 +4946,8 @@ func (s *CacheKeyPolicy) MarshalJSON() ([]byte, error) {
 // Committed use discounts are subject to Google Cloud Platform's
 // Service Specific Terms. By purchasing a committed use discount, you
 // agree to these terms. Committed use discounts will not renew, so you
-// must purchase a new commitment to continue receiving discounts.
+// must purchase a new commitment to continue receiving discounts. (==
+// resource_for beta.commitments ==) (== resource_for v1.commitments ==)
 type Commitment struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -5739,7 +5775,8 @@ func (s *DeprecationStatus) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Disk: A Disk resource.
+// Disk: A Disk resource. (== resource_for beta.disks ==) (==
+// resource_for v1.disks ==)
 type Disk struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -5765,17 +5802,9 @@ type Disk struct {
 	// you do not need to provide a key to use the disk later.
 	DiskEncryptionKey *CustomerEncryptionKey `json:"diskEncryptionKey,omitempty"`
 
-	// GuestOsFeatures: A list of features to enable on the guest OS.
-	// Applicable for bootable disks only. Currently, only one feature can
-	// be enabled, VIRTIO_SCSI_MULTIQUEUE, which allows each virtual CPU to
-	// have its own queue. For Windows disks, you can only enable
-	// VIRTIO_SCSI_MULTIQUEUE on images with driver version 1.2.0.1621 or
-	// higher. Linux disks with kernel versions 3.17 and higher will support
-	// VIRTIO_SCSI_MULTIQUEUE.
-	//
-	// For newer Windows images, the server might also populate this
-	// property with the value WINDOWS to indicate that this is a Windows
-	// image.
+	// GuestOsFeatures: A list of features to enable on the guest operating
+	// system. Applicable only for bootable images. Read  Enabling guest
+	// operating system features to see a list of available options.
 	GuestOsFeatures []*GuestOsFeature `json:"guestOsFeatures,omitempty"`
 
 	// Id: [Output Only] The unique identifier for the resource. This
@@ -6141,6 +6170,10 @@ type DiskInstantiationConfig struct {
 	// instance).
 	AutoDelete bool `json:"autoDelete,omitempty"`
 
+	// CustomImage: The custom source image to be used to restore this disk
+	// when instantiating this instance template.
+	CustomImage string `json:"customImage,omitempty"`
+
 	// DeviceName: Specifies the device name of the disk to which the
 	// configurations apply to.
 	DeviceName string `json:"deviceName,omitempty"`
@@ -6151,16 +6184,12 @@ type DiskInstantiationConfig struct {
 	// Possible values:
 	//   "ATTACH_READ_ONLY"
 	//   "BLANK"
+	//   "CUSTOM_IMAGE"
 	//   "DEFAULT"
 	//   "DO_NOT_INCLUDE"
-	//   "IMAGE_URL"
 	//   "SOURCE_IMAGE"
 	//   "SOURCE_IMAGE_FAMILY"
 	InstantiateFrom string `json:"instantiateFrom,omitempty"`
-
-	// SourceImage: The custom source image to be used to restore this disk
-	// when instantiating this instance template.
-	SourceImage string `json:"sourceImage,omitempty"`
 
 	// ForceSendFields is a list of field names (e.g. "AutoDelete") to
 	// unconditionally include in API requests. By default, fields with
@@ -6383,7 +6412,8 @@ func (s *DiskMoveRequest) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// DiskType: A DiskType resource.
+// DiskType: A DiskType resource. (== resource_for beta.diskTypes ==)
+// (== resource_for v1.diskTypes ==)
 type DiskType struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -7606,7 +7636,12 @@ func (s *FixedOrPercent) MarshalJSON() ([]byte, error) {
 
 // ForwardingRule: A ForwardingRule resource. A ForwardingRule resource
 // specifies which pool of target virtual machines to forward a packet
-// to if it matches the given [IPAddress, IPProtocol, ports] tuple.
+// to if it matches the given [IPAddress, IPProtocol, ports] tuple. (==
+// resource_for beta.forwardingRules ==) (== resource_for
+// v1.forwardingRules ==) (== resource_for beta.globalForwardingRules
+// ==) (== resource_for v1.globalForwardingRules ==) (== resource_for
+// beta.regionForwardingRules ==) (== resource_for
+// v1.regionForwardingRules ==)
 type ForwardingRule struct {
 	// IPAddress: The IP address that this forwarding rule is serving on
 	// behalf of.
@@ -8426,10 +8461,8 @@ func (s *GuestAttributes) MarshalJSON() ([]byte, error) {
 
 // GuestOsFeature: Guest OS features.
 type GuestOsFeature struct {
-	// Type: The type of supported feature. Currently only
-	// VIRTIO_SCSI_MULTIQUEUE is supported. For newer Windows images, the
-	// server might also populate this property with the value WINDOWS to
-	// indicate that this is a Windows image.
+	// Type: The ID of a supported feature. Read  Enabling guest operating
+	// system features to see a list of available options.
 	//
 	// Possible values:
 	//   "FEATURE_TYPE_UNSPECIFIED"
@@ -10719,7 +10752,8 @@ func (s *HttpsHealthCheckListWarningData) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Image: An Image resource.
+// Image: An Image resource. (== resource_for beta.images ==) (==
+// resource_for v1.images ==)
 type Image struct {
 	// ArchiveSizeBytes: Size of the image tar.gz archive stored in Google
 	// Cloud Storage (in bytes).
@@ -10747,17 +10781,9 @@ type Image struct {
 	// RFC1035.
 	Family string `json:"family,omitempty"`
 
-	// GuestOsFeatures: A list of features to enable on the guest OS.
-	// Applicable for bootable images only. Currently, only one feature can
-	// be enabled, VIRTIO_SCSI_MULTIQUEUE, which allows each virtual CPU to
-	// have its own queue. For Windows images, you can only enable
-	// VIRTIO_SCSI_MULTIQUEUE on images with driver version 1.2.0.1621 or
-	// higher. Linux images with kernel versions 3.17 and higher will
-	// support VIRTIO_SCSI_MULTIQUEUE.
-	//
-	// For newer Windows images, the server might also populate this
-	// property with the value WINDOWS to indicate that this is a Windows
-	// image.
+	// GuestOsFeatures: A list of features to enable on the guest operating
+	// system. Applicable only for bootable images. Read  Enabling guest
+	// operating system features to see a list of available options.
 	GuestOsFeatures []*GuestOsFeature `json:"guestOsFeatures,omitempty"`
 
 	// Id: [Output Only] The unique identifier for the resource. This
@@ -11121,7 +11147,8 @@ func (s *ImageListWarningData) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Instance: An Instance resource.
+// Instance: An Instance resource. (== resource_for beta.instances ==)
+// (== resource_for v1.instances ==)
 type Instance struct {
 	// CanIpForward: Allows this instance to send and receive packets with
 	// non-matching destination or source IPs. This is required if you plan
@@ -11259,6 +11286,10 @@ type Instance struct {
 	// with other network services, such as connecting to the internet.
 	// Multiple interfaces are supported per instance.
 	NetworkInterfaces []*NetworkInterface `json:"networkInterfaces,omitempty"`
+
+	// PreservedStateSizeGb: Total amount of preserved state for SUSPENDED
+	// instances. Read-only in the api.
+	PreservedStateSizeGb int64 `json:"preservedStateSizeGb,omitempty,string"`
 
 	// Scheduling: Sets the scheduling options for this instance.
 	Scheduling *Scheduling `json:"scheduling,omitempty"`
@@ -11493,6 +11524,10 @@ func (s *InstanceAggregatedListWarningData) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
+// InstanceGroup: InstanceGroups (== resource_for beta.instanceGroups
+// ==) (== resource_for v1.instanceGroups ==) (== resource_for
+// beta.regionInstanceGroups ==) (== resource_for
+// v1.regionInstanceGroups ==)
 type InstanceGroup struct {
 	// CreationTimestamp: [Output Only] The creation timestamp for this
 	// instance group in RFC3339 text format.
@@ -11894,7 +11929,11 @@ func (s *InstanceGroupListWarningData) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// InstanceGroupManager: An Instance Group Manager resource.
+// InstanceGroupManager: An Instance Group Manager resource. (==
+// resource_for beta.instanceGroupManagers ==) (== resource_for
+// v1.instanceGroupManagers ==) (== resource_for
+// beta.regionInstanceGroupManagers ==) (== resource_for
+// v1.regionInstanceGroupManagers ==)
 type InstanceGroupManager struct {
 	Activities *InstanceGroupManagerActivities `json:"activities,omitempty"`
 
@@ -12602,7 +12641,7 @@ type InstanceGroupManagerUpdatePolicy struct {
 	//
 	//
 	// - The instance's status is RUNNING.
-	// - If there is a health check on the instance grourp, the instance's
+	// - If there is a health check on the instance group, the instance's
 	// liveness health check result must be HEALTHY at least once. If there
 	// is no health check on the group, then the instance only needs to have
 	// a status of RUNNING to be considered available.  By default, a fixed
@@ -14266,7 +14305,8 @@ func (s *InstanceReference) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// InstanceTemplate: An Instance Template resource.
+// InstanceTemplate: An Instance Template resource. (== resource_for
+// beta.instanceTemplates ==) (== resource_for v1.instanceTemplates ==)
 type InstanceTemplate struct {
 	// CreationTimestamp: [Output Only] The creation timestamp for this
 	// instance template in RFC3339 text format.
@@ -14594,6 +14634,48 @@ type InstancesRemoveMaintenancePoliciesRequest struct {
 
 func (s *InstancesRemoveMaintenancePoliciesRequest) MarshalJSON() ([]byte, error) {
 	type NoMethod InstancesRemoveMaintenancePoliciesRequest
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type InstancesResumeRequest struct {
+	// Disks: Array of disks associated with this instance that are
+	// protected with a customer-supplied encryption key.
+	//
+	// In order to resume the instance, the disk url and its corresponding
+	// key must be provided.
+	//
+	// If the disk is not protected with a customer-supplied encryption key
+	// it should not be specified.
+	Disks []*CustomerEncryptionKeyProtectedDisk `json:"disks,omitempty"`
+
+	// InstanceEncryptionKey: Decrypts data associated with an instance that
+	// is protected with a customer-supplied encryption key.
+	//
+	// If the instance you are starting is protected with a
+	// customer-supplied encryption key, the correct key must be provided
+	// otherwise the instance resume will not succeed.
+	InstanceEncryptionKey *CustomerEncryptionKey `json:"instanceEncryptionKey,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "Disks") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Disks") to include in API
+	// requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *InstancesResumeRequest) MarshalJSON() ([]byte, error) {
+	type NoMethod InstancesResumeRequest
 	raw := NoMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
@@ -14926,7 +15008,8 @@ func (s *InstancesStartWithEncryptionKeyRequest) MarshalJSON() ([]byte, error) {
 // Interconnect: Represents an Interconnects resource. The Interconnects
 // resource is a dedicated connection between Google's network and your
 // on-premises network. For more information, see the  Dedicated
-// overview page.
+// overview page. (== resource_for v1.interconnects ==) (== resource_for
+// beta.interconnects ==)
 type Interconnect struct {
 	// AdminEnabled: Administrative status of the interconnect. When this is
 	// set to true, the Interconnect is functional and can carry traffic.
@@ -14985,6 +15068,22 @@ type Interconnect struct {
 	// for interconnects.
 	Kind string `json:"kind,omitempty"`
 
+	// LabelFingerprint: A fingerprint for the labels being applied to this
+	// Interconnect, which is essentially a hash of the labels set used for
+	// optimistic locking. The fingerprint is initially generated by Compute
+	// Engine and changes after every request to modify or update labels.
+	// You must always provide an up-to-date fingerprint hash in order to
+	// update or change labels.
+	//
+	// To see the latest fingerprint, make a get() request to retrieve an
+	// Interconnect.
+	LabelFingerprint string `json:"labelFingerprint,omitempty"`
+
+	// Labels: Labels to apply to this Interconnect resource. These can be
+	// later modified by the setLabels method. Each label key/value must
+	// comply with RFC1035. Label values may be empty.
+	Labels map[string]string `json:"labels,omitempty"`
+
 	// LinkType: Type of link requested. This field indicates speed of each
 	// of the links in the bundle, not the entire bundle. Only 10G per link
 	// is allowed for a dedicated interconnect. Options: Ethernet_10G_LR
@@ -15038,6 +15137,14 @@ type Interconnect struct {
 	// SelfLink: [Output Only] Server-defined URL for the resource.
 	SelfLink string `json:"selfLink,omitempty"`
 
+	// State: [Output Only] The current state of whether or not this
+	// Interconnect is functional.
+	//
+	// Possible values:
+	//   "ACTIVE"
+	//   "UNPROVISIONED"
+	State string `json:"state,omitempty"`
+
 	// ServerResponse contains the HTTP response code and headers from the
 	// server.
 	googleapi.ServerResponse `json:"-"`
@@ -15067,7 +15174,8 @@ func (s *Interconnect) MarshalJSON() ([]byte, error) {
 
 // InterconnectAttachment: Represents an InterconnectAttachment (VLAN
 // attachment) resource. For more information, see  Creating VLAN
-// Attachments.
+// Attachments. (== resource_for beta.interconnectAttachments ==) (==
+// resource_for v1.interconnectAttachments ==)
 type InterconnectAttachment struct {
 	// AdminEnabled: Determines whether this Attachment will carry packets.
 	// Not present for PARTNER_PROVIDER.
@@ -15136,6 +15244,22 @@ type InterconnectAttachment struct {
 	// compute#interconnectAttachment for interconnect attachments.
 	Kind string `json:"kind,omitempty"`
 
+	// LabelFingerprint: A fingerprint for the labels being applied to this
+	// InterconnectAttachment, which is essentially a hash of the labels set
+	// used for optimistic locking. The fingerprint is initially generated
+	// by Compute Engine and changes after every request to modify or update
+	// labels. You must always provide an up-to-date fingerprint hash in
+	// order to update or change labels.
+	//
+	// To see the latest fingerprint, make a get() request to retrieve an
+	// InterconnectAttachment.
+	LabelFingerprint string `json:"labelFingerprint,omitempty"`
+
+	// Labels: Labels to apply to this InterconnectAttachment resource.
+	// These can be later modified by the setLabels method. Each label
+	// key/value must comply with RFC1035. Label values may be empty.
+	Labels map[string]string `json:"labels,omitempty"`
+
 	// Name: Name of the resource. Provided by the client when the resource
 	// is created. The name must be 1-63 characters long, and comply with
 	// RFC1035. Specifically, the name must be 1-63 characters long and
@@ -15157,6 +15281,13 @@ type InterconnectAttachment struct {
 	// PARTNER_PROVIDER. Not present for DEDICATED]. Opaque string
 	// identifying an PARTNER attachment. Of the form ?cloud-region/XXXXXX?.
 	PairingKey string `json:"pairingKey,omitempty"`
+
+	// PartnerAsn: [Output only for PARTNER. Input for PARTNER_PROVIDER. Not
+	// present for DEDICATED] BGP ASN of the Partner. A layer 3 Partner
+	// should supply this if they configured BGP on behalf of the customer.
+	PartnerAsn int64 `json:"partnerAsn,omitempty,string"`
+
+	PartnerMetadata *InterconnectAttachmentPartnerMetadata `json:"partnerMetadata,omitempty"`
 
 	// PrivateInterconnectInfo: [Output Only] Information specific to an
 	// InterconnectAttachment. This property is populated if the
@@ -15181,6 +15312,10 @@ type InterconnectAttachment struct {
 	//
 	// Possible values:
 	//   "ACTIVE"
+	//   "DEFUNCT"
+	//   "PARTNER_REQUEST_RECEIVED"
+	//   "PENDING_CUSTOMER"
+	//   "PENDING_PARTNER"
 	//   "STATE_UNSPECIFIED"
 	//   "UNPROVISIONED"
 	State string `json:"state,omitempty"`
@@ -15191,9 +15326,10 @@ type InterconnectAttachment struct {
 	//   "PARTNER_PROVIDER"
 	Type string `json:"type,omitempty"`
 
-	// VlanTag8021q: Available only for DEDICATED and PARTNER_PROVIDER New
-	// field: VLAN. Only specified at creation time. This field is mapped to
-	// ieee_802_1q_tag in the resource proto.
+	// VlanTag8021q: Available only for DEDICATED and PARTNER_PROVIDER.
+	// Desired VLAN tag for this attachment, in the range 2-4094. This field
+	// refers to 802.1q VLAN tag, also known as IEEE 802.1Q Only specified
+	// at creation time.
 	VlanTag8021q int64 `json:"vlanTag8021q,omitempty"`
 
 	// ServerResponse contains the HTTP response code and headers from the
@@ -15533,6 +15669,53 @@ type InterconnectAttachmentListWarningData struct {
 
 func (s *InterconnectAttachmentListWarningData) MarshalJSON() ([]byte, error) {
 	type NoMethod InterconnectAttachmentListWarningData
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+// InterconnectAttachmentPartnerMetadata: Informational metadata about
+// Partner attachments from Partners to display to customers. These
+// fields are propagated from PARTNER_PROVIDER attachments to their
+// corresponding PARTNER attachments. Only mutable for PARTNER_PROVIDER
+// type, output-only for PARTNER, not available for DEDICATED.
+type InterconnectAttachmentPartnerMetadata struct {
+	// InterconnectName: Plain text name of the Interconnect this attachment
+	// is connected to, as displayed in the Partner?s portal. For instance
+	// ?Chicago 1?. This value may be validated to match approved Partner
+	// values.
+	InterconnectName string `json:"interconnectName,omitempty"`
+
+	// PartnerName: Plain text name of the Partner providing this
+	// attachment. This value may be validated to match approved Partner
+	// values.
+	PartnerName string `json:"partnerName,omitempty"`
+
+	// PortalUrl: URL of the Partner?s portal for this Attachment. Partners
+	// may customise this to be a deep-link to the specific resource on the
+	// Partner portal. This value may be validated to match approved Partner
+	// values.
+	PortalUrl string `json:"portalUrl,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "InterconnectName") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "InterconnectName") to
+	// include in API requests with the JSON null value. By default, fields
+	// with empty values are omitted from API requests. However, any field
+	// with an empty value appearing in NullFields will be sent to the
+	// server as null. It is an error if a field in this list has a
+	// non-empty value. This may be used to include null fields in Patch
+	// requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *InterconnectAttachmentPartnerMetadata) MarshalJSON() ([]byte, error) {
+	type NoMethod InterconnectAttachmentPartnerMetadata
 	raw := NoMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
@@ -16973,7 +17156,8 @@ func (s *LogConfigDataAccessOptions) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// MachineType: A Machine Type resource.
+// MachineType: A Machine Type resource. (== resource_for
+// v1.machineTypes ==) (== resource_for beta.machineTypes ==)
 type MachineType struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -18245,8 +18429,15 @@ func (s *ManagedInstanceLastAttemptErrorsErrors) MarshalJSON() ([]byte, error) {
 // ManagedInstanceOverride: Overrides of stateful properties for a given
 // instance
 type ManagedInstanceOverride struct {
-	// Disks: Disk overrides defined for this instance
+	// Disks: Disk overrides defined for this instance. According to
+	// documentation the maximum number of disks attached to an instance is
+	// 128: https://cloud.google.com/compute/docs/disks/ However, compute
+	// API defines the limit at 140, so this is what we check.
 	Disks []*ManagedInstanceOverrideDiskOverride `json:"disks,omitempty"`
+
+	// Metadata: Metadata overrides defined for this instance.
+	// TODO(b/69785416) validate the total length is <9 KB
+	Metadata []*ManagedInstanceOverrideMetadata `json:"metadata,omitempty"`
 
 	// Origin: [Output Only] Indicates where does the override come from.
 	//
@@ -18274,6 +18465,43 @@ type ManagedInstanceOverride struct {
 
 func (s *ManagedInstanceOverride) MarshalJSON() ([]byte, error) {
 	type NoMethod ManagedInstanceOverride
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+type ManagedInstanceOverrideMetadata struct {
+	// Key: Key for the metadata entry. Keys must conform to the following
+	// regexp: [a-zA-Z0-9-_]+, and be less than 128 bytes in length. This is
+	// reflected as part of a URL in the metadata server. Additionally, to
+	// avoid ambiguity, keys must not conflict with any other metadata keys
+	// for the project.
+	Key string `json:"key,omitempty"`
+
+	// Value: Value for the metadata entry. These are free-form strings, and
+	// only have meaning as interpreted by the image running in the
+	// instance. The only restriction placed on values is that their size
+	// must be less than or equal to 262144 bytes (256 KiB).
+	Value string `json:"value,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "Key") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Key") to include in API
+	// requests with the JSON null value. By default, fields with empty
+	// values are omitted from API requests. However, any field with an
+	// empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *ManagedInstanceOverrideMetadata) MarshalJSON() ([]byte, error) {
+	type NoMethod ManagedInstanceOverrideMetadata
 	raw := NoMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
@@ -18461,7 +18689,8 @@ func (s *NamedPort) MarshalJSON() ([]byte, error) {
 }
 
 // Network: Represents a Network resource. Read Networks and Firewalls
-// for more information.
+// for more information. (== resource_for v1.networks ==) (==
+// resource_for beta.networks ==)
 type Network struct {
 	// IPv4Range: The range of internal addresses that are legal on this
 	// network. This range is a CIDR specification, for example:
@@ -19863,7 +20092,10 @@ func (s *NetworksRemovePeeringRequest) MarshalJSON() ([]byte, error) {
 }
 
 // Operation: An Operation resource, used to manage asynchronous API
-// requests.
+// requests. (== resource_for v1.globalOperations ==) (== resource_for
+// beta.globalOperations ==) (== resource_for v1.regionOperations ==)
+// (== resource_for beta.regionOperations ==) (== resource_for
+// v1.zoneOperations ==) (== resource_for beta.zoneOperations ==)
 type Operation struct {
 	// ClientOperationId: [Output Only] Reserved for future use.
 	ClientOperationId string `json:"clientOperationId,omitempty"`
@@ -20799,9 +21031,9 @@ func (s *Policy) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Project: A Project resource. Projects can only be created in the
-// Google Cloud Platform Console. Unless marked otherwise, values can
-// only be modified in the console.
+// Project: A Project resource. For an overview of projects, see  Cloud
+// Platform Resource Hierarchy. (== resource_for v1.projects ==) (==
+// resource_for beta.projects ==)
 type Project struct {
 	// CommonInstanceMetadata: Metadata key/value pairs available to all
 	// instances contained in this project. See Custom metadata for more
@@ -21220,7 +21452,8 @@ func (s *Reference) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Region: Region resource.
+// Region: Region resource. (== resource_for beta.regions ==) (==
+// resource_for v1.regions ==)
 type Region struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -22917,7 +23150,8 @@ func (s *ResourceGroupReference) MarshalJSON() ([]byte, error) {
 // Compute Engine-operated gateway.
 //
 // Packets that do not match any route in the sending instance's routing
-// table are dropped.
+// table are dropped. (== resource_for beta.routes ==) (== resource_for
+// v1.routes ==)
 type Route struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -24915,9 +25149,6 @@ type SecurityPolicyRuleMatcher struct {
 	// SrcIpRanges: CIDR IP address range. Only IPv4 is supported.
 	SrcIpRanges []string `json:"srcIpRanges,omitempty"`
 
-	// SrcRegionCodes: Match by country or region code.
-	SrcRegionCodes []string `json:"srcRegionCodes,omitempty"`
-
 	// VersionedExpr: Preconfigured versioned expression. If this field is
 	// specified, config must also be specified. Available preconfigured
 	// expressions along with their requirements are: SRC_IPS_V1 - must
@@ -25132,7 +25363,8 @@ func (s *SignedUrlKey) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Snapshot: A persistent disk snapshot resource.
+// Snapshot: A persistent disk snapshot resource. (== resource_for
+// beta.snapshots ==) (== resource_for v1.snapshots ==)
 type Snapshot struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -25246,6 +25478,10 @@ type Snapshot struct {
 	//   "UPDATING"
 	//   "UP_TO_DATE"
 	StorageBytesStatus string `json:"storageBytesStatus,omitempty"`
+
+	// StorageLocations: GCS bucket storage location of the snapshot
+	// (regional or multi-regional).
+	StorageLocations []string `json:"storageLocations,omitempty"`
 
 	// ServerResponse contains the HTTP response code and headers from the
 	// server.
@@ -25464,7 +25700,8 @@ func (s *SourceInstanceParams) MarshalJSON() ([]byte, error) {
 
 // SslCertificate: An SslCertificate resource. This resource provides a
 // mechanism to upload an SSL key and certificate to the load balancer
-// to serve secure connections from the user.
+// to serve secure connections from the user. (== resource_for
+// beta.sslCertificates ==) (== resource_for v1.sslCertificates ==)
 type SslCertificate struct {
 	// Certificate: A local certificate file. The certificate must be in PEM
 	// format. The certificate chain must be no greater than 5 certs long.
@@ -25479,6 +25716,9 @@ type SslCertificate struct {
 	// property when you create the resource.
 	Description string `json:"description,omitempty"`
 
+	// ExpiryTime: [Output Only] Expiry time of the certificate. RFC3339
+	ExpiryTime string `json:"expiryTime,omitempty"`
+
 	// Id: [Output Only] The unique identifier for the resource. This
 	// identifier is defined by the server.
 	Id uint64 `json:"id,omitempty,string"`
@@ -25486,6 +25726,9 @@ type SslCertificate struct {
 	// Kind: [Output Only] Type of the resource. Always
 	// compute#sslCertificate for SSL certificates.
 	Kind string `json:"kind,omitempty"`
+
+	// Managed: Configuration and status of a managed SSL certificate.
+	Managed *SslCertificateManagedSslCertificate `json:"managed,omitempty"`
 
 	// Name: Name of the resource. Provided by the client when the resource
 	// is created. The name must be 1-63 characters long, and comply with
@@ -25502,6 +25745,24 @@ type SslCertificate struct {
 
 	// SelfLink: [Output only] Server-defined URL for the resource.
 	SelfLink string `json:"selfLink,omitempty"`
+
+	// SelfManaged: Configuration and status of a self-managed SSL
+	// certificate.
+	SelfManaged *SslCertificateSelfManagedSslCertificate `json:"selfManaged,omitempty"`
+
+	// SubjectAlternativeNames: [Output Only] Domains associated with the
+	// certificate via Subject Alternative Name.
+	SubjectAlternativeNames []string `json:"subjectAlternativeNames,omitempty"`
+
+	// Type: (Optional) Specifies the type of SSL certificate, either
+	// "SELF_MANAGED" or "MANAGED". If not specified, the certificate is
+	// self-managed and the fields certificate and private_key are used.
+	//
+	// Possible values:
+	//   "MANAGED"
+	//   "SELF_MANAGED"
+	//   "TYPE_UNKNOWN"
+	Type string `json:"type,omitempty"`
 
 	// ServerResponse contains the HTTP response code and headers from the
 	// server.
@@ -25681,6 +25942,86 @@ type SslCertificateListWarningData struct {
 
 func (s *SslCertificateListWarningData) MarshalJSON() ([]byte, error) {
 	type NoMethod SslCertificateListWarningData
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+// SslCertificateManagedSslCertificate: Configuration and status of a
+// managed SSL certificate.
+type SslCertificateManagedSslCertificate struct {
+	// DomainStatus: [Output only] Detailed statuses of the domains
+	// specified for managed certificate resource.
+	DomainStatus map[string]string `json:"domainStatus,omitempty"`
+
+	// Domains: The domains for which a managed SSL certificate will be
+	// generated. Currently only single-domain certs are supported.
+	Domains []string `json:"domains,omitempty"`
+
+	// Status: [Output only] Status of the managed certificate resource.
+	//
+	// Possible values:
+	//   "ACTIVE"
+	//   "PROVISIONING"
+	//   "PROVISIONING_FAILED"
+	//   "PROVISIONING_FAILED_PERMANENTLY"
+	//   "RENEWAL_FAILED"
+	//   "STATUS_UNKNOWN"
+	Status string `json:"status,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "DomainStatus") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "DomainStatus") to include
+	// in API requests with the JSON null value. By default, fields with
+	// empty values are omitted from API requests. However, any field with
+	// an empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *SslCertificateManagedSslCertificate) MarshalJSON() ([]byte, error) {
+	type NoMethod SslCertificateManagedSslCertificate
+	raw := NoMethod(*s)
+	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
+}
+
+// SslCertificateSelfManagedSslCertificate: Configuration and status of
+// a self-managed SSL certificate..
+type SslCertificateSelfManagedSslCertificate struct {
+	// Certificate: A local certificate file. The certificate must be in PEM
+	// format. The certificate chain must be no greater than 5 certs long.
+	// The chain must include at least one intermediate cert.
+	Certificate string `json:"certificate,omitempty"`
+
+	// PrivateKey: A write-only private key in PEM format. Only insert
+	// requests will include this field.
+	PrivateKey string `json:"privateKey,omitempty"`
+
+	// ForceSendFields is a list of field names (e.g. "Certificate") to
+	// unconditionally include in API requests. By default, fields with
+	// empty values are omitted from API requests. However, any non-pointer,
+	// non-interface field appearing in ForceSendFields will be sent to the
+	// server regardless of whether the field is empty or not. This may be
+	// used to include empty fields in Patch requests.
+	ForceSendFields []string `json:"-"`
+
+	// NullFields is a list of field names (e.g. "Certificate") to include
+	// in API requests with the JSON null value. By default, fields with
+	// empty values are omitted from API requests. However, any field with
+	// an empty value appearing in NullFields will be sent to the server as
+	// null. It is an error if a field in this list has a non-empty value.
+	// This may be used to include null fields in Patch requests.
+	NullFields []string `json:"-"`
+}
+
+func (s *SslCertificateSelfManagedSslCertificate) MarshalJSON() ([]byte, error) {
+	type NoMethod SslCertificateSelfManagedSslCertificate
 	raw := NoMethod(*s)
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
@@ -26189,7 +26530,8 @@ func (s *StatefulPolicyPreservedResources) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Subnetwork: A Subnetwork resource.
+// Subnetwork: A Subnetwork resource. (== resource_for beta.subnetworks
+// ==) (== resource_for v1.subnetworks ==)
 type Subnetwork struct {
 	// AllowSubnetCidrRoutesOverlap: Whether this subnetwork can conflict
 	// with static routes. Setting this to true allows this subnetwork's
@@ -26966,7 +27308,8 @@ func (s *Tags) MarshalJSON() ([]byte, error) {
 }
 
 // TargetHttpProxy: A TargetHttpProxy resource. This resource defines an
-// HTTP proxy.
+// HTTP proxy. (== resource_for beta.targetHttpProxies ==) (==
+// resource_for v1.targetHttpProxies ==)
 type TargetHttpProxy struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -27247,7 +27590,8 @@ func (s *TargetHttpsProxiesSetSslCertificatesRequest) MarshalJSON() ([]byte, err
 }
 
 // TargetHttpsProxy: A TargetHttpsProxy resource. This resource defines
-// an HTTPS proxy.
+// an HTTPS proxy. (== resource_for beta.targetHttpsProxies ==) (==
+// resource_for v1.targetHttpsProxies ==)
 type TargetHttpsProxy struct {
 	// ClientSslPolicy: URL to ClientSslPolicy resource which controls the
 	// set of allowed SSL versions and ciphers.
@@ -27500,7 +27844,9 @@ func (s *TargetHttpsProxyListWarningData) MarshalJSON() ([]byte, error) {
 }
 
 // TargetInstance: A TargetInstance resource. This resource defines an
-// endpoint instance that terminates traffic of certain protocols.
+// endpoint instance that terminates traffic of certain protocols. (==
+// resource_for beta.targetInstances ==) (== resource_for
+// v1.targetInstances ==)
 type TargetInstance struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -28024,7 +28370,8 @@ func (s *TargetInstancesScopedListWarningData) MarshalJSON() ([]byte, error) {
 
 // TargetPool: A TargetPool resource. This resource defines a pool of
 // instances, an associated HttpHealthCheck resource, and the fallback
-// target pool.
+// target pool. (== resource_for beta.targetPools ==) (== resource_for
+// v1.targetPools ==)
 type TargetPool struct {
 	// BackupPool: This field is applicable only when the containing target
 	// pool is serving a forwarding rule as the primary pool, and its
@@ -28880,7 +29227,8 @@ func (s *TargetSslProxiesSetSslCertificatesRequest) MarshalJSON() ([]byte, error
 }
 
 // TargetSslProxy: A TargetSslProxy resource. This resource defines an
-// SSL proxy.
+// SSL proxy. (== resource_for beta.targetSslProxies ==) (==
+// resource_for v1.targetSslProxies ==)
 type TargetSslProxy struct {
 	// ClientSslPolicy: URL to ClientSslPolicy resource which controls the
 	// set of allowed SSL versions and ciphers.
@@ -29180,7 +29528,8 @@ func (s *TargetTcpProxiesSetProxyHeaderRequest) MarshalJSON() ([]byte, error) {
 }
 
 // TargetTcpProxy: A TargetTcpProxy resource. This resource defines a
-// TCP proxy.
+// TCP proxy. (== resource_for beta.targetTcpProxies ==) (==
+// resource_for v1.targetTcpProxies ==)
 type TargetTcpProxy struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -29405,7 +29754,9 @@ func (s *TargetTcpProxyListWarningData) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// TargetVpnGateway: Represents a Target VPN gateway resource.
+// TargetVpnGateway: Represents a Target VPN gateway resource. (==
+// resource_for beta.targetVpnGateways ==) (== resource_for
+// v1.targetVpnGateways ==)
 type TargetVpnGateway struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -30747,6 +31098,8 @@ func (s *VmMaintenancePolicy) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
+// VpnTunnel: VPN tunnel resource. (== resource_for beta.vpnTunnels ==)
+// (== resource_for v1.vpnTunnels ==)
 type VpnTunnel struct {
 	// CreationTimestamp: [Output Only] Creation timestamp in RFC3339 text
 	// format.
@@ -31512,7 +31865,8 @@ func (s *XpnResourceId) MarshalJSON() ([]byte, error) {
 	return gensupport.MarshalJSON(raw, s.ForceSendFields, s.NullFields)
 }
 
-// Zone: A Zone resource.
+// Zone: A Zone resource. (== resource_for beta.zones ==) (==
+// resource_for v1.zones ==)
 type Zone struct {
 	// AvailableCpuPlatforms: [Output Only] Available cpu/platform
 	// selections for the zone.
@@ -41585,7 +41939,8 @@ type DisksResizeCall struct {
 	header_            http.Header
 }
 
-// Resize: Resizes the specified persistent disk.
+// Resize: Resizes the specified persistent disk. You can only increase
+// the size of the disk.
 func (r *DisksService) Resize(project string, zone string, disk string, disksresizerequest *DisksResizeRequest) *DisksResizeCall {
 	c := &DisksResizeCall{s: r.s, urlParams_: make(gensupport.URLParams)}
 	c.project = project
@@ -41702,7 +42057,7 @@ func (c *DisksResizeCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
 	}
 	return ret, nil
 	// {
-	//   "description": "Resizes the specified persistent disk.",
+	//   "description": "Resizes the specified persistent disk. You can only increase the size of the disk.",
 	//   "httpMethod": "POST",
 	//   "id": "compute.disks.resize",
 	//   "parameterOrder": [
@@ -61888,11 +62243,9 @@ type InstanceTemplatesDeleteCall struct {
 	header_          http.Header
 }
 
-// Delete: Deletes the specified instance template. If you delete an
-// instance template that is being referenced from another instance
-// group, the instance group will not be able to create or recreate
-// virtual machine instances. Deleting an instance template is permanent
-// and cannot be undone.
+// Delete: Deletes the specified instance template. Deleting an instance
+// template is permanent and cannot be undone. It's not possible to
+// delete templates which are in use by an instance group.
 // For details, see https://cloud.google.com/compute/docs/reference/latest/instanceTemplates/delete
 func (r *InstanceTemplatesService) Delete(project string, instanceTemplate string) *InstanceTemplatesDeleteCall {
 	c := &InstanceTemplatesDeleteCall{s: r.s, urlParams_: make(gensupport.URLParams)}
@@ -62002,7 +62355,7 @@ func (c *InstanceTemplatesDeleteCall) Do(opts ...googleapi.CallOption) (*Operati
 	}
 	return ret, nil
 	// {
-	//   "description": "Deletes the specified instance template. If you delete an instance template that is being referenced from another instance group, the instance group will not be able to create or recreate virtual machine instances. Deleting an instance template is permanent and cannot be undone.",
+	//   "description": "Deletes the specified instance template. Deleting an instance template is permanent and cannot be undone. It's not possible to delete templates which are in use by an instance group.",
 	//   "httpMethod": "DELETE",
 	//   "id": "compute.instanceTemplates.delete",
 	//   "parameterOrder": [
@@ -65899,6 +66252,188 @@ func (c *InstancesResetCall) Do(opts ...googleapi.CallOption) (*Operation, error
 	//     }
 	//   },
 	//   "path": "{project}/zones/{zone}/instances/{instance}/reset",
+	//   "response": {
+	//     "$ref": "Operation"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
+}
+
+// method id "compute.instances.resume":
+
+type InstancesResumeCall struct {
+	s                      *Service
+	project                string
+	zone                   string
+	instance               string
+	instancesresumerequest *InstancesResumeRequest
+	urlParams_             gensupport.URLParams
+	ctx_                   context.Context
+	header_                http.Header
+}
+
+// Resume: Resumes an instance that was suspended using the
+// instances().suspend method.
+func (r *InstancesService) Resume(project string, zone string, instance string, instancesresumerequest *InstancesResumeRequest) *InstancesResumeCall {
+	c := &InstancesResumeCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.zone = zone
+	c.instance = instance
+	c.instancesresumerequest = instancesresumerequest
+	return c
+}
+
+// RequestId sets the optional parameter "requestId": An optional
+// request ID to identify requests. Specify a unique request ID so that
+// if you must retry your request, the server will know to ignore the
+// request if it has already been completed.
+//
+// For example, consider a situation where you make an initial request
+// and the request times out. If you make the request again with the
+// same request ID, the server can check if original operation with the
+// same request ID was received, and if so, will ignore the second
+// request. This prevents clients from accidentally creating duplicate
+// commitments.
+//
+// The request ID must be a valid UUID with the exception that zero UUID
+// is not supported (00000000-0000-0000-0000-000000000000).
+func (c *InstancesResumeCall) RequestId(requestId string) *InstancesResumeCall {
+	c.urlParams_.Set("requestId", requestId)
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *InstancesResumeCall) Fields(s ...googleapi.Field) *InstancesResumeCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *InstancesResumeCall) Context(ctx context.Context) *InstancesResumeCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *InstancesResumeCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *InstancesResumeCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.instancesresumerequest)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/zones/{zone}/instances/{instance}/resume")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("POST", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":  c.project,
+		"zone":     c.zone,
+		"instance": c.instance,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.instances.resume" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *InstancesResumeCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Resumes an instance that was suspended using the instances().suspend method.",
+	//   "httpMethod": "POST",
+	//   "id": "compute.instances.resume",
+	//   "parameterOrder": [
+	//     "project",
+	//     "zone",
+	//     "instance"
+	//   ],
+	//   "parameters": {
+	//     "instance": {
+	//       "description": "Name of the instance resource to resume.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "requestId": {
+	//       "description": "An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.\n\nFor example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.\n\nThe request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+	//       "location": "query",
+	//       "type": "string"
+	//     },
+	//     "zone": {
+	//       "description": "The name of the zone for this request.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/zones/{zone}/instances/{instance}/resume",
+	//   "request": {
+	//     "$ref": "InstancesResumeRequest"
+	//   },
 	//   "response": {
 	//     "$ref": "Operation"
 	//   },
@@ -70694,6 +71229,189 @@ func (c *InterconnectAttachmentsListCall) Pages(ctx context.Context, f func(*Int
 	}
 }
 
+// method id "compute.interconnectAttachments.patch":
+
+type InterconnectAttachmentsPatchCall struct {
+	s                      *Service
+	project                string
+	region                 string
+	interconnectAttachment string
+	interconnectattachment *InterconnectAttachment
+	urlParams_             gensupport.URLParams
+	ctx_                   context.Context
+	header_                http.Header
+}
+
+// Patch: Updates the specified interconnect attachment with the data
+// included in the request. This method supports PATCH semantics and
+// uses the JSON merge patch format and processing rules.
+func (r *InterconnectAttachmentsService) Patch(project string, region string, interconnectAttachment string, interconnectattachment *InterconnectAttachment) *InterconnectAttachmentsPatchCall {
+	c := &InterconnectAttachmentsPatchCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.region = region
+	c.interconnectAttachment = interconnectAttachment
+	c.interconnectattachment = interconnectattachment
+	return c
+}
+
+// RequestId sets the optional parameter "requestId": An optional
+// request ID to identify requests. Specify a unique request ID so that
+// if you must retry your request, the server will know to ignore the
+// request if it has already been completed.
+//
+// For example, consider a situation where you make an initial request
+// and the request times out. If you make the request again with the
+// same request ID, the server can check if original operation with the
+// same request ID was received, and if so, will ignore the second
+// request. This prevents clients from accidentally creating duplicate
+// commitments.
+//
+// The request ID must be a valid UUID with the exception that zero UUID
+// is not supported (00000000-0000-0000-0000-000000000000).
+func (c *InterconnectAttachmentsPatchCall) RequestId(requestId string) *InterconnectAttachmentsPatchCall {
+	c.urlParams_.Set("requestId", requestId)
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *InterconnectAttachmentsPatchCall) Fields(s ...googleapi.Field) *InterconnectAttachmentsPatchCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *InterconnectAttachmentsPatchCall) Context(ctx context.Context) *InterconnectAttachmentsPatchCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *InterconnectAttachmentsPatchCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *InterconnectAttachmentsPatchCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.interconnectattachment)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/regions/{region}/interconnectAttachments/{interconnectAttachment}")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("PATCH", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":                c.project,
+		"region":                 c.region,
+		"interconnectAttachment": c.interconnectAttachment,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.interconnectAttachments.patch" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *InterconnectAttachmentsPatchCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Updates the specified interconnect attachment with the data included in the request. This method supports PATCH semantics and uses the JSON merge patch format and processing rules.",
+	//   "httpMethod": "PATCH",
+	//   "id": "compute.interconnectAttachments.patch",
+	//   "parameterOrder": [
+	//     "project",
+	//     "region",
+	//     "interconnectAttachment"
+	//   ],
+	//   "parameters": {
+	//     "interconnectAttachment": {
+	//       "description": "Name of the interconnect attachment to patch.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "region": {
+	//       "description": "Name of the region scoping this request.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "requestId": {
+	//       "description": "An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.\n\nFor example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.\n\nThe request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+	//       "location": "query",
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/regions/{region}/interconnectAttachments/{interconnectAttachment}",
+	//   "request": {
+	//     "$ref": "InterconnectAttachment"
+	//   },
+	//   "response": {
+	//     "$ref": "Operation"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
+}
+
 // method id "compute.interconnectAttachments.setIamPolicy":
 
 type InterconnectAttachmentsSetIamPolicyCall struct {
@@ -70843,6 +71561,188 @@ func (c *InterconnectAttachmentsSetIamPolicyCall) Do(opts ...googleapi.CallOptio
 	//   },
 	//   "response": {
 	//     "$ref": "Policy"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
+}
+
+// method id "compute.interconnectAttachments.setLabels":
+
+type InterconnectAttachmentsSetLabelsCall struct {
+	s                      *Service
+	project                string
+	region                 string
+	resource               string
+	regionsetlabelsrequest *RegionSetLabelsRequest
+	urlParams_             gensupport.URLParams
+	ctx_                   context.Context
+	header_                http.Header
+}
+
+// SetLabels: Sets the labels on an InterconnectAttachment. To learn
+// more about labels, read the Labeling Resources documentation.
+func (r *InterconnectAttachmentsService) SetLabels(project string, region string, resource string, regionsetlabelsrequest *RegionSetLabelsRequest) *InterconnectAttachmentsSetLabelsCall {
+	c := &InterconnectAttachmentsSetLabelsCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.region = region
+	c.resource = resource
+	c.regionsetlabelsrequest = regionsetlabelsrequest
+	return c
+}
+
+// RequestId sets the optional parameter "requestId": An optional
+// request ID to identify requests. Specify a unique request ID so that
+// if you must retry your request, the server will know to ignore the
+// request if it has already been completed.
+//
+// For example, consider a situation where you make an initial request
+// and the request times out. If you make the request again with the
+// same request ID, the server can check if original operation with the
+// same request ID was received, and if so, will ignore the second
+// request. This prevents clients from accidentally creating duplicate
+// commitments.
+//
+// The request ID must be a valid UUID with the exception that zero UUID
+// is not supported (00000000-0000-0000-0000-000000000000).
+func (c *InterconnectAttachmentsSetLabelsCall) RequestId(requestId string) *InterconnectAttachmentsSetLabelsCall {
+	c.urlParams_.Set("requestId", requestId)
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *InterconnectAttachmentsSetLabelsCall) Fields(s ...googleapi.Field) *InterconnectAttachmentsSetLabelsCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *InterconnectAttachmentsSetLabelsCall) Context(ctx context.Context) *InterconnectAttachmentsSetLabelsCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *InterconnectAttachmentsSetLabelsCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *InterconnectAttachmentsSetLabelsCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.regionsetlabelsrequest)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/regions/{region}/interconnectAttachments/{resource}/setLabels")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("POST", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":  c.project,
+		"region":   c.region,
+		"resource": c.resource,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.interconnectAttachments.setLabels" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *InterconnectAttachmentsSetLabelsCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Sets the labels on an InterconnectAttachment. To learn more about labels, read the Labeling Resources documentation.",
+	//   "httpMethod": "POST",
+	//   "id": "compute.interconnectAttachments.setLabels",
+	//   "parameterOrder": [
+	//     "project",
+	//     "region",
+	//     "resource"
+	//   ],
+	//   "parameters": {
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "region": {
+	//       "description": "The region for this request.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "requestId": {
+	//       "description": "An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed.\n\nFor example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments.\n\nThe request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000).",
+	//       "location": "query",
+	//       "type": "string"
+	//     },
+	//     "resource": {
+	//       "description": "Name of the resource for this request.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/regions/{region}/interconnectAttachments/{resource}/setLabels",
+	//   "request": {
+	//     "$ref": "RegionSetLabelsRequest"
+	//   },
+	//   "response": {
+	//     "$ref": "Operation"
 	//   },
 	//   "scopes": [
 	//     "https://www.googleapis.com/auth/cloud-platform",
@@ -72750,6 +73650,153 @@ func (c *InterconnectsSetIamPolicyCall) Do(opts ...googleapi.CallOption) (*Polic
 	//   },
 	//   "response": {
 	//     "$ref": "Policy"
+	//   },
+	//   "scopes": [
+	//     "https://www.googleapis.com/auth/cloud-platform",
+	//     "https://www.googleapis.com/auth/compute"
+	//   ]
+	// }
+
+}
+
+// method id "compute.interconnects.setLabels":
+
+type InterconnectsSetLabelsCall struct {
+	s                      *Service
+	project                string
+	resource               string
+	globalsetlabelsrequest *GlobalSetLabelsRequest
+	urlParams_             gensupport.URLParams
+	ctx_                   context.Context
+	header_                http.Header
+}
+
+// SetLabels: Sets the labels on an Interconnect. To learn more about
+// labels, read the Labeling Resources documentation.
+func (r *InterconnectsService) SetLabels(project string, resource string, globalsetlabelsrequest *GlobalSetLabelsRequest) *InterconnectsSetLabelsCall {
+	c := &InterconnectsSetLabelsCall{s: r.s, urlParams_: make(gensupport.URLParams)}
+	c.project = project
+	c.resource = resource
+	c.globalsetlabelsrequest = globalsetlabelsrequest
+	return c
+}
+
+// Fields allows partial responses to be retrieved. See
+// https://developers.google.com/gdata/docs/2.0/basics#PartialResponse
+// for more information.
+func (c *InterconnectsSetLabelsCall) Fields(s ...googleapi.Field) *InterconnectsSetLabelsCall {
+	c.urlParams_.Set("fields", googleapi.CombineFields(s))
+	return c
+}
+
+// Context sets the context to be used in this call's Do method. Any
+// pending HTTP request will be aborted if the provided context is
+// canceled.
+func (c *InterconnectsSetLabelsCall) Context(ctx context.Context) *InterconnectsSetLabelsCall {
+	c.ctx_ = ctx
+	return c
+}
+
+// Header returns an http.Header that can be modified by the caller to
+// add HTTP headers to the request.
+func (c *InterconnectsSetLabelsCall) Header() http.Header {
+	if c.header_ == nil {
+		c.header_ = make(http.Header)
+	}
+	return c.header_
+}
+
+func (c *InterconnectsSetLabelsCall) doRequest(alt string) (*http.Response, error) {
+	reqHeaders := make(http.Header)
+	for k, v := range c.header_ {
+		reqHeaders[k] = v
+	}
+	reqHeaders.Set("User-Agent", c.s.userAgent())
+	var body io.Reader = nil
+	body, err := googleapi.WithoutDataWrapper.JSONReader(c.globalsetlabelsrequest)
+	if err != nil {
+		return nil, err
+	}
+	reqHeaders.Set("Content-Type", "application/json")
+	c.urlParams_.Set("alt", alt)
+	urls := googleapi.ResolveRelative(c.s.BasePath, "{project}/global/interconnects/{resource}/setLabels")
+	urls += "?" + c.urlParams_.Encode()
+	req, _ := http.NewRequest("POST", urls, body)
+	req.Header = reqHeaders
+	googleapi.Expand(req.URL, map[string]string{
+		"project":  c.project,
+		"resource": c.resource,
+	})
+	return gensupport.SendRequest(c.ctx_, c.s.client, req)
+}
+
+// Do executes the "compute.interconnects.setLabels" call.
+// Exactly one of *Operation or error will be non-nil. Any non-2xx
+// status code is an error. Response headers are in either
+// *Operation.ServerResponse.Header or (if a response was returned at
+// all) in error.(*googleapi.Error).Header. Use googleapi.IsNotModified
+// to check whether the returned error was because
+// http.StatusNotModified was returned.
+func (c *InterconnectsSetLabelsCall) Do(opts ...googleapi.CallOption) (*Operation, error) {
+	gensupport.SetOptions(c.urlParams_, opts...)
+	res, err := c.doRequest("json")
+	if res != nil && res.StatusCode == http.StatusNotModified {
+		if res.Body != nil {
+			res.Body.Close()
+		}
+		return nil, &googleapi.Error{
+			Code:   res.StatusCode,
+			Header: res.Header,
+		}
+	}
+	if err != nil {
+		return nil, err
+	}
+	defer googleapi.CloseBody(res)
+	if err := googleapi.CheckResponse(res); err != nil {
+		return nil, err
+	}
+	ret := &Operation{
+		ServerResponse: googleapi.ServerResponse{
+			Header:         res.Header,
+			HTTPStatusCode: res.StatusCode,
+		},
+	}
+	target := &ret
+	if err := gensupport.DecodeResponse(target, res); err != nil {
+		return nil, err
+	}
+	return ret, nil
+	// {
+	//   "description": "Sets the labels on an Interconnect. To learn more about labels, read the Labeling Resources documentation.",
+	//   "httpMethod": "POST",
+	//   "id": "compute.interconnects.setLabels",
+	//   "parameterOrder": [
+	//     "project",
+	//     "resource"
+	//   ],
+	//   "parameters": {
+	//     "project": {
+	//       "description": "Project ID for this request.",
+	//       "location": "path",
+	//       "pattern": "(?:(?:[-a-z0-9]{1,63}\\.)*(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?):)?(?:[0-9]{1,19}|(?:[a-z0-9](?:[-a-z0-9]{0,61}[a-z0-9])?))",
+	//       "required": true,
+	//       "type": "string"
+	//     },
+	//     "resource": {
+	//       "description": "Name of the resource for this request.",
+	//       "location": "path",
+	//       "pattern": "[a-z](?:[-a-z0-9_]{0,61}[a-z0-9])?",
+	//       "required": true,
+	//       "type": "string"
+	//     }
+	//   },
+	//   "path": "{project}/global/interconnects/{resource}/setLabels",
+	//   "request": {
+	//     "$ref": "GlobalSetLabelsRequest"
+	//   },
+	//   "response": {
+	//     "$ref": "Operation"
 	//   },
 	//   "scopes": [
 	//     "https://www.googleapis.com/auth/cloud-platform",
@@ -79902,7 +80949,8 @@ type NetworksPatchCall struct {
 }
 
 // Patch: Patches the specified network with the data included in the
-// request.
+// request. Only the following fields can be modified:
+// routingConfig.routingMode.
 func (r *NetworksService) Patch(project string, network string, network2 *Network) *NetworksPatchCall {
 	c := &NetworksPatchCall{s: r.s, urlParams_: make(gensupport.URLParams)}
 	c.project = project
@@ -80017,7 +81065,7 @@ func (c *NetworksPatchCall) Do(opts ...googleapi.CallOption) (*Operation, error)
 	}
 	return ret, nil
 	// {
-	//   "description": "Patches the specified network with the data included in the request.",
+	//   "description": "Patches the specified network with the data included in the request. Only the following fields can be modified: routingConfig.routingMode.",
 	//   "httpMethod": "PATCH",
 	//   "id": "compute.networks.patch",
 	//   "parameterOrder": [
