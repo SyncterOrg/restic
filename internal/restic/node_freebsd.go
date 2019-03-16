@@ -1,3 +1,5 @@
+// +build freebsd,go1.12
+
 package restic
 
 import "syscall"
