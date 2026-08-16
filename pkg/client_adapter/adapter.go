@@ -47,7 +47,7 @@ type Backend = backend.Backend
 type Snapshot = data.Snapshot
 type Options = repository.Options
 type ID = restic.ID
-type FileType = restic.FileType
+type FileType = backend.FileType
 type Handle = backend.Handle
 type FileInfo = backend.FileInfo
 type RewindReader = backend.RewindReader
@@ -111,6 +111,16 @@ func NewArchiver(repo restic.Repository, fs fs.FS, opts archiver.Options) *archi
 type ArchiverOptions = archiver.Options
 type SnapshotOptions = archiver.SnapshotOptions
 type ItemStats = archiver.ItemStats
+type ItemAction = archiver.ItemAction
+
+const (
+	ActionDirNew        = archiver.ActionDirNew
+	ActionDirUnchanged  = archiver.ActionDirUnchanged
+	ActionDirModified   = archiver.ActionDirModified
+	ActionFileNew       = archiver.ActionFileNew
+	ActionFileUnchanged = archiver.ActionFileUnchanged
+	ActionFileModified  = archiver.ActionFileModified
+)
 type Scanner = archiver.Scanner
 type ScanStats = archiver.ScanStats
 type SelectByNameFunc = archiver.SelectByNameFunc
@@ -404,11 +414,18 @@ func ParseID(s string) (ID, error) {
 }
 
 // Constants
-var SnapshotFile = restic.SnapshotFile
-var PackFile = restic.PackFile
-var KeyFile = restic.KeyFile
+var SnapshotFile = backend.SnapshotFile
+var PackFile = backend.PackFile
+var KeyFile = backend.KeyFile
 var InvalidBlob = restic.InvalidBlob
 var NumBlobTypes = restic.NumBlobTypes
+
+// ResticFileType converts a backend file type to the corresponding restic
+// file type. The numeric values are identical; the types differ to keep the
+// backend package decoupled from restic.
+func ResticFileType(t FileType) restic.FileType {
+	return restic.FileType(t)
+}
 
 // Interface Aliases
 type MasterIndex = index.MasterIndex
