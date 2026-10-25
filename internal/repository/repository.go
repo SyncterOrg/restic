@@ -722,7 +722,12 @@ func (r *Repository) LoadIndex(ctx context.Context, p restic.TerminalCounterFact
 func (r *Repository) loadIndexWithCallback(ctx context.Context, p restic.TerminalCounterFactory, cb func(id restic.ID, idx *index.Index, err error) error) error {
 	debug.Log("Loading index")
 
-	bar := p.NewCounterTerminalOnly("index files loaded")
+	// Callers that do not render progress (for example the FFI bridge) may
+	// pass a nil factory; fall back to a no-op counter instead of crashing.
+	bar := restic.NoopCounter
+	if p != nil {
+		bar = p.NewCounterTerminalOnly("index files loaded")
+	}
 
 	err := r.idx.Load(ctx, r, bar, cb)
 	if err != nil {
