@@ -121,6 +121,7 @@ const (
 	ActionFileUnchanged = archiver.ActionFileUnchanged
 	ActionFileModified  = archiver.ActionFileModified
 )
+
 type Scanner = archiver.Scanner
 type ScanStats = archiver.ScanStats
 type SelectByNameFunc = archiver.SelectByNameFunc
@@ -265,14 +266,16 @@ type ProgressPrinter = restic.Printer
 // NoopPrinter implements ProgressPrinter but does nothing
 type NoopPrinter struct{}
 
-func (n NoopPrinter) NewCounter(description string) restic.Counter             { return restic.NoopCounter }
-func (n NoopPrinter) NewCounterTerminalOnly(description string) restic.Counter { return restic.NoopCounter }
-func (n NoopPrinter) E(msg string, args ...interface{})                        {}
-func (n NoopPrinter) S(msg string, args ...interface{})                        {}
-func (n NoopPrinter) PT(msg string, args ...interface{})                       {}
-func (n NoopPrinter) P(msg string, args ...interface{})                        {}
-func (n NoopPrinter) V(msg string, args ...interface{})                        {}
-func (n NoopPrinter) VV(msg string, args ...interface{})                       {}
+func (n NoopPrinter) NewCounter(description string) restic.Counter { return restic.NoopCounter }
+func (n NoopPrinter) NewCounterTerminalOnly(description string) restic.Counter {
+	return restic.NoopCounter
+}
+func (n NoopPrinter) E(msg string, args ...interface{})  {}
+func (n NoopPrinter) S(msg string, args ...interface{})  {}
+func (n NoopPrinter) PT(msg string, args ...interface{}) {}
+func (n NoopPrinter) P(msg string, args ...interface{})  {}
+func (n NoopPrinter) V(msg string, args ...interface{})  {}
+func (n NoopPrinter) VV(msg string, args ...interface{}) {}
 
 func NewNoopPrinter() NoopPrinter {
 	return NoopPrinter{}
@@ -504,6 +507,75 @@ func NewIDSet() restic.IDSet {
 // ============================================================================
 // KEY HINT OPTIMIZATION
 // ============================================================================
+
+// RepositoryKeyInfo is the non-secret metadata of a repository password key.
+type RepositoryKeyInfo struct {
+	ID       string    `json:"id"`
+	Current  bool      `json:"current"`
+	Username string    `json:"username"`
+	Hostname string    `json:"hostname"`
+	Created  time.Time `json:"created"`
+}
+
+// ListRepositoryKeys enumerates the repository's password keys. The key list
+// contains metadata only; encrypted key material never leaves the repository.
+func ListRepositoryKeys(ctx context.Context, repo *Repository) ([]RepositoryKeyInfo, error) {
+	keys := make([]RepositoryKeyInfo, 0)
+	currentID := RepositoryKeyID(repo)
+	err := repo.List(ctx, restic.KeyFile, func(id restic.ID, size int64) error {
+		key, err := repository.LoadKey(ctx, repo, id)
+		if err != nil {
+			return nil // one unreadable key should not hide the others
+		}
+		keys = append(keys, RepositoryKeyInfo{
+			ID:       id.String(),
+			Current:  id == currentID,
+			Username: key.Username,
+			Hostname: key.Hostname,
+			Created:  key.Created,
+		})
+		return nil
+	})
+	return keys, err
+}
+
+// AddRepositoryKey adds another password key to the repository. The caller is
+// responsible for confirming the new password unlocks the repository.
+func AddRepositoryKey(ctx context.Context, repo *Repository, password, username, hostname string) (string, error) {
+	key, err := repository.AddKey(ctx, repo, password, username, hostname, repo.Key())
+	if err != nil {
+		return "", err
+	}
+	// Verify the new password actually unlocks the key before reporting success.
+	if err := repo.SearchKey(ctx, password, 1, key.ID().String()); err != nil {
+		_ = repository.RemoveKey(ctx, repo, key.ID())
+		return "", err
+	}
+	return key.ID().String(), nil
+}
+
+// RemoveRepositoryKey removes a key by ID/prefix. It refuses to remove the last
+// remaining key.
+func RemoveRepositoryKey(ctx context.Context, repo *Repository, idPrefix string) error {
+	id, err := restic.Find(ctx, repo, restic.KeyFile, idPrefix)
+	if err != nil {
+		return err
+	}
+	var count int
+	if err := repo.List(ctx, restic.KeyFile, func(restic.ID, int64) error {
+		count++
+		return nil
+	}); err != nil {
+		return err
+	}
+	if count <= 1 {
+		return stderrors.New("refusing to remove the last repository key")
+	}
+	if id == repo.KeyID() {
+		return stderrors.New("refusing to remove the key currently used to access the repository")
+	}
+	return repository.RemoveKey(ctx, repo, id)
+}
 
 // RepositoryKeyID returns the key ID of the currently-loaded key.
 // Cache this after a successful SearchKey and pass it as keyHint on
