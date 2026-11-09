@@ -522,6 +522,16 @@ func RemoveAllRepositoryLocks(ctx context.Context, repo *Repository) (uint, erro
 	return repository.RemoveAllLocks(ctx, repo)
 }
 
+// RepairRepositoryIndex rebuilds the repository index from pack files.
+func RepairRepositoryIndex(ctx context.Context, repo *Repository, readAllPacks bool) error {
+	return repository.RepairIndex(
+		ctx,
+		repo,
+		repository.RepairIndexOptions{ReadAllPacks: readAllPacks},
+		NewNoopPrinter(),
+	)
+}
+
 // ============================================================================
 // SNAPSHOT COPY
 // ============================================================================
