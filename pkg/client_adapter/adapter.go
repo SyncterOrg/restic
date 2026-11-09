@@ -3,6 +3,7 @@ package client_adapter
 import (
 	"context"
 	stderrors "errors"
+	"fmt"
 	"path"
 	"reflect"
 	"strings"
@@ -408,6 +409,9 @@ func LoadTree(ctx context.Context, repo restic.Repository, id ID) (*Tree, error)
 // DataBlob is the blob type for file content
 var DataBlob = restic.DataBlob
 
+// TreeBlob is the blob type for tree metadata
+var TreeBlob = restic.TreeBlob
+
 func FindUsedBlobs(ctx context.Context, repo restic.Repository, treeIDs []ID, blobs restic.BlobSet, p *progress.Counter) error {
 	return data.FindUsedBlobs(ctx, repo, treeIDs, blobs, p)
 }
@@ -502,6 +506,107 @@ func Check(ctx context.Context, repo restic.Repository) error {
 
 func NewIDSet() restic.IDSet {
 	return restic.NewIDSet()
+}
+
+// ============================================================================
+// SNAPSHOT COPY
+// ============================================================================
+
+type CopiedSnapshot struct {
+	SourceID      string `json:"source_id"`
+	DestinationID string `json:"destination_id"`
+}
+
+type CopyStats struct {
+	Snapshots int `json:"snapshots"`
+	DataBlobs int `json:"data_blobs"`
+	TreeBlobs int `json:"tree_blobs"`
+	Skipped   int `json:"skipped"`
+}
+
+// CopySnapshots copies the given snapshots (including all referenced trees and
+// data blobs) from src into dst. It is intentionally sequential and does not
+// mutate the source repository.
+func CopySnapshots(ctx context.Context, src, dst *Repository, snapshotIDs []ID) ([]CopiedSnapshot, CopyStats, error) {
+	stats := CopyStats{}
+	copied := make([]CopiedSnapshot, 0, len(snapshotIDs))
+	visited := make(map[restic.BlobHandle]bool)
+
+	err := dst.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
+		for _, sourceID := range snapshotIDs {
+			sn, err := LoadSnapshot(ctx, src, sourceID)
+			if err != nil {
+				return fmt.Errorf("load source snapshot %s: %w", sourceID, err)
+			}
+			if sn.Tree == nil {
+				return fmt.Errorf("snapshot %s has no tree", sourceID)
+			}
+			if err := copyTree(ctx, src, uploader, *sn.Tree, visited, &stats); err != nil {
+				return fmt.Errorf("copy snapshot %s: %w", sourceID, err)
+			}
+			original := sourceID
+			sn.Original = &original
+			newID, err := SaveSnapshot(ctx, dst, sn)
+			if err != nil {
+				return fmt.Errorf("save destination snapshot %s: %w", sourceID, err)
+			}
+			stats.Snapshots++
+			copied = append(copied, CopiedSnapshot{
+				SourceID:      sourceID.String(),
+				DestinationID: newID.String(),
+			})
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, stats, err
+	}
+	return copied, stats, nil
+}
+
+func copyTree(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, treeID ID, visited map[restic.BlobHandle]bool, stats *CopyStats) error {
+	tree, err := LoadTree(ctx, src, treeID)
+	if err != nil {
+		return err
+	}
+	for _, node := range tree.Nodes {
+		switch node.Type {
+		case NodeTypeDir:
+			if node.Subtree != nil {
+				if err := copyTree(ctx, src, uploader, *node.Subtree, visited, stats); err != nil {
+					return err
+				}
+			}
+		default:
+			for _, contentID := range node.Content {
+				if err := copyBlob(ctx, src, uploader, restic.DataBlob, contentID, visited, stats); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return copyBlob(ctx, src, uploader, restic.TreeBlob, treeID, visited, stats)
+}
+
+func copyBlob(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, blobType restic.BlobType, id ID, visited map[restic.BlobHandle]bool, stats *CopyStats) error {
+	handle := restic.BlobHandle{ID: id, Type: blobType}
+	if visited[handle] {
+		return nil
+	}
+	data, err := src.LoadBlob(ctx, handle, nil)
+	if err != nil {
+		return fmt.Errorf("load blob %s: %w", id, err)
+	}
+	if _, _, _, err := uploader.SaveBlob(ctx, blobType, data, id, false); err != nil {
+		return fmt.Errorf("save blob %s: %w", id, err)
+	}
+	visited[handle] = true
+	if blobType == restic.TreeBlob {
+		stats.TreeBlobs++
+	} else {
+		stats.DataBlobs++
+	}
+	return nil
 }
 
 // ============================================================================
