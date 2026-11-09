@@ -509,6 +509,20 @@ func NewIDSet() restic.IDSet {
 }
 
 // ============================================================================
+// LOCKS
+// ============================================================================
+
+// RemoveStaleRepositoryLocks removes only locks that restic considers stale.
+func RemoveStaleRepositoryLocks(ctx context.Context, repo *Repository) (uint, error) {
+	return repository.RemoveStaleLocks(ctx, repo)
+}
+
+// RemoveAllRepositoryLocks forcefully removes every lock file.
+func RemoveAllRepositoryLocks(ctx context.Context, repo *Repository) (uint, error) {
+	return repository.RemoveAllLocks(ctx, repo)
+}
+
+// ============================================================================
 // SNAPSHOT COPY
 // ============================================================================
 
