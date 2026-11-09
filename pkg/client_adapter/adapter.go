@@ -558,6 +558,12 @@ type CopyStats struct {
 // data blobs) from src into dst. It is intentionally sequential and does not
 // mutate the source repository.
 func CopySnapshots(ctx context.Context, src, dst *Repository, snapshotIDs []ID) ([]CopiedSnapshot, CopyStats, error) {
+	return CopySnapshotsWithProgress(ctx, src, dst, snapshotIDs, nil)
+}
+
+// CopySnapshotsWithProgress is CopySnapshots with a callback after each blob
+// and snapshot. The callback must be cheap and non-blocking.
+func CopySnapshotsWithProgress(ctx context.Context, src, dst *Repository, snapshotIDs []ID, onProgress func(CopyStats)) ([]CopiedSnapshot, CopyStats, error) {
 	stats := CopyStats{}
 	copied := make([]CopiedSnapshot, 0, len(snapshotIDs))
 	visited := make(map[restic.BlobHandle]bool)
@@ -571,7 +577,7 @@ func CopySnapshots(ctx context.Context, src, dst *Repository, snapshotIDs []ID) 
 			if sn.Tree == nil {
 				return fmt.Errorf("snapshot %s has no tree", sourceID)
 			}
-			if err := copyTree(ctx, src, uploader, *sn.Tree, visited, &stats); err != nil {
+			if err := copyTree(ctx, src, uploader, *sn.Tree, visited, &stats, onProgress); err != nil {
 				return fmt.Errorf("copy snapshot %s: %w", sourceID, err)
 			}
 			original := sourceID
@@ -581,6 +587,9 @@ func CopySnapshots(ctx context.Context, src, dst *Repository, snapshotIDs []ID) 
 				return fmt.Errorf("save destination snapshot %s: %w", sourceID, err)
 			}
 			stats.Snapshots++
+			if onProgress != nil {
+				onProgress(stats)
+			}
 			copied = append(copied, CopiedSnapshot{
 				SourceID:      sourceID.String(),
 				DestinationID: newID.String(),
@@ -594,7 +603,7 @@ func CopySnapshots(ctx context.Context, src, dst *Repository, snapshotIDs []ID) 
 	return copied, stats, nil
 }
 
-func copyTree(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, treeID ID, visited map[restic.BlobHandle]bool, stats *CopyStats) error {
+func copyTree(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, treeID ID, visited map[restic.BlobHandle]bool, stats *CopyStats, onProgress func(CopyStats)) error {
 	tree, err := LoadTree(ctx, src, treeID)
 	if err != nil {
 		return err
@@ -603,22 +612,22 @@ func copyTree(ctx context.Context, src *Repository, uploader restic.BlobSaverWit
 		switch node.Type {
 		case NodeTypeDir:
 			if node.Subtree != nil {
-				if err := copyTree(ctx, src, uploader, *node.Subtree, visited, stats); err != nil {
+				if err := copyTree(ctx, src, uploader, *node.Subtree, visited, stats, onProgress); err != nil {
 					return err
 				}
 			}
 		default:
 			for _, contentID := range node.Content {
-				if err := copyBlob(ctx, src, uploader, restic.DataBlob, contentID, visited, stats); err != nil {
+				if err := copyBlob(ctx, src, uploader, restic.DataBlob, contentID, visited, stats, onProgress); err != nil {
 					return err
 				}
 			}
 		}
 	}
-	return copyBlob(ctx, src, uploader, restic.TreeBlob, treeID, visited, stats)
+	return copyBlob(ctx, src, uploader, restic.TreeBlob, treeID, visited, stats, onProgress)
 }
 
-func copyBlob(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, blobType restic.BlobType, id ID, visited map[restic.BlobHandle]bool, stats *CopyStats) error {
+func copyBlob(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, blobType restic.BlobType, id ID, visited map[restic.BlobHandle]bool, stats *CopyStats, onProgress func(CopyStats)) error {
 	handle := restic.BlobHandle{ID: id, Type: blobType}
 	if visited[handle] {
 		return nil
@@ -635,6 +644,9 @@ func copyBlob(ctx context.Context, src *Repository, uploader restic.BlobSaverWit
 		stats.TreeBlobs++
 	} else {
 		stats.DataBlobs++
+	}
+	if onProgress != nil {
+		onProgress(*stats)
 	}
 	return nil
 }
