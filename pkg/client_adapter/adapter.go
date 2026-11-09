@@ -254,6 +254,12 @@ func NewExclusiveLock(ctx context.Context, repo *Repository, retrySleep time.Dur
 	return repository.LockRepo(ctx, repo, true, retrySleep, func(string) {}, func(string, ...any) {})
 }
 
+// NewSharedLock acquires a non-exclusive repository lock. Use it for readers
+// such as snapshot copy so prune/forget cannot remove data underneath them.
+func NewSharedLock(ctx context.Context, repo *Repository, retrySleep time.Duration, p *progress.Counter) (func(), context.Context, error) {
+	return repository.LockRepo(ctx, repo, false, retrySleep, func(string) {}, func(string, ...any) {})
+}
+
 func IsAlreadyLocked(err error) bool {
 	return repository.IsAlreadyLocked(err)
 }
