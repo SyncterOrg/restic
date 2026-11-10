@@ -503,7 +503,7 @@ func Check(ctx context.Context, repo restic.Repository) error {
 	errChan := make(chan error)
 	go func() {
 		defer close(errChan)
-		chk.Structure(ctx, nil, errChan) // nil progress
+		chk.Structure(ctx, restic.NoopCounter, errChan)
 	}()
 
 	for err := range errChan {
