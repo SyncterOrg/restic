@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"path"
 	"reflect"
+	"slices"
 	"strings"
 	"time"
 
@@ -246,6 +247,122 @@ func CheckerStructure(ctx context.Context, c *checker.Checker, p *progress.Count
 		counter = p
 	}
 	c.Structure(ctx, counter, errChan)
+}
+
+// ============================================================================
+// SNAPSHOT REPAIR
+// ============================================================================
+
+type RepairedSnapshot struct {
+	SourceID string `json:"source_id"`
+	NewID    string `json:"new_id,omitempty"`
+	Changed  bool   `json:"changed"`
+	Removed  bool   `json:"removed"`
+}
+
+// RepairSnapshots removes references to missing blobs and unreadable subtrees.
+// It is destructive only when forget is true and dryRun is false.
+func RepairSnapshots(ctx context.Context, repo *Repository, ids []ID, dryRun, forget bool) ([]RepairedSnapshot, error) {
+	if err := repo.LoadIndex(ctx, nil); err != nil {
+		return nil, err
+	}
+	rewriter := NewTreeRewriter(RewriteOpts{
+		RewriteNode: func(node *Node, nodePath string) *Node {
+			if node.Type == NodeTypeIrregular || node.Type == NodeTypeInvalid {
+				return nil
+			}
+			if node.Type != NodeTypeFile {
+				return node
+			}
+			newContent := restic.IDs{}
+			var newSize uint64
+			for _, id := range node.Content {
+				size, found := repo.LookupBlobSize(restic.BlobHandle{Type: restic.DataBlob, ID: id})
+				if found {
+					newContent = append(newContent, id)
+					newSize += uint64(size)
+				}
+			}
+			node.Content = newContent
+			node.Size = newSize
+			return node
+		},
+		RewriteFailedTree: func(_ restic.ID, nodePath string, _ error) (data.TreeNodeIterator, error) {
+			if nodePath == "/" {
+				return nil, nil
+			}
+			return slices.Values([]data.NodeOrError{}), nil
+		},
+		AllowUnstableSerialization: true,
+	})
+
+	results := make([]RepairedSnapshot, 0, len(ids))
+	for _, id := range ids {
+		sn, err := LoadSnapshot(ctx, repo, id)
+		if err != nil {
+			if forget && !dryRun {
+				if removeErr := RemoveSnapshot(ctx, repo, id); removeErr != nil {
+					return nil, removeErr
+				}
+				results = append(results, RepairedSnapshot{SourceID: id.String(), Changed: true, Removed: true})
+				continue
+			}
+			return nil, err
+		}
+		if sn.Tree == nil {
+			if forget && !dryRun {
+				if removeErr := RemoveSnapshot(ctx, repo, id); removeErr != nil {
+					return nil, removeErr
+				}
+				results = append(results, RepairedSnapshot{SourceID: id.String(), Changed: true, Removed: true})
+				continue
+			}
+			results = append(results, RepairedSnapshot{SourceID: id.String()})
+			continue
+		}
+
+		var newTree ID
+		err = repo.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
+			var rewriteErr error
+			newTree, rewriteErr = rewriter.RewriteTree(ctx, repo, uploader, "/", *sn.Tree)
+			return rewriteErr
+		})
+		if err != nil {
+			return nil, err
+		}
+		if newTree.IsNull() {
+			if forget && !dryRun {
+				if removeErr := RemoveSnapshot(ctx, repo, id); removeErr != nil {
+					return nil, removeErr
+				}
+			}
+			results = append(results, RepairedSnapshot{SourceID: id.String(), Changed: true, Removed: forget && !dryRun})
+			continue
+		}
+		if newTree == *sn.Tree {
+			results = append(results, RepairedSnapshot{SourceID: id.String()})
+			continue
+		}
+		result := RepairedSnapshot{SourceID: id.String(), Changed: true}
+		if !dryRun {
+			original := id
+			sn.Original = &original
+			sn.Tree = &newTree
+			newID, saveErr := SaveSnapshot(ctx, repo, sn)
+			if saveErr != nil {
+				return nil, saveErr
+			}
+			result.NewID = newID.String()
+			if forget {
+				if removeErr := RemoveSnapshot(ctx, repo, id); removeErr != nil {
+					return nil, removeErr
+				}
+				result.Removed = true
+			}
+		}
+		results = append(results, result)
+	}
+	return results, nil
 }
 
 // ============================================================================
