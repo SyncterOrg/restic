@@ -241,7 +241,11 @@ func CheckerLoadSnapshots(ctx context.Context, c *checker.Checker, args []string
 }
 
 func CheckerStructure(ctx context.Context, c *checker.Checker, p *progress.Counter, errChan chan<- error) {
-	c.Structure(ctx, p, errChan)
+	var counter restic.Counter = restic.NoopCounter
+	if p != nil {
+		counter = p
+	}
+	c.Structure(ctx, counter, errChan)
 }
 
 // ============================================================================
@@ -568,6 +572,12 @@ func CopySnapshotsWithProgress(ctx context.Context, src, dst *Repository, snapsh
 	copied := make([]CopiedSnapshot, 0, len(snapshotIDs))
 	visited := make(map[restic.BlobHandle]bool)
 
+	type pendingSnapshot struct {
+		sn       *Snapshot
+		sourceID ID
+	}
+	pending := make([]pendingSnapshot, 0, len(snapshotIDs))
+
 	err := dst.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
 		for _, sourceID := range snapshotIDs {
 			sn, err := LoadSnapshot(ctx, src, sourceID)
@@ -580,23 +590,37 @@ func CopySnapshotsWithProgress(ctx context.Context, src, dst *Repository, snapsh
 			if err := copyTree(ctx, src, uploader, *sn.Tree, visited, &stats, onProgress); err != nil {
 				return fmt.Errorf("copy snapshot %s: %w", sourceID, err)
 			}
-			original := sourceID
-			sn.Original = &original
-			newID, err := SaveSnapshot(ctx, dst, sn)
-			if err != nil {
-				return fmt.Errorf("save destination snapshot %s: %w", sourceID, err)
-			}
-			stats.Snapshots++
-			if onProgress != nil {
-				onProgress(stats)
-			}
-			copied = append(copied, CopiedSnapshot{
-				SourceID:      sourceID.String(),
-				DestinationID: newID.String(),
-			})
+			pending = append(pending, pendingSnapshot{sn: sn, sourceID: sourceID})
 		}
 		return nil
 	})
+	if err != nil {
+		return nil, stats, err
+	}
+
+	// Packs are flushed only after WithBlobUploader returns. Save snapshots
+	// afterwards so a failed/cancelled copy cannot leave snapshots pointing at
+	// blobs that were never committed.
+	for _, item := range pending {
+		sn := item.sn
+		if sn.Original == nil {
+			original := item.sourceID
+			sn.Original = &original
+		}
+		sn.Parent = nil
+		newID, err := SaveSnapshot(ctx, dst, sn)
+		if err != nil {
+			return nil, stats, fmt.Errorf("save destination snapshot %s: %w", item.sourceID, err)
+		}
+		stats.Snapshots++
+		if onProgress != nil {
+			onProgress(stats)
+		}
+		copied = append(copied, CopiedSnapshot{
+			SourceID:      item.sourceID.String(),
+			DestinationID: newID.String(),
+		})
+	}
 	if err != nil {
 		return nil, stats, err
 	}
