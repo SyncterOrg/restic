@@ -4,7 +4,7 @@ package fs
 
 import "github.com/restic/restic/internal/data"
 
-func lchown(_ string, _ *data.Node, _ bool) error {
+func lchown(_ string, _ *data.Node, _ bool, _ func(msg string)) error {
 	return nil
 }
 
