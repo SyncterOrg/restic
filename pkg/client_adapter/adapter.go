@@ -12,6 +12,8 @@ import (
 
 	"github.com/restic/restic/internal/archiver"
 	"github.com/restic/restic/internal/backend"
+	"github.com/restic/restic/internal/backend/retry"
+	"github.com/restic/restic/internal/backend/sema"
 	"github.com/restic/restic/internal/checker"
 	"github.com/restic/restic/internal/data"
 	"github.com/restic/restic/internal/filter"
@@ -63,6 +65,22 @@ type CompressionMode = repository.CompressionMode
 
 func NewRepository(be Backend, opts Options) (*Repository, error) {
 	return repository.New(be, opts)
+}
+
+// DefaultBackendRetryWindow bounds how long WrapBackend retries a failing
+// request. The restic CLI uses 15 minutes; an app needs to surface errors to
+// the user sooner, while still riding out network handovers and brief
+// provider hiccups.
+const DefaultBackendRetryWindow = 2 * time.Minute
+
+// WrapBackend adds the layers the restic CLI puts around every backend before
+// opening a repository: a connection limiter (at most
+// be.Properties().Connections concurrent requests) and retries with
+// exponential backoff for transient errors, for at most maxElapsed. Errors for
+// which be.IsPermanentError (e.g. not found) returns true are not retried.
+// report, when non-nil, is called before each retry.
+func WrapBackend(be Backend, maxElapsed time.Duration, report func(msg string, err error, wait time.Duration)) Backend {
+	return retry.New(sema.NewBackend(be), maxElapsed, report, nil)
 }
 
 func ParseCompressionMode(value string) (CompressionMode, error) {

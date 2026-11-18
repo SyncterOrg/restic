@@ -3,10 +3,13 @@ package client_adapter
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"io"
 	"strings"
 	"testing"
 	"time"
 
+	"github.com/restic/restic/internal/backend"
 	"github.com/restic/restic/internal/backend/local"
 	"github.com/restic/restic/internal/data"
 	"github.com/restic/restic/internal/restic"
@@ -279,4 +282,53 @@ func TestLockRepositoryExclusiveConflictsWithShared(t *testing.T) {
 		t.Fatalf("exclusive lock after release: %v", err)
 	}
 	unlockExclusive()
+}
+
+// flakyBackend fails the first Save and Load calls with a transient error.
+type flakyBackend struct {
+	Backend
+	saveFailures, loadFailures int
+}
+
+func (f *flakyBackend) Save(ctx context.Context, h Handle, rd RewindReader) error {
+	if f.saveFailures > 0 {
+		f.saveFailures--
+		return errors.New("transient network error")
+	}
+	return f.Backend.Save(ctx, h, rd)
+}
+
+func (f *flakyBackend) Load(ctx context.Context, h Handle, length int, offset int64, fn func(io.Reader) error) error {
+	if f.loadFailures > 0 && h.Type == backend.ConfigFile {
+		f.loadFailures--
+		return errors.New("transient network error")
+	}
+	return f.Backend.Load(ctx, h, length, offset, fn)
+}
+
+func TestWrapBackendRetriesTransientErrors(t *testing.T) {
+	ctx := context.Background()
+	be, err := local.Create(ctx, local.Config{Path: t.TempDir(), Connections: 2}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	flaky := &flakyBackend{Backend: be, saveFailures: 2}
+	var retries int
+	wrapped := WrapBackend(flaky, 30*time.Second, func(string, error, time.Duration) { retries++ })
+	if _, err := InitRepository(ctx, wrapped, "pw"); err != nil {
+		t.Fatalf("init through flaky backend: %v", err)
+	}
+	if retries != 2 {
+		t.Fatalf("retries = %d, want 2", retries)
+	}
+
+	// Not-found must not be retried until the window expires.
+	start := time.Now()
+	err = wrapped.Load(ctx, Handle{Type: backend.SnapshotFile, Name: strings.Repeat("0", 64)}, 0, 0, func(io.Reader) error { return nil })
+	if err == nil || !be.IsNotExist(err) {
+		t.Fatalf("load missing file: err = %v, want not-exist", err)
+	}
+	if time.Since(start) > 5*time.Second {
+		t.Fatalf("not-found was retried for %v", time.Since(start))
+	}
 }
