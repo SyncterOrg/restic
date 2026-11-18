@@ -4,7 +4,9 @@ import (
 	"context"
 	stderrors "errors"
 	"fmt"
+	"os"
 	"path"
+	"path/filepath"
 	"slices"
 	"strings"
 	"sync"
@@ -12,6 +14,7 @@ import (
 
 	"github.com/restic/restic/internal/archiver"
 	"github.com/restic/restic/internal/backend"
+	"github.com/restic/restic/internal/backend/cache"
 	"github.com/restic/restic/internal/backend/retry"
 	"github.com/restic/restic/internal/backend/sema"
 	"github.com/restic/restic/internal/checker"
@@ -65,6 +68,31 @@ type CompressionMode = repository.CompressionMode
 
 func NewRepository(be Backend, opts Options) (*Repository, error) {
 	return repository.New(be, opts)
+}
+
+// UseRepositoryCache enables restic's local cache under cacheDir for an
+// unlocked repository. Call it before LoadIndex: the cache keeps index and
+// snapshot files plus the packs holding tree blobs on local disk, so later
+// index loads and snapshot browsing do not download them again. Caches of
+// repositories unused for 30 days are removed, as the restic CLI does.
+func UseRepositoryCache(repo *Repository, cacheDir string, errorLog func(string, ...any)) error {
+	if cacheDir == "" {
+		return stderrors.New("cache directory is required")
+	}
+	if errorLog == nil {
+		errorLog = func(string, ...any) {}
+	}
+	c, err := cache.New(repo.Config().ID, cacheDir)
+	if err != nil {
+		return err
+	}
+	repo.UseCache(c, errorLog)
+	if old, err := cache.Old(c.Base); err == nil {
+		for _, item := range old {
+			_ = os.RemoveAll(filepath.Join(c.Base, item.Name()))
+		}
+	}
+	return nil
 }
 
 // DefaultBackendRetryWindow bounds how long WrapBackend retries a failing
@@ -566,6 +594,12 @@ func FindUsedBlobs(ctx context.Context, repo restic.Repository, treeIDs []ID, bl
 	return data.FindUsedBlobs(ctx, repo, treeIDs, blobs, counterOrNoop(p))
 }
 
+// PackSizes returns the size of every pack file, computed from the loaded
+// in-memory index. Unlike listing the backend this costs no requests.
+func PackSizes(ctx context.Context, repo *Repository) (map[ID]int64, error) {
+	return pack.Size(ctx, repo, false)
+}
+
 // CollectUsedBlobs adds every blob referenced by any snapshot to usedBlobs.
 // It is the getUsedBlobs callback PlanPrune expects and mirrors `restic
 // prune`: snapshots are loaded in parallel, and an unreadable snapshot is a
@@ -596,6 +630,9 @@ func ParseID(s string) (ID, error) {
 var SnapshotFile = backend.SnapshotFile
 var PackFile = backend.PackFile
 var KeyFile = backend.KeyFile
+var LockFile = backend.LockFile
+var IndexFile = backend.IndexFile
+var ConfigFile = backend.ConfigFile
 var InvalidBlob = restic.InvalidBlob
 var NumBlobTypes = restic.NumBlobTypes
 

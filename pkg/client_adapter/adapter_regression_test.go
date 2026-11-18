@@ -332,3 +332,57 @@ func TestWrapBackendRetriesTransientErrors(t *testing.T) {
 		t.Fatalf("not-found was retried for %v", time.Since(start))
 	}
 }
+
+// countingBackend counts index file loads that reach the backend.
+type countingBackend struct {
+	Backend
+	indexLoads int
+}
+
+func (c *countingBackend) Load(ctx context.Context, h Handle, length int, offset int64, fn func(io.Reader) error) error {
+	if h.Type == backend.IndexFile {
+		c.indexLoads++
+	}
+	return c.Backend.Load(ctx, h, length, offset, fn)
+}
+
+func TestUseRepositoryCacheServesIndexFromDisk(t *testing.T) {
+	ctx := context.Background()
+	repoDir, cacheDir := t.TempDir(), t.TempDir()
+	be, err := local.Create(ctx, local.Config{Path: repoDir, Connections: 2}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	repo, err := InitRepository(ctx, be, "pw")
+	if err != nil {
+		t.Fatal(err)
+	}
+	saveTestSnapshot(t, repo, saveTestTree(t, repo, func(ctx context.Context, up restic.BlobSaver) ([]*data.Node, error) {
+		n, err := fileNode(ctx, up, "a.txt", "a")
+		return []*data.Node{n}, err
+	}))
+
+	open := func() *countingBackend {
+		counting := &countingBackend{Backend: be}
+		r, err := NewRepository(counting, Options{})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := r.SearchKey(ctx, "pw", 1, ""); err != nil {
+			t.Fatal(err)
+		}
+		if err := UseRepositoryCache(r, cacheDir, nil); err != nil {
+			t.Fatal(err)
+		}
+		if err := r.LoadIndex(ctx, nil); err != nil {
+			t.Fatal(err)
+		}
+		return counting
+	}
+	if first := open(); first.indexLoads == 0 {
+		t.Fatal("first open did not load the index from the backend")
+	}
+	if second := open(); second.indexLoads != 0 {
+		t.Fatalf("second open loaded %d index files from the backend, want 0 (cached)", second.indexLoads)
+	}
+}
