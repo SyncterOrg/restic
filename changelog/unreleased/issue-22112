@@ -1,0 +1,12 @@
+Bugfix: Don't reset `stats` progress bar counters for every snapshot
+
+The progress bar of the `stats` command previously reset its file,
+blob and size counters at the start of each snapshot, so the final
+progress line only showed the numbers for the last processed snapshot.
+These numbers varied between runs depending on the order in which
+snapshots were processed.
+
+The progress bar now instead counts across all selected snapshots.
+
+https://github.com/restic/restic/issues/22112
+https://github.com/restic/restic/pull/22130

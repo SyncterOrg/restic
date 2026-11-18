@@ -30,7 +30,8 @@ section here.
 For automated backups, restic supports specifying the repository location in the
 environment variable ``RESTIC_REPOSITORY``. Restic can also read the repository
 location from a file specified via the ``--repository-file`` option or the
-environment variable ``RESTIC_REPOSITORY_FILE``.
+environment variable ``RESTIC_REPOSITORY_FILE``. The file must contain a
+repository location; empty or whitespace-only files are rejected.
 
 For automating the supply of the repository password to restic, several options
 exist:
@@ -249,6 +250,14 @@ while creating the bucket.
     $ export AWS_ACCESS_KEY_ID=<MY_ACCESS_KEY>
     $ export AWS_SECRET_ACCESS_KEY=<MY_SECRET_ACCESS_KEY>
 
+Restic can also read credentials from an AWS shared credentials file. Set
+``AWS_SHARED_CREDENTIALS_FILE`` to its path, or use the default location at
+``~/.aws/credentials``. When running restic in a container, mount the file
+read-only and set ``AWS_SHARED_CREDENTIALS_FILE`` to the path inside the
+container. Avoid passing secret values in ``docker run -e NAME=value``
+arguments, where they can be exposed in process listings. Docker's
+``--env-file`` option also keeps the values out of command-line arguments.
+
 When using temporary credentials make sure to include the session token via
 the environment variable ``AWS_SESSION_TOKEN``.
 
@@ -307,6 +316,11 @@ To select between path-style and virtual-hosted access, the extended option
   ``path`` for all other endpoints
 - ``dns``: Use virtual-hosted-style bucket access
 - ``path``: Use path-style bucket access
+
+Amazon's dual-stack endpoints are used by default for AWS regions that have
+them. VPC interface and gateway endpoints do not support dual-stack, so if
+restic cannot reach your bucket from inside a VPC, pass
+``-o s3.disable-dualstack=true``.
 
 Certain S3-compatible servers do not properly implement the ``ListObjectsV2`` API,
 most notably Ceph versions before v14.2.5. On these backends, as a temporary

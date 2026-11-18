@@ -1,0 +1,11 @@
+Bugfix: Restore partially matching hard-linked files correctly
+
+When restoring over an existing file which had hard links and
+was partially different from the file in the snapshot, restic
+used to replace the file with an empty one but only restored
+the changed parts. The restored file then contained zero bytes
+in the unchanged parts. Restic now instead rewrites the whole
+file in this case.
+
+https://github.com/restic/restic/issues/22085
+https://github.com/restic/restic/pull/22086

@@ -1466,6 +1466,58 @@ func TestRestoreDelete(t *testing.T) {
 	}
 }
 
+func TestRestoreDeleteUnloadableTree(t *testing.T) {
+	repo := repository.TestRepository(t)
+	tempdir := rtest.TempDir(t)
+	ctx := t.Context()
+
+	// existing content in the target that is not known to the snapshot
+	rtest.OK(t, os.MkdirAll(filepath.Join(tempdir, "dir", "sub"), 0o755))
+	rtest.OK(t, os.WriteFile(filepath.Join(tempdir, "dir", "keep"), []byte("keep"), 0o644))
+	rtest.OK(t, os.WriteFile(filepath.Join(tempdir, "dir", "sub", "x"), []byte("x"), 0o644))
+
+	// the subtree of "dir" references a tree blob that does not exist
+	missing := restic.NewRandomID()
+	var treeID restic.ID
+	rtest.OK(t, repo.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
+		treeID = data.TestSaveNodes(t, ctx, uploader, []*data.Node{
+			{
+				Type:    data.NodeTypeDir,
+				Mode:    0o755,
+				Name:    "dir",
+				UID:     uint32(os.Getuid()),
+				GID:     uint32(os.Getgid()),
+				Subtree: &missing,
+			},
+		})
+		return nil
+	}))
+
+	sn, err := data.NewSnapshot([]string{"test"}, nil, "", time.Now())
+	rtest.OK(t, err)
+	sn.Tree = &treeID
+
+	res := NewRestorer(repo, sn, Options{Delete: true})
+	var errs []error
+	res.Error = func(location string, err error) error {
+		errs = append(errs, err)
+		return nil
+	}
+
+	_, err = res.RestoreTo(ctx, tempdir)
+	rtest.OK(t, err)
+	rtest.Assert(t, len(errs) > 0, "expected an error for the unloadable tree")
+
+	for _, fn := range []string{
+		filepath.Join("dir", "keep"),
+		filepath.Join("dir", "sub"),
+		filepath.Join("dir", "sub", "x"),
+	} {
+		_, err := os.Stat(filepath.Join(tempdir, fn))
+		rtest.OK(t, err)
+	}
+}
+
 func TestRestoreToFile(t *testing.T) {
 	snapshot := Snapshot{
 		Nodes: map[string]Node{
@@ -1518,4 +1570,127 @@ func TestRestorerLongPath(t *testing.T) {
 	rtest.OK(t, err)
 	_, err = res.VerifyFiles(ctx, tmp, countRestoredFiles, restic.NoopCounter)
 	rtest.OK(t, err)
+}
+
+// saveUnorderedTree saves nodes in the given order without enforcing the
+// name ordering that TreeJSONBuilder requires. This simulates trees written
+// by clients that bypass restic's ordering checks.
+func saveUnorderedTree(t testing.TB, saver restic.BlobSaver, nodes []*data.Node) restic.ID {
+	t.Helper()
+	ctx := context.Background()
+
+	buf, err := json.Marshal(struct {
+		Nodes []*data.Node `json:"nodes"`
+	}{Nodes: nodes})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	id, _, _, err := saver.SaveBlob(ctx, restic.TreeBlob, buf, restic.ID{}, false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return id
+}
+
+func saveSnapshotWithTree(t testing.TB, repo restic.Repository, treeID restic.ID) *data.Snapshot {
+	t.Helper()
+	ctx := context.Background()
+
+	sn, err := data.NewSnapshot([]string{"test"}, nil, "", time.Now())
+	if err != nil {
+		t.Fatal(err)
+	}
+	sn.Tree = &treeID
+	_, err = data.SaveSnapshot(ctx, repo, sn)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return sn
+}
+
+// TestRestoreDuplicateNodeNames covers https://github.com/restic/restic/issues/22180:
+// a tree containing a symlink `a` followed by a directory `a` must not let
+// restore write through the symlink to files outside the target.
+func TestRestoreDuplicateNodeNames(t *testing.T) {
+	repo := repository.TestRepository(t)
+	ctx := t.Context()
+
+	uid, gid := uint32(os.Getuid()), uint32(os.Getgid())
+	var treeID restic.ID
+	rtest.OK(t, repo.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
+		contentID := saveFile(t, uploader, "file")
+		treeID = saveUnorderedTree(t, uploader, []*data.Node{
+			{
+				Type: data.NodeTypeFile, Name: "a", Mode: 0644,
+				UID: uid, GID: gid, Links: 1,
+				Size: 4, Content: restic.IDs{contentID},
+			},
+			{
+				Type: data.NodeTypeSymlink, Name: "a", Mode: os.ModeSymlink | 0777,
+				UID: uid, GID: gid, Links: 1, LinkTarget: "some-symlink-target",
+			},
+		})
+		return nil
+	}))
+
+	sn := saveSnapshotWithTree(t, repo, treeID)
+	target := filepath.Join(rtest.TempDir(t), "target")
+
+	res := NewRestorer(repo, sn, Options{})
+	_, err := res.RestoreTo(ctx, target)
+	if !errors.Is(err, data.ErrTreeNotOrdered) {
+		t.Fatalf("RestoreTo returned error %v, want an error wrapping ErrTreeNotOrdered", err)
+	}
+
+	// Ensure that restore filtering does not cause file overwrites
+	target = filepath.Join(rtest.TempDir(t), "target")
+	res = NewRestorer(repo, sn, Options{})
+	res.Error = func(location string, err error) error { return nil }
+	_, err = res.RestoreTo(ctx, target)
+	rtest.OK(t, err)
+
+	// Ensure file was not replaced by a symlink
+	path := filepath.Join(target, "a")
+	fi, err := os.Lstat(path)
+	rtest.OK(t, err)
+	rtest.Assert(t, fi.Mode()&os.ModeSymlink == 0, "file was replaced by a symlink")
+	content, err := os.ReadFile(path)
+	rtest.OK(t, err)
+	rtest.Assert(t, string(content) == "file", "file contains %q, want %q", content, "file")
+}
+
+// TestRestoreUnorderedNodeNames checks that trees whose names are not in
+// strictly increasing order are rejected even without duplicate names.
+func TestRestoreUnorderedNodeNames(t *testing.T) {
+	repo := repository.TestRepository(t)
+	ctx := t.Context()
+
+	uid, gid := uint32(os.Getuid()), uint32(os.Getgid())
+	var treeID restic.ID
+	rtest.OK(t, repo.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
+		contentID := saveFile(t, uploader, "data")
+		treeID = saveUnorderedTree(t, uploader, []*data.Node{
+			{
+				Type: data.NodeTypeFile, Name: "b", Mode: 0644,
+				UID: uid, GID: gid, Inode: 100, Links: 1,
+				Size: 4, Content: restic.IDs{contentID},
+			},
+			{
+				Type: data.NodeTypeFile, Name: "a", Mode: 0644,
+				UID: uid, GID: gid, Inode: 101, Links: 1,
+				Size: 4, Content: restic.IDs{contentID},
+			},
+		})
+		return nil
+	}))
+
+	sn := saveSnapshotWithTree(t, repo, treeID)
+	target := filepath.Join(rtest.TempDir(t), "target")
+
+	res := NewRestorer(repo, sn, Options{})
+	_, err := res.RestoreTo(ctx, target)
+	if !errors.Is(err, data.ErrTreeNotOrdered) {
+		t.Fatalf("RestoreTo returned error %v, want an error wrapping ErrTreeNotOrdered", err)
+	}
 }
