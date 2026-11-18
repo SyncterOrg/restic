@@ -5,9 +5,9 @@ import (
 	stderrors "errors"
 	"fmt"
 	"path"
-	"reflect"
 	"slices"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/restic/restic/internal/archiver"
@@ -211,42 +211,21 @@ func SetRepositoryDryRun(repo *Repository) {
 // CHECKER
 // ============================================================================
 
-// ============================================================================
-// CHECKER
-// ============================================================================
-
+// NewChecker returns a checker for repo. repo must be a *Repository (as
+// returned by NewRepository/InitRepository); checker.New needs the concrete
+// type.
 func NewChecker(repo restic.Repository, checkUnused bool) *checker.Checker {
-	// casting to specific Repository implementation because interface might not match
 	return checker.New(repo.(*repository.Repository), checkUnused)
 }
 
+// CheckerLoadSnapshots loads the snapshots named in args (all snapshots when
+// args is empty) without any host/path/tag filtering.
 func CheckerLoadSnapshots(ctx context.Context, c *checker.Checker, args []string) error {
-	// Construct default/empty snapshot filter.
-	// NewSnapshotFilter seems missing in v0.18.2.
-	// We use struct literal. Fields are likely exported?
-	// Based on view_file:
-	// type SnapshotFilter struct {
-	// 	Tags      TagLists
-	// 	Hosts     []string
-	// 	Paths     []string
-	// 	TimestampLimit *TimestampLimit
-	// }
-	// And TagLists is []TagList (alias for []string or similar).
-	// Wait, TagLists was not found by grep?
-	// Maybe it is explicitly defined in snapshot_find.go or imported.
-	// Ah, view_file showed: type TagLists []TagList.
-	// And type TagList []string.
-	// So TagLists is [][]string.
-	// We can just pass zero value if we want no filtering.
 	return c.LoadSnapshots(ctx, &data.SnapshotFilter{}, args)
 }
 
 func CheckerStructure(ctx context.Context, c *checker.Checker, p *progress.Counter, errChan chan<- error) {
-	var counter restic.Counter = restic.NoopCounter
-	if p != nil {
-		counter = p
-	}
-	c.Structure(ctx, counter, errChan)
+	c.Structure(ctx, counterOrNoop(p), errChan)
 }
 
 // ============================================================================
@@ -260,8 +239,29 @@ type RepairedSnapshot struct {
 	Removed  bool   `json:"removed"`
 }
 
+// dryRunBlobSaver computes blob IDs without storing anything, so a dry-run
+// tree rewrite yields the same tree IDs as a real one but writes no packs or
+// index files. It is used instead of Repository.SetDryRun because callers
+// cache and share *Repository values, and SetDryRun cannot be undone.
+type dryRunBlobSaver struct {
+	repo *Repository
+}
+
+func (s dryRunBlobSaver) SaveBlob(_ context.Context, t restic.BlobType, buf []byte, id restic.ID, _ bool) (restic.ID, bool, int, error) {
+	if id.IsNull() {
+		id = restic.Hash(buf)
+	}
+	_, known := s.repo.LookupBlobSize(restic.BlobHandle{ID: id, Type: t})
+	return id, known, 0, nil
+}
+
+func (s dryRunBlobSaver) SaveBlobAsync(ctx context.Context, t restic.BlobType, buf []byte, id restic.ID, storeDuplicate bool, cb func(restic.ID, bool, int, error)) {
+	cb(s.SaveBlob(ctx, t, buf, id, storeDuplicate))
+}
+
 // RepairSnapshots removes references to missing blobs and unreadable subtrees.
-// It is destructive only when forget is true and dryRun is false.
+// With dryRun it reports what would change without writing to the repository.
+// It deletes the damaged originals only when forget is true and dryRun is false.
 func RepairSnapshots(ctx context.Context, repo *Repository, ids []ID, dryRun, forget bool) ([]RepairedSnapshot, error) {
 	if err := repo.LoadIndex(ctx, nil); err != nil {
 		return nil, err
@@ -322,11 +322,15 @@ func RepairSnapshots(ctx context.Context, repo *Repository, ids []ID, dryRun, fo
 		}
 
 		var newTree ID
-		err = repo.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
-			var rewriteErr error
-			newTree, rewriteErr = rewriter.RewriteTree(ctx, repo, uploader, "/", *sn.Tree)
-			return rewriteErr
-		})
+		if dryRun {
+			newTree, err = rewriter.RewriteTree(ctx, repo, dryRunBlobSaver{repo: repo}, "/", *sn.Tree)
+		} else {
+			err = repo.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
+				var rewriteErr error
+				newTree, rewriteErr = rewriter.RewriteTree(ctx, repo, uploader, "/", *sn.Tree)
+				return rewriteErr
+			})
+		}
 		if err != nil {
 			return nil, err
 		}
@@ -381,6 +385,23 @@ func NewSharedLock(ctx context.Context, repo *Repository, retrySleep time.Durati
 	return repository.LockRepo(ctx, repo, false, retrySleep, func(string) {}, func(string, ...any) {})
 }
 
+// RepositoryLockRetry is how long LockRepository waits for a conflicting
+// lock to be released before giving up.
+const RepositoryLockRetry = time.Second
+
+// LockRepository takes the lock the restic CLI takes for the same kind of
+// operation: exclusive for operations that delete data (prune, forget, key
+// removal), non-exclusive for operations that only add data (backup, rewrite
+// without forget, copy). Without these locks a prune on one device can delete
+// packs that a concurrent backup on another device has just deduplicated
+// against, leaving the new snapshot referencing missing data.
+//
+// Use the returned context for the locked work: it is cancelled if the lock
+// cannot be refreshed. Call unlock when done.
+func LockRepository(ctx context.Context, repo *Repository, exclusive bool) (unlock func(), lockedCtx context.Context, err error) {
+	return repository.LockRepo(ctx, repo, exclusive, RepositoryLockRetry, func(string) {}, func(string, ...any) {})
+}
+
 func IsAlreadyLocked(err error) bool {
 	return repository.IsAlreadyLocked(err)
 }
@@ -409,36 +430,18 @@ func NewNoopPrinter() NoopPrinter {
 	return NoopPrinter{}
 }
 
-// Wrapper for PlanPrune
-// PlanPrune requires a callback that takes restic.FindBlobSet.
-// We need to aliasing FindBlobSet to allow external usage.
+// PlanPrune wraps repository.PlanPrune, which needs the concrete
+// *Repository. Run the returned plan with (*PrunePlan).Execute.
 func PlanPrune(ctx context.Context, opts PruneOptions, repo restic.Repository,
 	getUsedBlobs func(ctx context.Context, repo restic.Repository, usedBlobs FindBlobSet) error,
 	p ProgressPrinter) (*PrunePlan, error) {
 
-	// PlanPrune expects *repository.Repository.
-	// We assume repo is *repository.Repository (safe downcast if created via NewRepository)
 	repoConcrete, ok := repo.(*repository.Repository)
 	if !ok {
-		// Fallback or error? For FFI, strictly it is *repository.Repository
-		// But let's handle unsafe check.
-		// Actually return error / panic is better?
-		// We'll trust it matches.
-		// Wait, PlanPrune signature:
-		// func PlanPrune(ctx context.Context, opts PruneOptions, repo *Repository, getUsedBlobs func(ctx context.Context, repo restic.Repository, usedBlobs restic.FindBlobSet) error, printer progress.Printer) (*PrunePlan, error)
+		return nil, fmt.Errorf("prune requires *Repository, got %T", repo)
 	}
-
 	return repository.PlanPrune(ctx, opts, repoConcrete, getUsedBlobs, p)
 }
-
-// Wrapper for PrunePlan.Execute
-// PrunePlan.Execute(ctx, printer)
-// We can just call it on the valid struct.
-// Exporting *PrunePlan allows calling methods on it if they are exported.
-// PlanPrune returns *PrunePlan.
-// repository/prune.go exports Execute?
-// func (plan *PrunePlan) Execute(ctx context.Context, printer progress.Printer) error
-// Yes, it is exported.
 
 func IsNoKeyFound(err error) bool {
 	return stderrors.Is(err, repository.ErrNoKeyFound)
@@ -539,8 +542,32 @@ var DataBlob = restic.DataBlob
 // TreeBlob is the blob type for tree metadata
 var TreeBlob = restic.TreeBlob
 
-func FindUsedBlobs(ctx context.Context, repo restic.Repository, treeIDs []ID, blobs restic.BlobSet, p *progress.Counter) error {
-	return data.FindUsedBlobs(ctx, repo, treeIDs, blobs, p)
+// FindUsedBlobs adds all blobs reachable from treeIDs to blobs. Trees are
+// loaded in parallel.
+func FindUsedBlobs(ctx context.Context, repo restic.Repository, treeIDs []ID, blobs FindBlobSet, p *progress.Counter) error {
+	return data.FindUsedBlobs(ctx, repo, treeIDs, blobs, counterOrNoop(p))
+}
+
+// CollectUsedBlobs adds every blob referenced by any snapshot to usedBlobs.
+// It is the getUsedBlobs callback PlanPrune expects and mirrors `restic
+// prune`: snapshots are loaded in parallel, and an unreadable snapshot is a
+// fatal error so prune never deletes the data of a snapshot it could not read.
+func CollectUsedBlobs(ctx context.Context, repo restic.Repository, usedBlobs FindBlobSet) error {
+	var trees restic.IDs
+	err := data.ForAllSnapshots(ctx, repo, repo, nil, func(id restic.ID, sn *data.Snapshot, err error) error {
+		if err != nil {
+			return fmt.Errorf("load snapshot %s: %w", id.Str(), err)
+		}
+		if sn.Tree == nil {
+			return fmt.Errorf("snapshot %s has no tree", id.Str())
+		}
+		trees = append(trees, *sn.Tree)
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	return data.FindUsedBlobs(ctx, repo, trees, usedBlobs, restic.NoopCounter)
 }
 
 func ParseID(s string) (ID, error) {
@@ -569,66 +596,50 @@ type PackedBlob = pack.PackedBlob
 type BlobSet = restic.BlobSet
 type IDSet = restic.IDSet
 
-// CountedBlobSet is problematic in recent versions.
-// If it exists in restic package, use it. If not, we might need to find where it went or disable it.
-// grep result pending. Assuming it is NOT in restic, based on previous error.
-// Assuming it is in THIS file? No.
-// I'll comment it out for now to allow build, as Prune is the only user.
-// type CountedBlobSet = restic.CountedBlobSet
-
-// Wrapper for Repository Init
+// InitRepository creates a new repository on be using the latest stable
+// repository format (version 2, compression support) and a fresh random
+// chunker polynomial.
 func InitRepository(ctx context.Context, be Backend, pwd string) (*Repository, error) {
-	// Initialize the backend (Create keys/config structs)
 	repo, err := repository.New(be, repository.Options{})
 	if err != nil {
 		return nil, err
 	}
-
-	// Create a new polynomial for chunker?
-	// If nil, it likely creates one?
-	// Let's check global.go again... "chunkerPolynomial, err := maybeReadChunkerPolynomial..."
-	// If it's nil, Init handles it?
-	// s.Init docs probably say.
-	// We'll pass nil for now. MaxRepoVersion is 2 in v0.16+,
-	// In global.go latest is 2.
-
-	// Hardcoded version 2 (latest stable) for now.
-	err = repo.Init(ctx, 2, pwd, nil)
-	if err != nil {
+	if err := repo.Init(ctx, restic.StableRepoVersion, pwd, nil); err != nil {
 		return nil, err
 	}
-
 	return repo, nil
 }
 
-// Wrapper for Check
+// Check (re)loads the index, then runs the snapshot tree structure check, and
+// returns the first error found. It does not read pack data.
 func Check(ctx context.Context, repo restic.Repository) error {
-	// Checker Check requires more args usually, but maybe we can simplify?
-	// checker.Check(ctx, c *Checker) ??
-	// No, checker.New returns *Checker.
-	// Check is a method on *Checker?
-	// Oh, my `RcloneCheck` code was `client_adapter.Check(ctx, repo)`.
-	// I need to implement a convenience function here that creates the checker and runs it.
+	chk := NewChecker(repo, false)
+	if _, errs := chk.LoadIndex(ctx, nil); len(errs) > 0 {
+		return errs[0]
+	}
+	if err := CheckerLoadSnapshots(ctx, chk, nil); err != nil {
+		return err
+	}
 
-	// Create checker
-	chk := NewChecker(repo, false) // checkUnused=false for speed?
-
-	// Run Structure check
-	// We need channels for errors?
-	// If we want a simple boolean success/fail for FFI:
+	// Cancel the checker as soon as the first error arrives; otherwise its
+	// goroutine would block forever sending on errChan after we return.
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
 
 	errChan := make(chan error)
-	go func() {
-		defer close(errChan)
-		chk.Structure(ctx, restic.NoopCounter, errChan)
-	}()
+	go chk.Structure(ctx, restic.NoopCounter, errChan) // closes errChan
 
+	var first error
 	for err := range errChan {
-		if err != nil {
-			return err
+		if err != nil && first == nil {
+			first = err
+			cancel()
 		}
 	}
-	return nil
+	if first != nil {
+		return first
+	}
+	return ctx.Err()
 }
 
 func NewIDSet() restic.IDSet {
@@ -668,129 +679,248 @@ type CopiedSnapshot struct {
 	DestinationID string `json:"destination_id"`
 }
 
+// CopyStats reports snapshot copy progress. DataBlobs/TreeBlobs count blobs
+// that had to be transferred; Skipped counts distinct blobs that the
+// destination already had. PacksCopied/PacksTotal drive a determinate
+// progress bar; PacksTotal grows as each snapshot's trees are scanned.
 type CopyStats struct {
-	Snapshots int `json:"snapshots"`
-	DataBlobs int `json:"data_blobs"`
-	TreeBlobs int `json:"tree_blobs"`
-	Skipped   int `json:"skipped"`
+	Snapshots   int    `json:"snapshots"`
+	DataBlobs   int    `json:"data_blobs"`
+	TreeBlobs   int    `json:"tree_blobs"`
+	Skipped     int    `json:"skipped"`
+	Bytes       uint64 `json:"bytes"`
+	PacksTotal  int    `json:"packs_total"`
+	PacksCopied int    `json:"packs_copied"`
 }
 
+const (
+	// Like `restic copy`, save snapshots once a batch has written at least
+	// copyBatchPacks packs worth of data and has run for copyBatchMinDuration.
+	// Batching bounds the work lost on cancellation without writing an index
+	// file per snapshot.
+	copyBatchPacks       = 100
+	copyBatchMinDuration = time.Minute
+)
+
 // CopySnapshots copies the given snapshots (including all referenced trees and
-// data blobs) from src into dst. It is intentionally sequential and does not
-// mutate the source repository.
+// data blobs) from src into dst. It does not mutate the source repository.
 func CopySnapshots(ctx context.Context, src, dst *Repository, snapshotIDs []ID) ([]CopiedSnapshot, CopyStats, error) {
 	return CopySnapshotsWithProgress(ctx, src, dst, snapshotIDs, nil)
 }
 
-// CopySnapshotsWithProgress is CopySnapshots with a callback after each blob
-// and snapshot. The callback must be cheap and non-blocking.
+// CopySnapshotsWithProgress is CopySnapshots with a progress callback. The
+// callback may run concurrently from worker goroutines (it is serialized by
+// the adapter) and must be cheap and non-blocking.
+//
+// The indexes of both repositories must be loaded, and loaded after the
+// caller acquired its locks: blobs already present in dst are not copied
+// again, so a stale dst index could hide blobs removed by a concurrent prune.
+//
+// Like `restic copy`, trees are streamed in parallel and blobs are copied
+// pack by pack via repository.CopyBlobs, so incremental copies only download
+// the packs that hold missing blobs. Snapshots are saved only after the packs
+// they reference have been flushed. On error, the snapshots saved by earlier
+// batches are returned together with the error.
 func CopySnapshotsWithProgress(ctx context.Context, src, dst *Repository, snapshotIDs []ID, onProgress func(CopyStats)) ([]CopiedSnapshot, CopyStats, error) {
-	stats := CopyStats{}
+	progress := &copyProgress{onChange: onProgress}
 	copied := make([]CopiedSnapshot, 0, len(snapshotIDs))
-	visited := make(map[restic.BlobHandle]bool)
+	// Shared across snapshots: trees already scanned and blobs already
+	// classified (copied or skipped) in this run.
+	visitedTrees := src.NewAssociatedBlobSet()
+	seenBlobs := src.NewAssociatedBlobSet()
 
 	type pendingSnapshot struct {
 		sn       *Snapshot
 		sourceID ID
 	}
-	pending := make([]pendingSnapshot, 0, len(snapshotIDs))
 
-	err := dst.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
-		for _, sourceID := range snapshotIDs {
-			sn, err := LoadSnapshot(ctx, src, sourceID)
+	targetBatchBytes := uint64(dst.PackSize()) * copyBatchPacks
+	remaining := snapshotIDs
+	for len(remaining) > 0 {
+		var batch []pendingSnapshot
+		var batchBytes uint64
+		started := time.Now()
+
+		err := dst.WithBlobUploader(ctx, func(ctx context.Context, uploader restic.BlobSaverWithAsync) error {
+			for len(remaining) > 0 && (batchBytes < targetBatchBytes || time.Since(started) < copyBatchMinDuration) {
+				sourceID := remaining[0]
+				sn, err := LoadSnapshot(ctx, src, sourceID)
+				if err != nil {
+					return fmt.Errorf("load source snapshot %s: %w", sourceID.Str(), err)
+				}
+				if sn.Tree == nil {
+					return fmt.Errorf("snapshot %s has no tree", sourceID.Str())
+				}
+				size, err := copySnapshotTree(ctx, src, dst, uploader, visitedTrees, seenBlobs, *sn.Tree, progress)
+				if err != nil {
+					return fmt.Errorf("copy snapshot %s: %w", sourceID.Str(), err)
+				}
+				batch = append(batch, pendingSnapshot{sn: sn, sourceID: sourceID})
+				batchBytes += size
+				remaining = remaining[1:]
+			}
+			return nil
+		})
+		if err != nil {
+			return copied, progress.get(), err
+		}
+
+		// WithBlobUploader has flushed every pack and the index by now, so
+		// these snapshots can never point at uncommitted blobs.
+		for _, item := range batch {
+			sn := item.sn
+			if sn.Original == nil {
+				original := item.sourceID
+				sn.Original = &original
+			}
+			sn.Parent = nil
+			newID, err := SaveSnapshot(ctx, dst, sn)
 			if err != nil {
-				return fmt.Errorf("load source snapshot %s: %w", sourceID, err)
+				return copied, progress.get(), fmt.Errorf("save destination snapshot %s: %w", item.sourceID.Str(), err)
 			}
-			if sn.Tree == nil {
-				return fmt.Errorf("snapshot %s has no tree", sourceID)
+			progress.update(func(s *CopyStats) { s.Snapshots++ })
+			copied = append(copied, CopiedSnapshot{
+				SourceID:      item.sourceID.String(),
+				DestinationID: newID.String(),
+			})
+		}
+	}
+	return copied, progress.get(), nil
+}
+
+// copySnapshotTree schedules every blob reachable from root that dst lacks
+// and copies them pack by pack. It returns the ciphertext size scheduled.
+func copySnapshotTree(
+	ctx context.Context,
+	src, dst *Repository,
+	uploader restic.BlobSaverWithAsync,
+	visitedTrees, seenBlobs restic.AssociatedBlobSet,
+	root ID,
+	progress *copyProgress,
+) (uint64, error) {
+	toCopy := src.NewAssociatedBlobSet()
+	packs := restic.NewIDSet()
+	var (
+		mu                            sync.Mutex
+		dataBlobs, treeBlobs, skipped int
+		scheduledBytes                uint64
+		missing                       []restic.BlobHandle
+	)
+
+	enqueue := func(h restic.BlobHandle) {
+		mu.Lock()
+		defer mu.Unlock()
+		if seenBlobs.Has(h) {
+			return
+		}
+		seenBlobs.Insert(h)
+		if _, ok := dst.LookupBlobSize(h); ok {
+			skipped++
+			return
+		}
+		locations := src.LookupBlob(h)
+		if len(locations) == 0 {
+			missing = append(missing, h)
+			return
+		}
+		toCopy.Insert(h)
+		for _, pb := range locations {
+			packs.Insert(pb.PackID())
+		}
+		scheduledBytes += uint64(locations[0].CiphertextLength())
+		if h.Type == restic.TreeBlob {
+			treeBlobs++
+		} else {
+			dataBlobs++
+		}
+	}
+
+	err := data.StreamTrees(ctx, src, restic.IDs{root}, restic.NoopCounter, func(treeID restic.ID) bool {
+		// skip is called from a single goroutine.
+		h := restic.BlobHandle{ID: treeID, Type: restic.TreeBlob}
+		visited := visitedTrees.Has(h)
+		visitedTrees.Insert(h)
+		return visited
+	}, func(treeID restic.ID, err error, nodes data.TreeNodeIterator) error {
+		if err != nil {
+			return fmt.Errorf("load tree %s: %w", treeID.Str(), err)
+		}
+		// Copy the raw tree blob so a serialization change cannot alter IDs.
+		enqueue(restic.BlobHandle{ID: treeID, Type: restic.TreeBlob})
+		for item := range nodes {
+			if item.Error != nil {
+				return item.Error
 			}
-			if err := copyTree(ctx, src, uploader, *sn.Tree, visited, &stats, onProgress); err != nil {
-				return fmt.Errorf("copy snapshot %s: %w", sourceID, err)
+			// StreamTrees recurses into subdirectories itself.
+			for _, blobID := range item.Node.Content {
+				enqueue(restic.BlobHandle{ID: blobID, Type: restic.DataBlob})
 			}
-			pending = append(pending, pendingSnapshot{sn: sn, sourceID: sourceID})
 		}
 		return nil
 	})
 	if err != nil {
-		return nil, stats, err
+		return 0, err
+	}
+	if len(missing) > 0 {
+		return 0, fmt.Errorf("%d blob(s) referenced by the snapshot are missing from the source repository (first: %v); run check/repair on the source first", len(missing), missing[0])
 	}
 
-	// Packs are flushed only after WithBlobUploader returns. Save snapshots
-	// afterwards so a failed/cancelled copy cannot leave snapshots pointing at
-	// blobs that were never committed.
-	for _, item := range pending {
-		sn := item.sn
-		if sn.Original == nil {
-			original := item.sourceID
-			sn.Original = &original
-		}
-		sn.Parent = nil
-		newID, err := SaveSnapshot(ctx, dst, sn)
-		if err != nil {
-			return nil, stats, fmt.Errorf("save destination snapshot %s: %w", item.sourceID, err)
-		}
-		stats.Snapshots++
-		if onProgress != nil {
-			onProgress(stats)
-		}
-		copied = append(copied, CopiedSnapshot{
-			SourceID:      item.sourceID.String(),
-			DestinationID: newID.String(),
-		})
+	progress.update(func(s *CopyStats) {
+		s.DataBlobs += dataBlobs
+		s.TreeBlobs += treeBlobs
+		s.Skipped += skipped
+		s.Bytes += scheduledBytes
+		s.PacksTotal += len(packs)
+	})
+
+	if err := repository.CopyBlobs(ctx, src, dst, uploader, packs, toCopy, progress.packCounter(), nil); err != nil {
+		return 0, err
 	}
-	if err != nil {
-		return nil, stats, err
+	// CopyBlobs deletes each blob from toCopy once it has been saved.
+	if left := toCopy.Len(); left > 0 {
+		return 0, fmt.Errorf("%d blob(s) could not be found in their source packs; run check/repair on the source first", left)
 	}
-	return copied, stats, nil
+	return scheduledBytes, nil
 }
 
-func copyTree(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, treeID ID, visited map[restic.BlobHandle]bool, stats *CopyStats, onProgress func(CopyStats)) error {
-	tree, err := LoadTree(ctx, src, treeID)
-	if err != nil {
-		return err
-	}
-	for _, node := range tree.Nodes {
-		switch node.Type {
-		case NodeTypeDir:
-			if node.Subtree != nil {
-				if err := copyTree(ctx, src, uploader, *node.Subtree, visited, stats, onProgress); err != nil {
-					return err
-				}
-			}
-		default:
-			for _, contentID := range node.Content {
-				if err := copyBlob(ctx, src, uploader, restic.DataBlob, contentID, visited, stats, onProgress); err != nil {
-					return err
-				}
-			}
-		}
-	}
-	return copyBlob(ctx, src, uploader, restic.TreeBlob, treeID, visited, stats, onProgress)
+// copyProgress serializes CopyStats updates from the copy workers.
+type copyProgress struct {
+	mu       sync.Mutex
+	stats    CopyStats
+	onChange func(CopyStats)
 }
 
-func copyBlob(ctx context.Context, src *Repository, uploader restic.BlobSaverWithAsync, blobType restic.BlobType, id ID, visited map[restic.BlobHandle]bool, stats *CopyStats, onProgress func(CopyStats)) error {
-	handle := restic.BlobHandle{ID: id, Type: blobType}
-	if visited[handle] {
-		return nil
+func (p *copyProgress) update(fn func(*CopyStats)) {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	fn(&p.stats)
+	if p.onChange != nil {
+		p.onChange(p.stats)
 	}
-	data, err := src.LoadBlob(ctx, handle, nil)
-	if err != nil {
-		return fmt.Errorf("load blob %s: %w", id, err)
-	}
-	if _, _, _, err := uploader.SaveBlob(ctx, blobType, data, id, false); err != nil {
-		return fmt.Errorf("save blob %s: %w", id, err)
-	}
-	visited[handle] = true
-	if blobType == restic.TreeBlob {
-		stats.TreeBlobs++
-	} else {
-		stats.DataBlobs++
-	}
-	if onProgress != nil {
-		onProgress(*stats)
-	}
-	return nil
 }
+
+func (p *copyProgress) get() CopyStats {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+	return p.stats
+}
+
+func (p *copyProgress) packCounter() restic.Counter { return copyPackCounter{p} }
+
+// copyPackCounter adapts copyProgress to the restic.Counter that CopyBlobs
+// increments once per pack. SetMax is ignored because PacksTotal accumulates
+// across snapshots.
+type copyPackCounter struct{ p *copyProgress }
+
+func (c copyPackCounter) Add(n uint64) {
+	c.p.update(func(s *CopyStats) { s.PacksCopied += int(n) })
+}
+func (c copyPackCounter) SetMax(uint64) {}
+func (c copyPackCounter) Get() (uint64, uint64) {
+	s := c.p.get()
+	return uint64(s.PacksCopied), uint64(s.PacksTotal)
+}
+func (c copyPackCounter) Done() {}
 
 // ============================================================================
 // KEY HINT OPTIMIZATION
@@ -894,12 +1024,19 @@ func StreamTrees(
 	skip func(tree ID) bool,
 	process func(id ID, err error, nodes TreeNodeIterator) error,
 ) error {
-	return data.StreamTrees(ctx, repo, trees, p, skip, process)
+	return data.StreamTrees(ctx, repo, trees, counterOrNoop(p), skip, process)
 }
 
-// func NewCountedBlobSet() restic.CountedBlobSet {
-// 	return restic.NewCountedBlobSet()
-// }
+// counterOrNoop converts a possibly nil *progress.Counter into a usable
+// restic.Counter. Passing a nil *progress.Counter straight through would wrap
+// it in a non-nil interface, and restic calls Add on it unconditionally, which
+// panics (crashing the host process from a worker goroutine).
+func counterOrNoop(p *progress.Counter) restic.Counter {
+	if p == nil {
+		return restic.NoopCounter
+	}
+	return p
+}
 
 // ============================================================================
 // DIFF
@@ -911,7 +1048,8 @@ type DiffChange struct {
 	Modifier string `json:"modifier"` // "+", "-", "M", "U", "T", "?"
 }
 
-// DiffStat collects stats for all types of items.
+// DiffStat collects stats for all types of items. DataBlobs, TreeBlobs and
+// Bytes are reserved for parity with `restic diff` and are not computed yet.
 type DiffStat struct {
 	Files     int    `json:"files"`
 	Dirs      int    `json:"dirs"`
@@ -962,14 +1100,36 @@ func diffPrintDir(ctx context.Context, repo restic.BlobLoader, mode string, stat
 		}
 		*changes = append(*changes, DiffChange{Path: name, Modifier: mode})
 		addDiffStatNode(stats, node)
-		if node.Type == data.NodeTypeDir {
-			if err := diffPrintDir(ctx, repo, mode, stats, name, *node.Subtree, changes); err != nil && err != context.Canceled {
-				continue
+		if node.Type == data.NodeTypeDir && node.Subtree != nil {
+			if err := diffPrintDir(ctx, repo, mode, stats, name, *node.Subtree, changes); err != nil {
+				return diffSubtreeErr(name, err)
 			}
 		}
 	}
 	return ctx.Err()
 }
+
+// diffSubtreeErr keeps the path of the first unreadable subtree. Upstream
+// `restic diff` prints such errors and continues; an API has no place to
+// print, and silently dropping the subtree would report a wrong diff.
+func diffSubtreeErr(name string, err error) error {
+	if stderrors.Is(err, context.Canceled) {
+		return err
+	}
+	var pathErr *diffPathError
+	if stderrors.As(err, &pathErr) {
+		return err
+	}
+	return &diffPathError{path: name, err: err}
+}
+
+type diffPathError struct {
+	path string
+	err  error
+}
+
+func (e *diffPathError) Error() string { return fmt.Sprintf("diff %s: %v", e.path, e.err) }
+func (e *diffPathError) Unwrap() error { return e.err }
 
 // diffTree recursively compares two trees and collects changes.
 func diffTree(ctx context.Context, repo restic.BlobLoader, stats *DiffStats, prefix string, id1, id2 ID, changes *[]DiffChange, showMetadata bool) error {
@@ -1015,7 +1175,7 @@ func diffTree(ctx context.Context, repo restic.BlobLoader, stats *DiffStats, pre
 
 			if node1.Type == data.NodeTypeFile &&
 				node2.Type == data.NodeTypeFile &&
-				!reflect.DeepEqual(node1.Content, node2.Content) {
+				!slices.Equal(node1.Content, node2.Content) {
 				mod += "M"
 				stats.ChangedFiles++
 
@@ -1036,9 +1196,9 @@ func diffTree(ctx context.Context, repo restic.BlobLoader, stats *DiffStats, pre
 			}
 
 			if node1.Type == data.NodeTypeDir && node2.Type == data.NodeTypeDir {
-				if !(*node1.Subtree).Equal(*node2.Subtree) {
-					if err := diffTree(ctx, repo, stats, fullName, *node1.Subtree, *node2.Subtree, changes, showMetadata); err != nil && err != context.Canceled {
-						continue
+				if node1.Subtree != nil && node2.Subtree != nil && !node1.Subtree.Equal(*node2.Subtree) {
+					if err := diffTree(ctx, repo, stats, fullName, *node1.Subtree, *node2.Subtree, changes, showMetadata); err != nil {
+						return diffSubtreeErr(fullName, err)
 					}
 				}
 			}
@@ -1050,9 +1210,9 @@ func diffTree(ctx context.Context, repo restic.BlobLoader, stats *DiffStats, pre
 			}
 			*changes = append(*changes, DiffChange{Path: fullName, Modifier: "-"})
 			addDiffStatNode(&stats.Removed, node1)
-			if node1.Type == data.NodeTypeDir {
-				if err := diffPrintDir(ctx, repo, "-", &stats.Removed, fullName, *node1.Subtree, changes); err != nil && err != context.Canceled {
-					continue
+			if node1.Type == data.NodeTypeDir && node1.Subtree != nil {
+				if err := diffPrintDir(ctx, repo, "-", &stats.Removed, fullName, *node1.Subtree, changes); err != nil {
+					return diffSubtreeErr(fullName, err)
 				}
 			}
 
@@ -1063,9 +1223,9 @@ func diffTree(ctx context.Context, repo restic.BlobLoader, stats *DiffStats, pre
 			}
 			*changes = append(*changes, DiffChange{Path: fullName, Modifier: "+"})
 			addDiffStatNode(&stats.Added, node2)
-			if node2.Type == data.NodeTypeDir {
-				if err := diffPrintDir(ctx, repo, "+", &stats.Added, fullName, *node2.Subtree, changes); err != nil && err != context.Canceled {
-					continue
+			if node2.Type == data.NodeTypeDir && node2.Subtree != nil {
+				if err := diffPrintDir(ctx, repo, "+", &stats.Added, fullName, *node2.Subtree, changes); err != nil {
+					return diffSubtreeErr(fullName, err)
 				}
 			}
 		}
@@ -1154,6 +1314,9 @@ func NewSnapshotSizeRewriter(rewriteNode NodeRewriteFunc, keepEmpty walker.NodeK
 // RewriteSnapshot rewrites a snapshot's tree, excluding the given paths.
 // Returns the new snapshot ID. The original snapshot is NOT removed.
 func RewriteSnapshot(ctx context.Context, repo *Repository, sn *Snapshot, excludePaths []string) (ID, *SnapshotSize, error) {
+	if sn == nil || sn.Tree == nil {
+		return ID{}, nil, stderrors.New("snapshot has no tree")
+	}
 	excludeSet := make(map[string]bool, len(excludePaths))
 	for _, p := range excludePaths {
 		excludeSet[p] = true
